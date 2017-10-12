@@ -68,7 +68,4 @@ public class Bootstrap {
         return dataSource;
     }
 }
-class Patient{
-	String email;
-	String password;
-}
+

@@ -20,13 +20,13 @@ public class PostOpService {
 //     */
     public void addPatient(String body) throws PostOpServiceException {
     	
-        Todo todo = new Gson().fromJson(body, Todo.class);
+        Patient p = new Gson().fromJson(body, Patient.class);
         String sql = "INSERT INTO Patient (email,password) " +
                      "             VALUES (:email, :password)" ;
 
         try (Connection conn = db.open()) {
             conn.createQuery(sql)
-                .bind(todo)
+                .bind(p)
                 .executeUpdate();
         } catch(Sql2oException ex) {
             logger.error("PostOpService.addPatient: Failed to create new entry", ex);
