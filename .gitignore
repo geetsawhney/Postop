@@ -1,0 +1,3 @@
+*.classpath
+*.project
+prototype/backend/target/classes
