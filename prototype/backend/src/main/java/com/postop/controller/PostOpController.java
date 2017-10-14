@@ -1,12 +1,13 @@
-package com.postopapp;
+package com.postop.controller;
 
 
+import com.postop.JsonTransformer;
+import com.postop.service.PostOpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import spark.Spark;
 
 import java.util.Collections;
-
-import static spark.Spark.*;
 
 public class PostOpController {
 
@@ -24,7 +25,7 @@ public class PostOpController {
     private void setupEndpoints() {
 
 
-        post(API_CONTEXT + "/patient", "application/json", (request, response)-> {
+        Spark.post(API_CONTEXT + "/patient", "application/json", (request, response)-> {
             try {
                 postOpService.addPatient(request.body());
                 response.status(201);

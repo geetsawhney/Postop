@@ -3,9 +3,9 @@
 // https://blog.openshift.com/developing-single-page-web-applications-using-java-8-spark-mongodb-and-angularjs/
 //-------------------------------------------------------------------------------------------------------------//
 
-package com.postopapp;
+package com.postop.model;
 
-class Patient{
+public class Patient{
 	String email;
 	String password;
 }

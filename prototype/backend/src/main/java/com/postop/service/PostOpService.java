@@ -1,5 +1,6 @@
-package com.postopapp;
+package com.postop.service;
 
+import com.postop.model.Patient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;

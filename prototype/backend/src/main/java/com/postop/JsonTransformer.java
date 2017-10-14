@@ -1,5 +1,5 @@
 
-package com.postopapp;
+package com.postop;
 
 import com.google.gson.Gson;
 import spark.Response;
