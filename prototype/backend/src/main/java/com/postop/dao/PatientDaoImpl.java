@@ -1,6 +1,7 @@
 //comment to check git conflicts
 package com.postop.dao;
 
+import com.postop.dao.interfaces.PatientDao;
 import com.postop.model.Patient;
 import com.postop.utils.DbConnection;
 
@@ -19,7 +20,7 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> allPatients = new ArrayList<>();
-        String sql = "SELECT * FROM Patient";
+        String sql = "SELECT * FROM Patient_details";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -27,11 +28,11 @@ public class PatientDaoImpl implements PatientDao {
             Patient patient;
             while(resultSet.next()){
                 patient = new Patient();
-                patient.setPatientId(Integer.parseInt(resultSet.getString("id")));
-                patient.setName(resultSet.getString("fname"));
-                patient.setEmail(resultSet.getString("email"));
-                patient.setSex(resultSet.getString("sex"));
-                patient.setSsn(resultSet.getString("ssn"));
+                patient.setName(resultSet.getString("patient_name"));
+                patient.setEmail(resultSet.getString("patient_email"));
+                patient.setSex(resultSet.getString("patient_sex"));
+                patient.setSsn(resultSet.getString("patient_ssn"));
+                patient.setAddress(resultSet.getString("patient_address"));
 
                 allPatients.add(patient);
             }
@@ -45,21 +46,21 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public Patient getPatientById(int patientId) {
+    public Patient getPatientByEmail(String email) {
 
         Patient patient = new Patient();
-        String sql = "SELECT * FROM Patient WHERE id = " + patientId;
+        String sql = "SELECT * FROM Patient_details WHERE patient_email = \'" + email +"\'";
 
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
 
             while(resultSet.next()){
-                patient.setPatientId(Integer.parseInt(resultSet.getString("id")));
-                patient.setName(resultSet.getString("fname"));
-                patient.setEmail(resultSet.getString("email"));
-                patient.setSex(resultSet.getString("sex"));
-                patient.setSsn(resultSet.getString("ssn"));
+                patient.setName(resultSet.getString("patient_name"));
+                patient.setEmail(resultSet.getString("patient_email"));
+                patient.setSex(resultSet.getString("patient_sex"));
+                patient.setSsn(resultSet.getString("patient_ssn"));
+                patient.setAddress(resultSet.getString("patient_address"));
             }
             resultSet.close();
             statement.close();
@@ -71,37 +72,51 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public void updatePatient(Patient patient) {
+    public boolean updatePatient(Patient patient) {
 
-        int patientId = patient.getPatientId();
-        String sql = "UPDATE Patient SET fname = \'" + patient.getName() + "\' , sex = \'" + patient.getSex() + "\' WHERE id = " + patientId;
+        String sql = "UPDATE Patient_details SET patient_name = \'" + patient.getName() + "\' , patient_sex = \'" + patient.getSex() + "\' WHERE patient_email = \'" + patient.getEmail() + "\'";
 
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            return false;
+        }
+
+        return true;
+
+    }
+
+    @Override
+    public boolean addPatient(Patient patient) {
+        String sql = "INSERT INTO Patient_details(patient_email, patient_ssn, patient_name, patient_sex)" + "VALUES (?,?,?,?)";
+
+        try {
+            PreparedStatement preparedStatement=connection.prepareStatement(sql);
+            preparedStatement.setString(3,patient.getName());
+            preparedStatement.setString(1,patient.getEmail());
+            preparedStatement.setString(4,patient.getSex());
+            preparedStatement.setString(2,patient.getSsn());
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean deletePatient(Patient patient) {
+        String sql = "DELETE FROM Patient_details where patient_email = \'" + patient.getEmail() +"\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
+        return true;
     }
 
-    @Override
-    public void addPatient(Patient patient) {
-        String sql = "INSERT INTO Patient(email, ssn, fname, lname, sex)" + "VALUES (?,?,?,?,?)";
-
-        try {
-            PreparedStatement preparedStatement=connection.prepareStatement(sql);
-            preparedStatement.setString(1,"gvijh92@gmail.com");
-            preparedStatement.setString(2,"112255441");
-            preparedStatement.setString(3,"Gitika");
-            preparedStatement.setString(4,"Vijh");
-            preparedStatement.setString(5,"F");
-
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 
     @Override
     public List<Patient> getPatientByName(String s) {

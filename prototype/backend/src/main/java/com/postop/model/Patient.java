@@ -13,11 +13,13 @@ public class Patient{
 	private String hospitalReason;
 	private boolean hasPastUTI;
 	private boolean hasCatheter;
+	private String deviceId;
 
-	public Patient(int patientId, String name, String sex) {
-		this.patientId = patientId;
+	public Patient(String email, String name, String sex, String ssn) {
+		this.email = email;
 		this.name = name;
 		this.sex = sex;
+		this.ssn = ssn;
 	}
 
 	public Patient(){
@@ -118,5 +120,10 @@ public class Patient{
 				", hasPastUTI=" + hasPastUTI +
 				", hasCatheter=" + hasCatheter +
 				'}';
+	}
+
+	public Patient getPatientDetail(String deviceId){
+
+		return null;
 	}
 }
