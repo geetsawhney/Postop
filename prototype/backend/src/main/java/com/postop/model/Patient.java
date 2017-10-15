@@ -9,10 +9,20 @@ public class Patient{
 	private String address;
 	private String name;
 	private Date dob;
-	private char sex;
+	private String sex;
 	private String hospitalReason;
 	private boolean hasPastUTI;
 	private boolean hasCatheter;
+
+	public Patient(int patientId, String name, String sex) {
+		this.patientId = patientId;
+		this.name = name;
+		this.sex = sex;
+	}
+
+	public Patient(){
+
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -66,11 +76,11 @@ public class Patient{
 		this.dob = dob;
 	}
 
-	public char getSex() {
+	public String getSex() {
 		return sex;
 	}
 
-	public void setSex(char sex) {
+	public void setSex(String sex) {
 		this.sex = sex;
 	}
 
@@ -92,5 +102,21 @@ public class Patient{
 
 	public void setHasCatheter(boolean hasCatheter) {
 		this.hasCatheter = hasCatheter;
+	}
+
+	@Override
+	public String toString() {
+		return "Patient{" +
+				"patientId=" + patientId +
+				", email='" + email + '\'' +
+				", ssn='" + ssn + '\'' +
+				", address='" + address + '\'' +
+				", name='" + name + '\'' +
+				", dob=" + dob +
+				", sex=" + sex +
+				", hospitalReason='" + hospitalReason + '\'' +
+				", hasPastUTI=" + hasPastUTI +
+				", hasCatheter=" + hasCatheter +
+				'}';
 	}
 }

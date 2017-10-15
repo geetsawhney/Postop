@@ -1,4 +1,4 @@
 package com.postop.dao;
 
-public interface NurseDAO {
+public interface NurseDao {
 }

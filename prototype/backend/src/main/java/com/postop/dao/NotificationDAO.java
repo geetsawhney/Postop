@@ -1,4 +1,4 @@
 package com.postop.dao;
 
-public interface NotificationDAO {
+public interface NotificationDao {
 }
