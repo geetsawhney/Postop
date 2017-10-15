@@ -1,4 +1,4 @@
 package com.postop.dao;
 
-public class PatientDAO {
+public interface PatientDAO {
 }
