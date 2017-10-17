@@ -7,6 +7,7 @@ import java.util.List;
 public interface PatientDao {
     public List<Patient> getAllPatients();
     public Patient getPatientByEmail(String email);
+    public Patient getPatientByDeviceId(String id);
     public boolean updatePatient(Patient patient);
     public boolean addPatient(Patient patient);
     public boolean deletePatient(Patient patient);

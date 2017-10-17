@@ -1,5 +1,13 @@
 package com.postop.model;
 
+import com.postop.controller.PostOpController;
+import com.postop.dao.PatientDaoImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Patient{
@@ -8,12 +16,64 @@ public class Patient{
 	private String ssn;
 	private String address;
 	private String name;
-	private Date dob;
+	private String phone;
+    private boolean diabetes;
+    private Date dob;
 	private String sex;
 	private String hospitalReason;
-	private boolean hasPastUTI;
-	private boolean hasCatheter;
-	private String deviceId;
+	private int utiVisitCount;
+	private Date lastVisitDate;
+
+    private final Logger logger = LoggerFactory.getLogger(Patient.class);
+
+
+    public Date getLastVisitDate() {
+        return lastVisitDate;
+    }
+
+    public void setLastVisitDate(String lastVisitDate) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = null;
+        try {
+            date = df.parse(lastVisitDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.lastVisitDate = date;
+
+    }
+
+    public int getUtiVisitCount() {
+        return utiVisitCount;
+    }
+
+    public void setUtiVisitCount(int utiVisitCount) {
+        this.utiVisitCount = utiVisitCount;
+    }
+
+    private boolean hasCatheter;
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    private String deviceId;
 
 	public Patient(String email, String name, String sex, String ssn) {
 		this.email = email;
@@ -74,8 +134,15 @@ public class Patient{
 		return dob;
 	}
 
-	public void setDob(Date dob) {
-		this.dob = dob;
+	public void setDob(String dob) {
+        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        Date date = null;
+        try {
+            date = df.parse(dob);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.dob = date;
 	}
 
 	public String getSex() {
@@ -94,36 +161,33 @@ public class Patient{
 		this.hospitalReason = hospitalReason;
 	}
 
-	public boolean isHasPastUTI() {
-		return hasPastUTI;
-	}
-
-	public void setHasPastUTI(boolean hasPastUTI) {
-		this.hasPastUTI = hasPastUTI;
-	}
-
 	public void setHasCatheter(boolean hasCatheter) {
 		this.hasCatheter = hasCatheter;
 	}
 
-	@Override
-	public String toString() {
-		return "Patient{" +
-				"patientId=" + patientId +
-				", email='" + email + '\'' +
-				", ssn='" + ssn + '\'' +
-				", address='" + address + '\'' +
-				", name='" + name + '\'' +
-				", dob=" + dob +
-				", sex=" + sex +
-				", hospitalReason='" + hospitalReason + '\'' +
-				", hasPastUTI=" + hasPastUTI +
-				", hasCatheter=" + hasCatheter +
-				'}';
+    public boolean isDiabetes() {
+        return diabetes;
+    }
+
+    public void setDiabetes(boolean diabetes) {
+        this.diabetes = diabetes;
+    }
+
+
+
+	public Patient getPatientByEmail(String email){
+		logger.info("Inside Patient getPatientByEmail");
+        PatientDaoImpl pdi = new PatientDaoImpl();
+        return pdi.getPatientByEmail(email);
 	}
 
-	public Patient getPatientDetail(String deviceId){
+	public boolean updatePatient(){
+        PatientDaoImpl pdi = new PatientDaoImpl();
+	    return pdi.updatePatient(this);
+    }
 
-		return null;
-	}
+    public Patient getPatientByDeviceId(String id){
+        PatientDaoImpl pdi = new PatientDaoImpl();
+        return pdi.getPatientByDeviceId(id);
+    }
 }
