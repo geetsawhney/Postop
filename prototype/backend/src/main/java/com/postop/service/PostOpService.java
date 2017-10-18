@@ -48,6 +48,7 @@ public class PostOpService {
         Patient patient = new Patient();
         logger.info("Inside patientLogin");
         try {
+            body = body.replaceAll("^\"|\"$", "");
             jsonObject = (JSONObject)jsonParser.parse(body);
             String id = jsonObject.get("id").toString();
             logger.info("Inside try");

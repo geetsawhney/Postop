@@ -1,137 +1,90 @@
 package com.oose.postop;
-
-import android.app.ProgressDialog;
-import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
-
-
 public class MainActivity extends AppCompatActivity {
 
-
-    EditText email, password;
-    Button login;
-
+    TextView mTextView;
+    EditText emailField;
+    EditText ssnField;
+    String deviceId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        email = (EditText) findViewById(R.id.email);
-        password = (EditText) findViewById(R.id.password);
-        login = (Button) findViewById(R.id.login);
-
-//        login.setOnClickListener()
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                userLogin();
-            }
-        });
+        // Initialize all fields
+        mTextView = (TextView)findViewById(R.id.output);
+        emailField = (EditText)findViewById(R.id.email);
+        ssnField = (EditText)findViewById(R.id.ssn);
+        deviceId ="211312ekjkuhiu1h21U3u2";
     }
 
+    /**
+     * Onclick listener for login button
+     * @param v
+     */
+    public void login(View v){
+        // Get the username and password field data
+        String userNameVal = emailField.getText().toString();
+        String passwordVal = ssnField.getText().toString();
+        String idVal = deviceId;
 
-           private void userLogin() {
-               //first getting the values
-               final String username = email.getText().toString();
-               final String pass = password.getText().toString();
-               //validating inputs
-               if (TextUtils.isEmpty(username)) {
-                   email.setError("Please enter your username");
-                   email.requestFocus();
-                   return;
-               }
+        // Send the credentials to the server for authentication
+        volleyRequest(userNameVal, passwordVal, idVal);
+    }
 
-               if (TextUtils.isEmpty(pass)) {
-                   password.setError("Please enter your password");
-                   password.requestFocus();
-                   return;
-               }
+    /**
+     * Volley send request
+     * @param email
+     * @param ssn
+     */
+    public void volleyRequest(String email, String ssn, String Id) {
+        JSONObject jsonRequestObject = new JSONObject();
+        try{
+            jsonRequestObject.put("email", email.trim().toLowerCase());
+            jsonRequestObject.put("ssn", ssn);
+            jsonRequestObject.put("id", Id);
+        }catch(JSONException ex){
+            return;
+        }
 
-               //if everything is fine
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String url ="http://10.0.2.2:8080/api/v1/patient/login";
 
-                class UserLogin extends AsyncTask<Void, Void, String> {
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonRequestObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try{
 
-                   ProgressBar progressBar;
-
-                   @Override
-                   protected void onPreExecute() {
-                       super.onPreExecute();
-                       progressBar = (ProgressBar) findViewById(R.id.progressBar);
-                       progressBar.setVisibility(View.VISIBLE);
-                   }
-
-                   @Override
-                   protected void onPostExecute(String s) {
-                       super.onPostExecute(s);
-                       progressBar.setVisibility(View.GONE);
-
-
-                       try {
-                           //converting response to json object
-                           JSONObject obj = new JSONObject(s);
-
-                           //if no error in response
-                           if (!obj.getBoolean("error")) {
-                               Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
-                               //getting the user from the response
-                               JSONObject userJson = obj.getJSONObject("user");
-
-                               //creating a new user object
-                               User user = new User(
-
-                                       userJson.getString("username"),
-                                       userJson.getString("password")
-
-                               );
-
-                               //storing the user in shared preferences
-                               SharedPrefManager.getInstance(getApplicationContext()).userLogin(user);
-
-                               //starting the profile activity
-                               finish();
-                               startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-                           } else {
-                               Toast.makeText(getApplicationContext(), "Invalid username or password", Toast.LENGTH_SHORT).show();
-                           }
-                       } catch (JSONException e) {
-                           e.printStackTrace();
-
-                       }
-                   }
-
-                       @Override
-                       protected String doInBackground(Void... voids) {
-                           //creating request handler object
-                           RequestHandler requestHandler = new RequestHandler();
-
-                           //creating request parameters
-                           HashMap<String, String> params = new HashMap<>();
-                           params.put("username", username);
-                           params.put("password", pass);
-
-                           //returing the response
-                           return requestHandler.sendPostRequest(URLs.URL_LOGIN, params);
-                       }
-                   }
-
-                   UserLogin ul = new UserLogin();
-        ul.execute();
-
-
-               }
-       }
+                            mTextView.setText("Response is: " + response.get("email").toString() + " " + response.get("ssn").toString() + " " +response.get("address").toString());
+                        }catch(JSONException ex){
+                            mTextView.setText("Bad Response!");
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        mTextView.setText("That didn't work!");
+                    }
+                });
+        queue.add(jsObjRequest);
+    }
+}
