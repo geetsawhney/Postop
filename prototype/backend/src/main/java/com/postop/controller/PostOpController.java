@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.Collections;
 import static spark.Spark.post;
-import static spark.Spark.put;
 
 public class PostOpController {
 
@@ -16,23 +15,37 @@ public class PostOpController {
     private final Logger logger = LoggerFactory.getLogger(PostOpController.class);
 
     public PostOpController(PostOpService postOpService) {
-        logger.info("inside postop controller");
         this.postOpService = postOpService;
         setupEndpoints();
     }
 
     private void setupEndpoints() {
-        logger.info("inside endpoints");
 
+        /* Implements patient login */
         post(API_CONTEXT + "/patient/login", "application/json", (request, response)-> {
             try {
                 response.status(200);
                 return postOpService.patientLogin(request.body());
-            } catch  (Exception ex) {
-                logger.error("Failed to create patient");
+            } catch (Exception ex) {
+                logger.error("Failed to login");
                 response.status(500);
                 return Collections.EMPTY_MAP;
             }
         }, new JsonTransformer());
+
+        /* Implements create new patient */
+        post(API_CONTEXT + "/patient/add", "application/json", (request, response)-> {
+            try {
+                postOpService.addPatient(request.body());
+                response.status(200);
+            } catch (Exception ex) {
+                logger.error("Failed to create patient");
+                response.status(500);
+                return Collections.EMPTY_MAP;
+            }return Collections.EMPTY_MAP;
+        }, new JsonTransformer());
+
     }
+
+
 }
