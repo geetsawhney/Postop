@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onReceive(Context context, Intent intent) {
+                //starting the listener service for messages
 
                 //If the broadcast has received with success
                 //that means device is registered successfully
@@ -147,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.2.2:8080/api/v1/patient/login";
+        String url ="http://10.0.0.86:8080/api/v1/patient/login";
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -165,6 +166,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         mTextView.setText("That didn't work!");
+                        error.printStackTrace();
                     }
                 });
         queue.add(jsObjRequest);
