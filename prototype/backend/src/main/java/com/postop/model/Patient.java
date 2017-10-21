@@ -45,11 +45,11 @@ public class Patient {
     }
 
     public String getLastVisitDateString() {
-        return new SimpleDateFormat("MM/dd/yyyy").format(lastVisitDate);
+        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
     }
 
     public void setLastVisitDate(String lastVisitDate) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = df.parse(lastVisitDate);
@@ -80,6 +80,10 @@ public class Patient {
 
     public void setDob(Date dob) {
         this.dob = dob;
+    }
+
+    public Date getDob(Date dob) {
+        return dob;
     }
 
     public String getDeviceId() {
@@ -140,11 +144,11 @@ public class Patient {
     }
 
     public String getDobString() {
-        return new SimpleDateFormat("MM/dd/yyyy").format(dob);
+        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
     }
 
     public void setDob(String dob) {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         try {
             date = df.parse(dob);

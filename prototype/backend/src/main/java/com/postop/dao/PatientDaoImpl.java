@@ -23,7 +23,7 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> allPatients = new ArrayList<>();
-        String sql = "SELECT * FROM Patient_details";
+        String sql = "SELECT * FROM \"Patient\"";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -46,22 +46,22 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public Patient getPatientByEmail(String email) {
         logger.info("PatientDaoImp getPatientByEmail");
-        String sql = "SELECT * FROM Patient_details WHERE patient_email = \'" + email + "\'";
+        String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email + "\'";
         return getPatient(sql);
     }
 
     @Override
     public Patient getPatientByDeviceId(String id) {
-        String sql = "SELECT * FROM Patient_details WHERE device_id = \'" + id + "\'";
+        String sql = "SELECT * FROM \"Patient\" WHERE device_id = \'" + id + "\'";
         return getPatient(sql);
     }
 
     @Override
     public boolean updatePatient(Patient patient) {
 
-        String sql = "UPDATE Patient_details SET patient_name = \'" + patient.getName()
-                + "\' , device_id = \'" + patient.getDeviceId() + "\', patient_sex = \'" + patient.getSex()
-                + "\' WHERE patient_email = \'" + patient.getEmail() + "\'";
+        String sql = "UPDATE \"Patient\" SET name = \'" + patient.getName()
+                + "\' , device_id = \'" + patient.getDeviceId() + "\', sex = \'" + patient.getSex()
+                + "\' WHERE email = \'" + patient.getEmail() + "\'";
 
         try {
             Statement statement = connection.createStatement();
@@ -76,9 +76,9 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public boolean addPatient(Patient patient) {
-        String sql = "INSERT INTO Patient_details(patient_email, patient_ssn, device_id, patient_name, patient_sex, " +
-                "patient_dob, patient_address, patient_phone, patient_reason_hospital_visit, patient_uti_visit_count, " +
-                "patient_catheter_usage, diabetes, last_visit_date )" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO \"Patient\"(email, ssn, device_id, name, sex, " +
+                "dob, address, phone, hospital_visit_reason, uti_visit_count, " +
+                "catheter_usage, diabetic, last_visit_date )" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -91,9 +91,9 @@ public class PatientDaoImpl implements PatientDao {
             preparedStatement.setString(7, patient.getAddress());
             preparedStatement.setString(8, patient.getPhone());
             preparedStatement.setString(9, patient.getHospitalVisitReason());
-            preparedStatement.setString(10, String.valueOf(patient.getUtiVisitCount()));
-            preparedStatement.setString(11, String.valueOf(patient.getCatheterUsage()));
-            preparedStatement.setString(12, String.valueOf(patient.getDiabetic()));
+            preparedStatement.setInt(10, patient.getUtiVisitCount());
+            preparedStatement.setBoolean(11, patient.getCatheterUsage());
+            preparedStatement.setBoolean(12, patient.getDiabetic());
             preparedStatement.setString(13, patient.getLastVisitDateString());
 
             preparedStatement.execute();
@@ -106,7 +106,7 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public boolean deletePatient(Patient patient) {
-        String sql = "DELETE FROM Patient_details where patient_email = \'" + patient.getEmail() + "\'";
+        String sql = "DELETE FROM \"Patient\" where email = \'" + patient.getEmail() + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -127,17 +127,17 @@ public class PatientDaoImpl implements PatientDao {
         try {
             while (resultSet.next()) {
                 patient = new Patient();
-                patient.setName(resultSet.getString("patient_name"));
-                patient.setSex(resultSet.getString("patient_sex"));
-                patient.setSsn(resultSet.getString("patient_ssn"));
-                patient.setDob(resultSet.getString("patient_dob"));
-                patient.setEmail(resultSet.getString("patient_email"));
-                patient.setAddress(resultSet.getString("patient_address"));
-                patient.setPhone(resultSet.getString("patient_phone"));
-                patient.setHospitalVisitReason(resultSet.getString("patient_reason_hospital_visit"));
-                patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("patient_uti_visit_count")));
-                patient.setCatheterUsage(Boolean.parseBoolean(resultSet.getString("patient_catheter_usage")));
-                patient.setDiabetic(Boolean.parseBoolean(resultSet.getString("diabetes")));
+                patient.setName(resultSet.getString("name"));
+                patient.setSex(resultSet.getString("sex"));
+                patient.setSsn(resultSet.getString("ssn"));
+                patient.setDob(resultSet.getString("dob"));
+                patient.setEmail(resultSet.getString("email"));
+                patient.setAddress(resultSet.getString("address"));
+                patient.setPhone(resultSet.getString("phone"));
+                patient.setHospitalVisitReason(resultSet.getString("hospital_visit_reason"));
+                patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("uti_visit_count")));
+                patient.setCatheterUsage(Boolean.parseBoolean(resultSet.getString("catheter_usage")));
+                patient.setDiabetic(Boolean.parseBoolean(resultSet.getString("diabetic")));
                 patient.setDeviceId(resultSet.getString("device_id"));
                 patient.setLastVisitDate(resultSet.getString("last_visit_date"));
             }

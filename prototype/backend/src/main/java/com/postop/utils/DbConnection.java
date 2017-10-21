@@ -9,9 +9,9 @@ public class DbConnection {
 
     public static Connection getConnection(){
         try {
-            Class.forName("com.mysql.jdbc.Driver");
+            Class.forName("org.postgresql.Driver");
             if(connection == null){
-                connection = DriverManager.getConnection("jdbc:mysql://sql9.freemysqlhosting.net/sql9199471", "sql9199471", "xJAiiCjcAW");
+                connection = DriverManager.getConnection("jdbc:postgresql://stampy.db.elephantsql.com:5432/vudpsbvv", "vudpsbvv", "AhyUgFaUYXYm1byR97ZJn4Gd9Foej16Y");
             }
         } catch (ClassNotFoundException e) {
             e.printStackTrace();

@@ -1,7 +1,7 @@
 package com.postop.controller;
 
 
-import com.postop.JsonTransformer;
+import com.postop.utils.JsonTransformer;
 import com.postop.service.PostOpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,8 @@ public class PostOpController {
                 logger.error("Failed to create patient");
                 response.status(500);
                 return Collections.EMPTY_MAP;
-            }return Collections.EMPTY_MAP;
+            }
+            return Collections.EMPTY_MAP;
         }, new JsonTransformer());
 
     }

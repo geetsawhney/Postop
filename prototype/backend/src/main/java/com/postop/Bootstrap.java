@@ -12,7 +12,7 @@ import static spark.Spark.*;
 import java.util.List;
 
 public class Bootstrap {
-    public static final String IP_ADDRESS = "localhost";
+    public static final String IP_ADDRESS = "10.194.124.129";
     public static final int PORT = 8080;
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);

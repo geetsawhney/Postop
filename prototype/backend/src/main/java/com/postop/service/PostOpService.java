@@ -1,5 +1,6 @@
 package com.postop.service;
 
+import com.postop.model.Push;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import com.postop.model.Patient;
@@ -29,6 +30,8 @@ public class PostOpService {
                     if(patient.getSsn().equals(ssn)){
                         patient.setDeviceId(id);
                         patient.updatePatient();
+                        Push p= new Push(id);
+                        p.sendPush();
                     }else{
                         logger.error("Entered SSN and email don't match");
                     }
