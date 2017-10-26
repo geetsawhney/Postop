@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.oose.postop.HomepageActivity">
+
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:baselineAligned="false"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true">
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.17"
+        android:layout_centerInParent="true"
+        android:text="TextView"/>
+    <az.plainpie.PieView
+        android:id="@+id/pieView"
+        android:layout_centerInParent="true"
+        android:layout_width="291dp"
+        android:layout_height="303dp"
+        plainpie:inner_pie_padding="40"
+        plainpie:percentage="75"
+        plainpie:percentage_size="40"
+        plainpie:inner_text_visibility="true"/>
+    <Button
+        android:id="@+id/callback"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="CALLBACK"
+        android:onClick="callback"/>
+
+
+</LinearLayout>
+</RelativeLayout>

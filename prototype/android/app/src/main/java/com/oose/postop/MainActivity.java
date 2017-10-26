@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.0.86:8080/api/v1/patient/login";
+        String url ="http://10.194.45.213:8080/api/v1/patient/login";
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -157,7 +157,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try{
 
-                            mTextView.setText("Response is: " + response.get("email").toString() + " " + response.get("ssn").toString() + " " +response.get("address").toString());
+                            Bundle localBundle = new Bundle();
+                            localBundle.putString("name", response.get("name").toString());
+                            localBundle.putString("email", response.get("email").toString());
+                            localBundle.putString("address", response.get("address").toString());
+                            Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
+                            localIntent.putExtras(localBundle);
+                            startActivity(localIntent);
                         }catch(JSONException ex){
                             mTextView.setText("Bad Response!");
                         }
