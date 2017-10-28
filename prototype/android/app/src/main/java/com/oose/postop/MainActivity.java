@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,12 +25,19 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class MainActivity extends AppCompatActivity {
 
     TextView mTextView;
     EditText emailField;
     EditText ssnField;
     String deviceId;
+    ProgressBar progress;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
 
         //Initializing our broadcast receiver
         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
@@ -55,13 +63,26 @@ public class MainActivity extends AppCompatActivity {
                     //Getting the registration token from the intent
                     String token = intent.getStringExtra("token");
                     Toast.makeText(getApplicationContext(), "Registration token:" + token, Toast.LENGTH_LONG).show();
-                    setContentView(R.layout.activity_main);
 
-                    // Initialize all fields
-                    mTextView = (TextView) findViewById(R.id.output);
-                    emailField = (EditText) findViewById(R.id.email);
-                    ssnField = (EditText) findViewById(R.id.ssn);
-                    deviceId = token;
+
+                    //check if the id already exists in DB. If it does show homepage, if not show the login page
+                    DeviceIdDAO d = new DeviceIdDAO(token,getApplicationContext());
+                    if(d.checkIdExists(getApplicationContext()) == true){
+                        Toast.makeText(getApplicationContext(),"ID Exists",Toast.LENGTH_LONG).show();
+                        Map<String,String> requestList = new HashMap<String,String>();
+                        requestList.put("id",token);
+                        volleyRequest(requestList);
+
+                    }else{
+                        d.addIDToDB();
+                        setContentView(R.layout.activity_main);
+
+                        // Initialize all fields
+                        mTextView = (TextView) findViewById(R.id.output);
+                        emailField = (EditText) findViewById(R.id.email);
+                        ssnField = (EditText) findViewById(R.id.ssn);
+                        deviceId = token;
+                    }
                 } else if (intent.getAction().equals(RegistrationIntentService.REGISTRATION_ERROR)) {
                     Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
                 } else {
@@ -75,14 +96,10 @@ public class MainActivity extends AppCompatActivity {
 
         //if play service is not available
         if (ConnectionResult.SUCCESS != resultCode) {
-            //If play service is supported but not installed
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                //Displaying message that play service is not installed
                 Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
                 GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
 
-                //If play service is not supported
-                //Displaying an error message
             } else {
                 Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
             }
@@ -122,33 +139,44 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
-        // Get the username and password field data
+        //turn on progress bar
+        progress = (ProgressBar) findViewById(R.id.progressBar);
+        progress.setIndeterminate(true);
+        progress.setVisibility(View.VISIBLE);
+
+        // Get the email and ssn field data
         String userNameVal = emailField.getText().toString();
         String passwordVal = ssnField.getText().toString();
         String idVal = deviceId;
 
+        //Save the values to a Hashmap
+        Map<String,String> requestList = new HashMap<String,String>();
+        requestList.put("email",userNameVal);
+        requestList.put("ssn",passwordVal);
+        requestList.put("id",idVal);
+
+
+
         // Send the credentials to the server for authentication
-        volleyRequest(userNameVal, passwordVal, idVal);
+        volleyRequest(requestList);
     }
 
     /**
      * Volley send request
-     * @param email
-     * @param ssn
      */
-    public void volleyRequest(String email, String ssn, String Id) {
+    public void volleyRequest(Map<String,String> h) {
         JSONObject jsonRequestObject = new JSONObject();
         try{
-            jsonRequestObject.put("email", email.trim().toLowerCase());
-            jsonRequestObject.put("ssn", ssn);
-            jsonRequestObject.put("id", Id);
+          for (Map.Entry<String,String> entry : h.entrySet() ){
+              jsonRequestObject.put(entry.getKey(),entry.getValue());
+          }
         }catch(JSONException ex){
             return;
         }
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.194.45.213:8080/api/v1/patient/login";
+        String url ="http://10.0.0.86:8080/api/v1/patient/login";
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -161,17 +189,20 @@ public class MainActivity extends AppCompatActivity {
                             localBundle.putString("name", response.get("name").toString());
                             localBundle.putString("email", response.get("email").toString());
                             localBundle.putString("address", response.get("address").toString());
+                            //progress.setVisibility(View.INVISIBLE);
                             Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
                         }catch(JSONException ex){
-                            mTextView.setText("Bad Response!");
+                            //mTextView.setText("Bad Response!");
+                            Toast.makeText(getApplicationContext(), "BAD RESPONSE", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        mTextView.setText("That didn't work!");
+                        //mTextView.setText("That didn't work!");
+                        Toast.makeText(getApplicationContext(), "That Didn't Work", Toast.LENGTH_LONG).show();
                         error.printStackTrace();
                     }
                 });
