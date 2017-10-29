@@ -47,7 +47,6 @@ public class PostOpService {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
         return patient;
     }
 

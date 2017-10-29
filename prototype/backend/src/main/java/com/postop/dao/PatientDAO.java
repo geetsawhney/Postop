@@ -4,7 +4,7 @@ import com.postop.model.Patient;
 
 import java.util.List;
 
-public interface PatientDao {
+interface PatientDao {
     public List<Patient> getAllPatients();
     public Patient getPatientById(int patientId);
     public void updatePatient(Patient patient);
