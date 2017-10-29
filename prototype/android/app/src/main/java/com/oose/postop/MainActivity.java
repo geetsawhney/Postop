@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://10.0.0.86:8080/api/v1/patient/login";
+        String url ="http://192.168.0.35:8080/api/v1/patient/login";
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest

@@ -8,31 +8,40 @@
 
 
 <LinearLayout
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1"
-    android:baselineAligned="false"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true">
+    android:layout_height="wrap_content"
+    android:layout_centerVertical="true"
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/welcomeText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.17"
-        android:layout_centerInParent="true"
-        android:text="TextView"/>
+        android:text="TextView"
+        android:textAlignment="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
+
     <az.plainpie.PieView
         android:id="@+id/pieView"
-        android:layout_centerInParent="true"
-        android:layout_width="291dp"
-        android:layout_height="303dp"
+        android:layout_gravity="center"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         plainpie:inner_pie_padding="40"
         plainpie:percentage="75"
         plainpie:percentage_size="40"
         plainpie:inner_text_visibility="true"/>
+
+    <TextView
+        android:id="@+id/caloriesExpended"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
+
     <Button
         android:id="@+id/callback"
         android:layout_width="match_parent"
@@ -42,6 +51,5 @@
         android:text="CALLBACK"
         android:onClick="callback"/>
 
-
-</LinearLayout>
+    </LinearLayout>
 </RelativeLayout>
