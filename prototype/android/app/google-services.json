@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "776116072079",
+    "firebase_url": "https://postop-182401.firebaseio.com",
+    "project_id": "postop-182401",
+    "storage_bucket": "postop-182401.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:776116072079:android:be052ad0552f54e9",
+        "android_client_info": {
+          "package_name": "com.oose.postop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "776116072079-4s6p7j7s2a3bclt7gi5ap34fg7o786mf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGQFiQh6ODH4PCe2mWkVwbOGGZWh2LzLw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "776116072079-4s6p7j7s2a3bclt7gi5ap34fg7o786mf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

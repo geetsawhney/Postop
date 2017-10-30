@@ -1,43 +1,66 @@
 package com.postop.service;
 
+import com.postop.model.Push;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import com.postop.model.Patient;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.sql2o.Connection;
-import org.sql2o.Sql2o;
-import org.sql2o.Sql2oException;
-
-import com.google.gson.Gson;
 
 public class PostOpService {
 
-    private Sql2o db;
-
     private final Logger logger = LoggerFactory.getLogger(PostOpService.class);
 
-    
- /**
-//     * Create a new Todo entry.
-//     */
-    public void addPatient(String body) throws PostOpServiceException {
-    	
-        Patient p = new Gson().fromJson(body, Patient.class);
-        String sql = "INSERT INTO Patient (email,password) " +
-                     "             VALUES (:email, :password)" ;
+    public Patient patientLogin(String body){
+        JSONParser jsonParser = new JSONParser();
+        Patient patient = new Patient();
+        try {
+            body = body.replaceAll("^\"|\"$", "");
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(body);
+            String id = jsonObject.get("id").toString();
 
-        try (Connection conn = db.open()) {
-            conn.createQuery(sql)
-                .bind(p)
-                .executeUpdate();
-        } catch(Sql2oException ex) {
-            logger.error("PostOpService.addPatient: Failed to create new entry", ex);
-            throw new PostOpServiceException("PostOpService.addPatient: Failed to create new entry", ex);
+            if(jsonObject.containsKey("email") && jsonObject.containsKey("ssn")){
+                String email = jsonObject.get("email").toString();
+                String ssn = jsonObject.get("ssn").toString();
+
+                patient = patient.getPatientByEmail(email);
+
+                if(patient != null){
+                    if(patient.getSsn().equals(ssn)){
+                        patient.setDeviceId(id);
+                        patient.updatePatient();
+                        Push p= new Push(id);
+                        p.sendPush();
+                    }else{
+                        logger.error("Entered SSN and email don't match");
+                    }
+                }else{
+                    logger.error("Patient does not exist");
+                }
+            }else {
+                patient = patient.getPatientByDeviceId(id);
+                if(patient == null){
+                    logger.error("The device_id does not match any patient.");
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
+        return patient;
     }
 
-    public static class PostOpServiceException extends Exception {
-        public PostOpServiceException(String message, Throwable cause) {
-            super(message, cause);
+    public void addPatient(String body) {
+        JSONParser jsonParser = new JSONParser();
+        Patient p = new Patient();
+        try {
+            JSONObject jsonObject = (JSONObject)jsonParser.parse(body);
+            Patient patient = p.setupPatient(jsonObject);
+            if(!p.addPatient(patient)){
+                logger.error("Failed to add patient");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
         }
     }
 }
