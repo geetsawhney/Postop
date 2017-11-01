@@ -37,6 +37,7 @@ public class PatientDaoImpl implements PatientDao {
             resultSet.close();
             statement.close();
 
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

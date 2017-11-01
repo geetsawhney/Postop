@@ -1,3 +1,5 @@
+package com.postop.utils;
+
 import java.util.*;
 public class NotificationLogic {
 	
@@ -30,7 +32,7 @@ public class NotificationLogic {
 		ageStatus("L", age);
 	}
 	
-	static void ageStatus(String Stat, int sentAge)
+	static String ageStatus(String Stat, int sentAge)
 	{
 		//18-40
 		if (sentAge>=18 && sentAge<40)
@@ -47,7 +49,8 @@ public class NotificationLogic {
 		{
 			status="M";
 			sexStatus(status, sex);
-		}		
+		}
+		return status;
 			
 	}
 	static void sexStatus(String stat, String sexStat)
