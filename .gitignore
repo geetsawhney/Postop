@@ -1,4 +1,4 @@
 *.classpath
 *.project
 prototype/backend/target/classes
-prototype/backend/.idea/
+prototype/backend/.idea/*
