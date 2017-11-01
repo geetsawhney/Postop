@@ -1,36 +1,46 @@
+package com.postop.helper;
+
 import java.util.*;
 public class NotificationLogic {
 	
-	private static String sex;
-	private static String status;
+	private String sex;
+	private String status;
 	private Date dob;
-	private static int age;
-	private static int utiVisitCount;
+	private int age;
+	private int utiVisitCount;
 	private static boolean catheterUsage;
-	private static boolean diabetic;
+	private boolean diabetic;
 	private Date lastVisitDate;
-	private static int daysLastVisit;
-	private static int stepCount;
-	private static String notificationMessage;
-	
-	NotificationLogic()
-	{}
-	
-	public static void main(String[] args)
-	{
-		age=52;
-		sex="F";
-		diabetic=true;
-		utiVisitCount = 4;
-		catheterUsage=false;
-		status = "L";
-		daysLastVisit = 160;
-		stepCount = 5000;
-		//call for the first function and pass the current status
-		ageStatus("L", age);
-	}
-	
-	static void ageStatus(String Stat, int sentAge)
+	private int daysLastVisit;
+	private int stepCount;
+	private String notificationMessage;
+
+	public  NotificationLogic(){
+        age=52;
+        sex="F";
+        diabetic=true;
+        utiVisitCount = 4;
+        catheterUsage=false;
+        status = "L";
+        daysLastVisit = 160;
+        stepCount = 5000;
+    }
+
+    public NotificationLogic(String sex, String status, Date dob, int age, int utiVisitCount, boolean diabetic,
+                             Date lastVisitDate, int daysLastVisit, int stepCount, String notificationMessage) {
+        this.sex = sex;
+        this.status = status;
+        this.dob = dob;
+        this.age = age;
+        this.utiVisitCount = utiVisitCount;
+        this.diabetic = diabetic;
+        this.lastVisitDate = lastVisitDate;
+        this.daysLastVisit = daysLastVisit;
+        this.stepCount = stepCount;
+        this.notificationMessage = notificationMessage;
+    }
+
+    public String ageStatus(String stat, int sentAge)
 	{
 		//18-40
 		if (sentAge>=18 && sentAge<40)
@@ -47,10 +57,12 @@ public class NotificationLogic {
 		{
 			status="M";
 			sexStatus(status, sex);
-		}		
+		}
+
+		return status;
 			
 	}
-	static void sexStatus(String stat, String sexStat)
+	private void sexStatus(String stat, String sexStat)
 	{
 		if(sexStat =="F")
 		{
@@ -59,7 +71,7 @@ public class NotificationLogic {
 		
 		diabeticStatus(status, diabetic);
 	}
-	static void diabeticStatus(String stat,boolean diabetes )
+	private void diabeticStatus(String stat,boolean diabetes )
 	{
 		if(diabetes==true)
 		{
@@ -68,7 +80,7 @@ public class NotificationLogic {
 		utiVisitCountStatus(status,utiVisitCount);
 		
 	}
-	static void utiVisitCountStatus(String stat, int utiCount)
+	public void utiVisitCountStatus(String stat, int utiCount)
 	{
 		if(utiCount>=3)
 		{
@@ -76,7 +88,7 @@ public class NotificationLogic {
 		}
 		catheterUsageStatus(status,catheterUsage);
 	}
-	static void catheterUsageStatus(String stat, boolean catheterUse)
+	public void catheterUsageStatus(String stat, boolean catheterUse)
 	{
 		if(catheterUse==true)
 		{
@@ -86,7 +98,7 @@ public class NotificationLogic {
 		statusChange(status,daysLastVisit);
 		numberOfNotifications();
 	}
-	static String incrementStatus(String stat)
+	public String incrementStatus(String stat)
 	{
 		if(stat=="L")
 		{
@@ -103,7 +115,7 @@ public class NotificationLogic {
 		
 		return stat;
 	}
-	static void statusChange(String stat, int daysCount)
+	public void statusChange(String stat, int daysCount)
 	{
 		int extraDays;
 		if(stat == "C")
@@ -143,7 +155,7 @@ public class NotificationLogic {
 		
 		//System.out.println("the new status is " + status);
 	}
-	static void numberOfNotifications()
+	public void numberOfNotifications()
 	{
 		System.out.println("the new status is " + status);
 		int notificationCount =0;
