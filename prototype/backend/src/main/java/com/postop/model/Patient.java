@@ -183,23 +183,6 @@ public class Patient {
         this.diabetic = diabetic;
     }
 
-
-    public Patient getPatientByEmail(String email) {
-        logger.info("Inside Patient getPatientByEmail");
-        PatientDaoImpl pdi = new PatientDaoImpl();
-        return pdi.getPatientByEmail(email);
-    }
-
-    public boolean updatePatient() {
-        PatientDaoImpl pdi = new PatientDaoImpl();
-        return pdi.updatePatient(this);
-    }
-
-    public Patient getPatientByDeviceId(String id) {
-        PatientDaoImpl pdi = new PatientDaoImpl();
-        return pdi.getPatientByDeviceId(id);
-    }
-
     public boolean addPatient(Patient patient){
         PatientDaoImpl pdi = new PatientDaoImpl();
         return pdi.addPatient(patient);

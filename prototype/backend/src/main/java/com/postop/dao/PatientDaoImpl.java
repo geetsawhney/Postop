@@ -2,8 +2,9 @@
 package com.postop.dao;
 
 import com.postop.dao.interfaces.PatientDao;
+import com.postop.exceptions.IllegalSqlException;
 import com.postop.model.Patient;
-import com.postop.utils.DbConnection;
+import com.postop.utils.DbConnector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +18,7 @@ public class PatientDaoImpl implements PatientDao {
     private final Logger logger = LoggerFactory.getLogger(PatientDaoImpl.class);
 
     public PatientDaoImpl() {
-        connection = DbConnection.getConnection();
+        connection = DbConnector.getConnection();
     }
 
     @Override
@@ -45,34 +46,29 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public Patient getPatientByEmail(String email) {
-        logger.info("PatientDaoImp getPatientByEmail");
+    public Patient getPatientByEmail(String email) throws IllegalSqlException {
         String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email + "\'";
         return getPatient(sql);
     }
 
     @Override
-    public Patient getPatientByDeviceId(String id) {
+    public Patient getPatientByDeviceId(String id) throws IllegalSqlException {
         String sql = "SELECT * FROM \"Patient\" WHERE device_id = \'" + id + "\'";
         return getPatient(sql);
     }
 
     @Override
-    public boolean updatePatient(Patient patient) {
+    public boolean updatePatientDeviceId(Patient patient) throws IllegalSqlException {
 
-        String sql = "UPDATE \"Patient\" SET name = \'" + patient.getName()
-                + "\' , device_id = \'" + patient.getDeviceId() + "\', sex = \'" + patient.getSex()
+        String sql = "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
                 + "\' WHERE email = \'" + patient.getEmail() + "\'";
-
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
+            return true;
         } catch (SQLException e) {
-            return false;
+            throw new IllegalSqlException(e.getMessage());
         }
-
-        return true;
-
     }
 
     @Override
@@ -148,7 +144,7 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
-    public Patient getPatient(String sql) {
+    public Patient getPatient(String sql) throws IllegalSqlException {
         Patient patient = null;
         try {
             Statement statement = connection.createStatement();
@@ -160,7 +156,7 @@ public class PatientDaoImpl implements PatientDao {
             statement.close();
 
         } catch (SQLException e) {
-            logger.error("SQL Exception while trying to execute getPatient query in PatientDaoImpl getPatient");
+            throw new IllegalSqlException(e.getMessage());
         }
         return patient;
     }
