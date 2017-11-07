@@ -2,14 +2,15 @@ package com.postop.dao;
 
 import com.postop.dao.interfaces.PatientLoginDao;
 import com.postop.exceptions.IllegalSqlException;
+import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.utils.DbConnector;
+import com.postop.utils.HashGenerator;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.security.NoSuchAlgorithmException;
+import java.sql.*;
 
 public class PatientLoginDaoImpl implements PatientLoginDao {
 
@@ -32,6 +33,27 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         } catch (SQLException e) {
             logger.error("SQL Exception");
             throw new IllegalSqlException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void addPatient(JSONObject jsonObject) throws InvalidHashAlgorithmException, IllegalSqlException {
+        String sql = "INSERT INTO \"Patient_Login\"(email,password) "
+                 + "VALUES (?,?)";
+        try {
+            String password=HashGenerator.generateHash(jsonObject.get("password").toString());
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, jsonObject.get("email").toString());
+            preparedStatement.setString(2, password);
+
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            logger.error("Failed to add the patient");
+            throw new IllegalSqlException(e.getMessage());
+        }
+        catch (NoSuchAlgorithmException e){
+            logger.error("Wrong Algorithm in Hashing");
+            throw new InvalidHashAlgorithmException(e.getMessage());
         }
     }
 }

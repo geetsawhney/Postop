@@ -8,7 +8,6 @@ import com.postop.exceptions.PatientNotFoundException;
 import com.postop.model.Patient;
 import com.postop.service.PostOpService;
 import com.postop.utils.JsonTransformer;
-import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,13 +38,13 @@ public class PostOpController {
             } catch (IllegalJsonException ex) {
                 response.status(400);
                 return ex.getHash();
-            } catch (PatientNotFoundException ex){
+            } catch (PatientNotFoundException ex) {
                 response.status(404);
                 return ex.getHash();
-            } catch (IllegalSqlException ex){
+            } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();
-            } catch(InvalidHashAlgorithmException ex){
+            } catch (InvalidHashAlgorithmException ex) {
                 response.status(500);
                 return ex.getHash();
             }
@@ -56,15 +55,20 @@ public class PostOpController {
             try {
                 postOpService.addPatient(request.body());
                 response.status(200);
-            } catch (Exception ex) {
-                logger.error("Failed to create patient");
+                HashMap<String,String> output=new HashMap<>();
+                output.put("message","SUCCESS");
+                return output;
+            } catch (IllegalSqlException ex) {
                 response.status(500);
-                return Collections.EMPTY_MAP;
+                return ex.getHash();
+            } catch (InvalidHashAlgorithmException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
             }
-            return Collections.EMPTY_MAP;
+
         }, new JsonTransformer());
-
     }
-
-
 }

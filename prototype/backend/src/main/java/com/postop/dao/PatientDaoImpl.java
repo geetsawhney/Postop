@@ -5,6 +5,7 @@ import com.postop.dao.interfaces.PatientDao;
 import com.postop.exceptions.IllegalSqlException;
 import com.postop.model.Patient;
 import com.postop.utils.DbConnector;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -72,34 +73,37 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public boolean addPatient(Patient patient) {
-        String sql = "INSERT INTO \"Patient\"(email, ssn, device_id, name, sex, " +
+    public void addPatient(JSONObject jsonObject) throws IllegalSqlException {
+
+        String sql = "INSERT INTO \"Patient\" (email, ssn, device_id, name, sex, " +
                 "dob, address, phone, hospital_visit_reason, uti_visit_count, " +
-                "catheter_usage, diabetic, last_visit_date )" + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+                "catheter_usage, diabetic, last_visit_date ) " + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
 
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, patient.getEmail());
-            preparedStatement.setString(2, patient.getSsn());
-            preparedStatement.setString(3, patient.getDeviceId());
-            preparedStatement.setString(4, patient.getName());
-            preparedStatement.setString(5, patient.getSex());
-            preparedStatement.setString(6, patient.getDobString());
-            preparedStatement.setString(7, patient.getAddress());
-            preparedStatement.setString(8, patient.getPhone());
-            preparedStatement.setString(9, patient.getHospitalVisitReason());
-            preparedStatement.setInt(10, patient.getUtiVisitCount());
-            preparedStatement.setBoolean(11, patient.getCatheterUsage());
-            preparedStatement.setBoolean(12, patient.getDiabetic());
-            preparedStatement.setString(13, patient.getLastVisitDateString());
+
+            preparedStatement.setString(1, jsonObject.get("email").toString());
+            preparedStatement.setString(2, jsonObject.get("ssn").toString());
+            preparedStatement.setString(3, jsonObject.get("id").toString());
+            preparedStatement.setString(4, jsonObject.get("name").toString());
+            preparedStatement.setString(5, jsonObject.get("sex").toString());
+            preparedStatement.setString(6, jsonObject.get("dob").toString());
+            preparedStatement.setString(7, jsonObject.get("address").toString());
+            preparedStatement.setString(8, jsonObject.get("phone").toString());
+            preparedStatement.setString(9, jsonObject.get("hospitalVisitReason").toString());
+            preparedStatement.setInt(10, Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
+            preparedStatement.setBoolean(11, Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
+            preparedStatement.setBoolean(12, Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
+            preparedStatement.setString(13, jsonObject.get("lastVisitDate").toString());
 
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
+            logger.error("Failed to add the patient");
+            throw new IllegalSqlException(e.getMessage());
         }
-        return true;
     }
+
 
     @Override
     public boolean deletePatient(Patient patient) {
@@ -119,6 +123,8 @@ public class PatientDaoImpl implements PatientDao {
         return null;
     }
 
+
+
     public Patient populateDetails(ResultSet resultSet) {
         Patient patient = null;
         try {
@@ -133,8 +139,8 @@ public class PatientDaoImpl implements PatientDao {
                 patient.setPhone(resultSet.getString("phone"));
                 patient.setHospitalVisitReason(resultSet.getString("hospital_visit_reason"));
                 patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("uti_visit_count")));
-                patient.setCatheterUsage(Boolean.parseBoolean(resultSet.getString("catheter_usage")));
-                patient.setDiabetic(Boolean.parseBoolean(resultSet.getString("diabetic")));
+                patient.setCatheterUsage(resultSet.getBoolean("catheter_usage"));
+                patient.setDiabetic(resultSet.getBoolean("diabetic"));
                 patient.setDeviceId(resultSet.getString("device_id"));
                 patient.setLastVisitDate(resultSet.getString("last_visit_date"));
             }

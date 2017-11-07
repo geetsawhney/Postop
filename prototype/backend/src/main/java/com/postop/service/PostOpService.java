@@ -8,6 +8,8 @@ import com.postop.exceptions.IllegalJsonException;
 import com.postop.exceptions.IllegalSqlException;
 import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.exceptions.PatientNotFoundException;
+import com.postop.helper.NotificationLogic;
+import com.postop.model.GoogleFitHistory;
 import com.postop.model.Patient;
 import com.postop.utils.HashGenerator;
 import org.json.simple.JSONObject;
@@ -16,7 +18,6 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 public class PostOpService {
@@ -26,8 +27,8 @@ public class PostOpService {
     public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException, IllegalSqlException, InvalidHashAlgorithmException {
         JSONParser jsonParser = new JSONParser();
         Patient patient;
-
         body = body.replaceAll("^\"|\"$", "");
+
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             String id = jsonObject.get("id").toString();
@@ -42,6 +43,9 @@ public class PostOpService {
                     patient = pdi.getPatientByEmail(email);
                     patient.setDeviceId(id);
                     pdi.updatePatientDeviceId(patient);
+
+                    NotificationLogic notificationLogic = new NotificationLogic(patient, new GoogleFitHistory());
+                    logger.info(""+notificationLogic.getNumberOfNotifications());
                 } else {
                     logger.error("Entered password and email don't match");
                     throw new PatientNotFoundException("email and password do not match");
@@ -64,17 +68,21 @@ public class PostOpService {
         }
     }
 
-    public void addPatient(String body) {
+
+    public void addPatient(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
         JSONParser jsonParser = new JSONParser();
-        Patient p = new Patient();
+
         try {
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
-            Patient patient = p.setupPatient(jsonObject);
-            if (!p.addPatient(patient)) {
-                logger.error("Failed to add patient");
-            }
+            JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
+            PatientDaoImpl pdi=new PatientDaoImpl();
+            pdi.addPatient(patientJsonObject);
+
+            PatientLoginDao pldi=new PatientLoginDaoImpl();
+            pldi.addPatient(patientJsonObject);
+
         } catch (ParseException e) {
-            e.printStackTrace();
+            logger.error("Illegal JSON");
+            throw new IllegalJsonException(e.getMessage());
         }
     }
 }

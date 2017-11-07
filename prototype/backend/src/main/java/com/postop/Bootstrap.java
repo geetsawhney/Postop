@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 import static spark.Spark.*;
 
 public class Bootstrap {
-    public static final String IP_ADDRESS = "10.194.107.57";
+    public static final String IP_ADDRESS = "10.194.97.92";
     public static final int PORT = 8080;
 
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);

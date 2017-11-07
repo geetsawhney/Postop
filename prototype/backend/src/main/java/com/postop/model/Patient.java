@@ -82,10 +82,6 @@ public class Patient {
         this.dob = dob;
     }
 
-    public Date getDob(Date dob) {
-        return dob;
-    }
-
     public String getDeviceId() {
         return deviceId;
     }
@@ -183,29 +179,25 @@ public class Patient {
         this.diabetic = diabetic;
     }
 
-    public boolean addPatient(Patient patient){
-        PatientDaoImpl pdi = new PatientDaoImpl();
-        return pdi.addPatient(patient);
-    }
-
-    public Patient setupPatient(JSONObject jsonObject){
-        Patient patient = new Patient();
-
-        patient.setEmail(jsonObject.get("email").toString());
-        patient.setSsn(jsonObject.get("ssn").toString());
-        patient.setDeviceId(jsonObject.get("id").toString());
-        patient.setName(jsonObject.get("name").toString());
-        patient.setSex(jsonObject.get("sex").toString());
-        patient.setDob(jsonObject.get("dob").toString());
-        patient.setAddress(jsonObject.get("address").toString());
-        patient.setPhone(jsonObject.get("phone").toString());
-        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
-        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
-        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
-        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-        patient.setLastVisitDate(jsonObject.get("lastVisitDate").toString());
 
 
-        return patient;
-    }
+//    public Patient setupPatient(JSONObject jsonObject){
+//        Patient patient = new Patient();
+//
+//        patient.setEmail(jsonObject.get("email").toString());
+//        patient.setSsn(jsonObject.get("ssn").toString());
+//        patient.setDeviceId(jsonObject.get("id").toString());
+//        patient.setName(jsonObject.get("name").toString());
+//        patient.setSex(jsonObject.get("sex").toString());
+//        patient.setDob(jsonObject.get("dob").toString());
+//        patient.setAddress(jsonObject.get("address").toString());
+//        patient.setPhone(jsonObject.get("phone").toString());
+//        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
+//        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
+//        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
+//        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
+//        patient.setLastVisitDate(jsonObject.get("lastVisitDate").toString());
+//
+//        return patient;
+//    }
 }
