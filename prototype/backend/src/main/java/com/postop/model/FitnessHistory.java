@@ -2,18 +2,26 @@ package com.postop.model;
 
 import java.util.Date;
 
-public class GoogleFitHistory {
-
-    private Date date;
+public class FitnessHistory {
+    private String device_id;
+    private Date captureDate;
     private int stepCount;
     private int caloriesExpended;
 
-    public Date getDate() {
-        return date;
+    public String getDevice_id() {
+        return device_id;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    public Date getCaptureDate() {
+        return captureDate;
+    }
+
+    public void setCaptureDate(Date captureDate) {
+        this.captureDate = captureDate;
     }
 
     public int getStepCount() {

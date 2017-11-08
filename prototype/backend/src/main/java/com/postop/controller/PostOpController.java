@@ -8,6 +8,7 @@ import com.postop.exceptions.PatientNotFoundException;
 import com.postop.model.Patient;
 import com.postop.service.PostOpService;
 import com.postop.utils.JsonTransformer;
+import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +56,8 @@ public class PostOpController {
             try {
                 postOpService.addPatient(request.body());
                 response.status(200);
-                HashMap<String,String> output=new HashMap<>();
-                output.put("message","SUCCESS");
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
                 return output;
             } catch (IllegalSqlException ex) {
                 response.status(500);
@@ -69,6 +70,22 @@ public class PostOpController {
                 return ex.getHash();
             }
 
+        }, new JsonTransformer());
+
+        post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
+            try {
+                JSONObject jsonObject = postOpService.addFitnessData(request.body());
+                response.status(200);
+//                HashMap<String, String> output = new HashMap<>();
+//                output.put("message", "SUCCESS");
+                return jsonObject;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            }
         }, new JsonTransformer());
     }
 }

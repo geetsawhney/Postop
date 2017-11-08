@@ -1,6 +1,6 @@
 package com.postop.helper;
 
-import com.postop.model.GoogleFitHistory;
+import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 
 import java.util.*;
@@ -11,17 +11,17 @@ public class NotificationLogic {
 
     private String status;
     private Patient patient;
-    private GoogleFitHistory googleFitHistory;
+    private FitnessHistory fitnessHistory;
 
 
     public  NotificationLogic(){
         status = "L";
     }
 
-    public NotificationLogic(Patient patient, GoogleFitHistory googleFitHistory) {
+    public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
         this.status = "L";
         this.patient = patient;
-        this.googleFitHistory = googleFitHistory;
+        this.fitnessHistory = fitnessHistory;
     }
 
     public String ageStatus()
@@ -161,22 +161,22 @@ public class NotificationLogic {
         }
         else if(status=="H")
         {
-            if(googleFitHistory.getStepCount()>=3000)
+            if(fitnessHistory.getStepCount()>=3000)
             {
                 notificationCount = 8;
             }
-            else if(googleFitHistory.getStepCount()< 3000)
+            else if(fitnessHistory.getStepCount()< 3000)
             {
                 notificationCount = 6;
             }
         }
         else if(status=="M")
         {
-            if(googleFitHistory.getStepCount()>=3000)
+            if(fitnessHistory.getStepCount()>=3000)
             {
                 notificationCount = 6;
             }
-            else if(googleFitHistory.getStepCount()< 3000)
+            else if(fitnessHistory.getStepCount()< 3000)
             {
                 notificationCount = 4;
             }
@@ -184,11 +184,11 @@ public class NotificationLogic {
         }
         else if(status=="L")
         {
-            if(googleFitHistory.getStepCount()>=3000)
+            if(fitnessHistory.getStepCount()>=3000)
             {
                 notificationCount = 4;
             }
-            else if(googleFitHistory.getStepCount()< 3000)
+            else if(fitnessHistory.getStepCount()< 3000)
             {
                 notificationCount = 2;
             }

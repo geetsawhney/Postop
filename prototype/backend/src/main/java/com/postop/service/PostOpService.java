@@ -1,5 +1,6 @@
 package com.postop.service;
 
+import com.postop.dao.FitnessHistoryDaoImpl;
 import com.postop.dao.PatientDaoImpl;
 import com.postop.dao.PatientLoginDaoImpl;
 import com.postop.dao.interfaces.PatientDao;
@@ -9,7 +10,7 @@ import com.postop.exceptions.IllegalSqlException;
 import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.exceptions.PatientNotFoundException;
 import com.postop.helper.NotificationLogic;
-import com.postop.model.GoogleFitHistory;
+import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 import com.postop.utils.HashGenerator;
 import org.json.simple.JSONObject;
@@ -44,8 +45,8 @@ public class PostOpService {
                     patient.setDeviceId(id);
                     pdi.updatePatientDeviceId(patient);
 
-                    NotificationLogic notificationLogic = new NotificationLogic(patient, new GoogleFitHistory());
-                    logger.info(""+notificationLogic.getNumberOfNotifications());
+                    NotificationLogic notificationLogic = new NotificationLogic(patient, new FitnessHistory());
+                    logger.info("" + notificationLogic.getNumberOfNotifications());
                 } else {
                     logger.error("Entered password and email don't match");
                     throw new PatientNotFoundException("email and password do not match");
@@ -74,11 +75,39 @@ public class PostOpService {
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
-            PatientDaoImpl pdi=new PatientDaoImpl();
+            PatientDaoImpl pdi = new PatientDaoImpl();
             pdi.addPatient(patientJsonObject);
 
-            PatientLoginDao pldi=new PatientLoginDaoImpl();
+            PatientLoginDao pldi = new PatientLoginDaoImpl();
             pldi.addPatient(patientJsonObject);
+
+        } catch (ParseException e) {
+            logger.error("Illegal JSON");
+            throw new IllegalJsonException(e.getMessage());
+        }
+    }
+
+
+    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
+        JSONParser jsonParser = new JSONParser();
+
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            PatientDaoImpl pdi = new PatientDaoImpl();
+            Patient patient = pdi.getPatientByDeviceId(jsonObject.get("id").toString());
+
+            jsonObject.put("email", patient.getEmail());
+            jsonObject.remove("id");
+
+            FitnessHistoryDaoImpl fhdi = new FitnessHistoryDaoImpl();
+            fhdi.addFitnessData(jsonObject);
+
+            NotificationLogic notificationLogic = new NotificationLogic(patient, new FitnessHistory());
+
+            JSONObject output = new JSONObject();
+            output.put("notificationCount", notificationLogic.getNumberOfNotifications());
+
+            return output;
 
         } catch (ParseException e) {
             logger.error("Illegal JSON");
