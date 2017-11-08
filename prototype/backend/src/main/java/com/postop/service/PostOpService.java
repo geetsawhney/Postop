@@ -89,6 +89,7 @@ public class PostOpService {
 
 
     public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
+        body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 
         try {
