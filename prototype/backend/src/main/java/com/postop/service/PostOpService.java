@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 public class PostOpService {
 
@@ -69,15 +70,13 @@ public class PostOpService {
         }
     }
 
-    public void updatePatient(String body) throws IllegalSqlException, IllegalJsonException {
+    public void updatePatient(String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             PatientDao pdi = new PatientDaoImpl();
 
             Patient patient = Patient.setupPatient(jsonObject);
-
-
             pdi.updatePatient(patient);
 
         }catch (ParseException e){
@@ -106,7 +105,7 @@ public class PostOpService {
     }
 
 
-    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
+    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException, PatientNotFoundException {
         body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 
@@ -132,5 +131,15 @@ public class PostOpService {
             logger.error("Illegal JSON");
             throw new IllegalJsonException(e.getMessage());
         }
+    }
+
+    public Patient getPatient(String email) throws IllegalSqlException, PatientNotFoundException {
+        PatientDao pdi=new PatientDaoImpl();
+        return pdi.getPatientByEmail(email);
+    }
+
+    public List<Patient> getAllPatients() throws IllegalSqlException {
+        PatientDao pdi=new PatientDaoImpl();
+        return pdi.getAllPatients();
     }
 }

@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 
-import static spark.Spark.post;
-import static spark.Spark.put;
+import static spark.Spark.*;
 
 public class PostOpController {
 
@@ -70,23 +70,26 @@ public class PostOpController {
                 response.status(400);
                 return ex.getHash();
             }
-
         }, new JsonTransformer());
 
         /*Implements update the patient*/
         put(API_CONTEXT + "/patient/:email", "application/json", (request, response) -> {
             try {
                 postOpService.updatePatient(request.body());
-
+                response.status(200);
             } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();
             } catch (IllegalJsonException ex) {
                 response.status(400);
                 return ex.getHash();
+            } catch (PatientNotFoundException ex) {
+                response.status(404);
+                return ex.getHash();
             }
             return Collections.EMPTY_MAP;
         }, new JsonTransformer());
+
 
         post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
             try {

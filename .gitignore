@@ -2,3 +2,4 @@
 *.project
 prototype/backend/target/classes
 prototype/backend/.idea/*
+*.iml
