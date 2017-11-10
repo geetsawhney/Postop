@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 import static spark.Spark.post;
+import static spark.Spark.put;
 
 public class PostOpController {
 
@@ -52,7 +53,7 @@ public class PostOpController {
         }, new JsonTransformer());
 
         /* Implements create new patient */
-        post(API_CONTEXT + "/patient/add", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/patient/", "application/json", (request, response) -> {
             try {
                 postOpService.addPatient(request.body());
                 response.status(200);
@@ -72,12 +73,25 @@ public class PostOpController {
 
         }, new JsonTransformer());
 
+        /*Implements update the patient*/
+        put(API_CONTEXT + "/patient/:email", "application/json", (request, response) -> {
+            try {
+                postOpService.updatePatient(request.body());
+
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            }
+            return Collections.EMPTY_MAP;
+        }, new JsonTransformer());
+
         post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
             try {
                 JSONObject jsonObject = postOpService.addFitnessData(request.body());
                 response.status(200);
-//                HashMap<String, String> output = new HashMap<>();
-//                output.put("message", "SUCCESS");
                 return jsonObject;
             } catch (IllegalSqlException ex) {
                 response.status(500);

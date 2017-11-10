@@ -59,14 +59,13 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public boolean updatePatientDeviceId(Patient patient) throws IllegalSqlException {
+    public void updatePatientDeviceId(Patient patient) throws IllegalSqlException {
 
         String sql = "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
                 + "\' WHERE email = \'" + patient.getEmail() + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
-            return true;
         } catch (SQLException e) {
             throw new IllegalSqlException(e.getMessage());
         }
@@ -125,9 +124,9 @@ public class PatientDaoImpl implements PatientDao {
 
 
 
-    public Patient populateDetails(ResultSet resultSet) {
+    public Patient populateDetails(ResultSet resultSet) throws SQLException{
         Patient patient = null;
-        try {
+
             while (resultSet.next()) {
                 patient = new Patient();
                 patient.setName(resultSet.getString("name"));
@@ -144,9 +143,7 @@ public class PatientDaoImpl implements PatientDao {
                 patient.setDeviceId(resultSet.getString("device_id"));
                 patient.setLastVisitDate(resultSet.getString("last_visit_date"));
             }
-        } catch (SQLException e) {
-            logger.error("SQL Exception while trying to iterate over resultset in PatientDaoImpl populateDetails");
-        }
+
         return patient;
     }
 
@@ -165,5 +162,29 @@ public class PatientDaoImpl implements PatientDao {
             throw new IllegalSqlException(e.getMessage());
         }
         return patient;
+    }
+
+    public void updatePatient(Patient patient) throws IllegalSqlException {
+
+        String sql = "UPDATE \"Patient\" " +
+                "SET ssn = \'" + patient.getSsn() +
+                "\',device_id = \'" + patient.getDeviceId() +
+                "\', name = \'" + patient.getName() +
+                "\',sex = \'" + patient.getSex()+
+                "\',dob = \'" + patient.getDobString()+
+                "\', address =\'" + patient.getAddress()+
+                "\', phone =\'" + patient.getPhone()+
+                "\', hospital_visit_reason =\'" +patient.getHospitalVisitReason()+
+                "\', uti_visit_count =" +patient.getUtiVisitCount()+
+                ",catheter_usage =" + patient.getCatheterUsage()+
+                ", diabetic =" + patient.getDiabetic()+
+                ", last_visit_date = \'" + patient.getLastVisitDateString()+
+                "\' WHERE email = \'" + patient.getEmail() + "\'";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            throw new IllegalSqlException(e.getMessage());
+        }
     }
 }

@@ -10,8 +10,9 @@ public interface PatientDao {
     public List<Patient> getAllPatients();
     public Patient getPatientByEmail(String email) throws IllegalSqlException;
     public Patient getPatientByDeviceId(String id) throws IllegalSqlException;
-    public boolean updatePatientDeviceId(Patient patient) throws IllegalSqlException;
+    public void updatePatientDeviceId(Patient patient) throws IllegalSqlException;
     public void addPatient(JSONObject patient) throws IllegalSqlException;
     public boolean deletePatient(Patient patient);
     public List<Patient> getPatientByName(String s);
+    public void updatePatient(Patient patient) throws IllegalSqlException;
 }

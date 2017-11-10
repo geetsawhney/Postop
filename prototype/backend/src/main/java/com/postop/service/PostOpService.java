@@ -69,16 +69,34 @@ public class PostOpService {
         }
     }
 
+    public void updatePatient(String body) throws IllegalSqlException, IllegalJsonException {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            PatientDao pdi = new PatientDaoImpl();
+
+            Patient patient = Patient.setupPatient(jsonObject);
+
+
+            pdi.updatePatient(patient);
+
+        }catch (ParseException e){
+            logger.error("Illegal JSON error");
+            throw new IllegalJsonException(e.getMessage());
+
+        }
+    }
+
 
     public void addPatient(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
         JSONParser jsonParser = new JSONParser();
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
-            PatientDaoImpl pdi = new PatientDaoImpl();
+            PatientDaoImpl pdi=new PatientDaoImpl();
             pdi.addPatient(patientJsonObject);
 
-            PatientLoginDao pldi = new PatientLoginDaoImpl();
+            PatientLoginDao pldi=new PatientLoginDaoImpl();
             pldi.addPatient(patientJsonObject);
 
         } catch (ParseException e) {
@@ -103,7 +121,7 @@ public class PostOpService {
             FitnessHistoryDaoImpl fhdi = new FitnessHistoryDaoImpl();
             fhdi.addFitnessData(jsonObject);
 
-            NotificationLogic notificationLogic = new NotificationLogic(patient, new FitnessHistory());
+            NotificationLogic notificationLogic = new NotificationLogic(patient, fhdi.getFitnessDataByEmail(jsonObject.get("email").toString()));
 
             JSONObject output = new JSONObject();
             output.put("notificationCount", notificationLogic.getNumberOfNotifications());
