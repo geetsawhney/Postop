@@ -5,6 +5,7 @@ import com.postop.exceptions.IllegalJsonException;
 import com.postop.exceptions.IllegalSqlException;
 import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.exceptions.PatientNotFoundException;
+import com.postop.model.Callback;
 import com.postop.model.Patient;
 import com.postop.service.PostOpService;
 import com.postop.utils.JsonTransformer;
@@ -125,6 +126,21 @@ public class PostOpController {
                 JSONObject jsonObject = postOpService.addFitnessData(request.body());
                 response.status(200);
                 return jsonObject;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+        // Implements updating or adding a callback for a patient
+        put(API_CONTEXT + "/patients/callbacks/:email", "application/json", (request, response) -> {
+            String email = request.params(":email");
+            try {
+                postOpService.updateCallback(email, request.body());
+                response.status(200);
+                return Collections.EMPTY_MAP;
             } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();

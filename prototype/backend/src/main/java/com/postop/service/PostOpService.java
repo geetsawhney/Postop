@@ -1,8 +1,10 @@
 package com.postop.service;
 
+import com.postop.dao.CallbackDaoImpl;
 import com.postop.dao.FitnessHistoryDaoImpl;
 import com.postop.dao.PatientDaoImpl;
 import com.postop.dao.PatientLoginDaoImpl;
+import com.postop.dao.interfaces.CallbackDao;
 import com.postop.dao.interfaces.PatientDao;
 import com.postop.dao.interfaces.PatientLoginDao;
 import com.postop.exceptions.IllegalJsonException;
@@ -10,6 +12,7 @@ import com.postop.exceptions.IllegalSqlException;
 import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.exceptions.PatientNotFoundException;
 import com.postop.helper.NotificationLogic;
+import com.postop.model.Callback;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 import com.postop.utils.HashGenerator;
@@ -75,11 +78,10 @@ public class PostOpService {
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             PatientDao pdi = new PatientDaoImpl();
-
             Patient patient = Patient.setupPatient(jsonObject);
             pdi.updatePatient(email, patient);
 
-        }catch (ParseException e){
+        } catch (ParseException e) {
             logger.error("Illegal JSON error");
             throw new IllegalJsonException(e.getMessage());
 
@@ -92,10 +94,10 @@ public class PostOpService {
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
-            PatientDaoImpl pdi=new PatientDaoImpl();
+            PatientDaoImpl pdi = new PatientDaoImpl();
             pdi.addPatient(patientJsonObject);
 
-            PatientLoginDao pldi=new PatientLoginDaoImpl();
+            PatientLoginDao pldi = new PatientLoginDaoImpl();
             pldi.addPatient(patientJsonObject);
 
         } catch (ParseException e) {
@@ -134,12 +136,34 @@ public class PostOpService {
     }
 
     public Patient getPatient(String email) throws IllegalSqlException, PatientNotFoundException {
-        PatientDao pdi=new PatientDaoImpl();
+        PatientDao pdi = new PatientDaoImpl();
         return pdi.getPatientByEmail(email);
     }
 
     public List<Patient> getAllPatients() throws IllegalSqlException {
-        PatientDao pdi=new PatientDaoImpl();
+        PatientDao pdi = new PatientDaoImpl();
         return pdi.getAllPatients();
+    }
+
+
+    public void updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException {
+        JSONParser jsonParser = new JSONParser();
+        try {
+            JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            CallbackDao cd = new CallbackDaoImpl();
+
+            if (cd.checkPreviousCallbackExists(email)) {
+                cd.updateCallback(email,jsonObject);
+            } else {
+                cd.addCallback(email,jsonObject);
+            }
+        } catch (ParseException e) {
+            throw new IllegalJsonException("Illegal JSON found");
+        }
+    }
+
+    public List<Callback> getAllCallbacks() throws IllegalSqlException {
+        CallbackDao cd=new CallbackDaoImpl();
+        return cd.getAllCallbacks();
     }
 }
