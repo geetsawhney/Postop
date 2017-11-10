@@ -1,6 +1,5 @@
 package com.postop.model;
 
-import com.postop.dao.PatientDaoImpl;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +38,6 @@ public class Patient {
         this.lastVisitDate = lastVisitDate;
     }
 
-
     public Date getLastVisitDate() {
         return lastVisitDate;
     }
@@ -59,8 +57,6 @@ public class Patient {
         this.lastVisitDate = date;
     }
 
-
-
     public int getUtiVisitCount() {
         return utiVisitCount;
     }
@@ -68,7 +64,6 @@ public class Patient {
     public void setUtiVisitCount(int utiVisitCount) {
         this.utiVisitCount = utiVisitCount;
     }
-
 
     public String getPhone() {
         return phone;
@@ -178,8 +173,6 @@ public class Patient {
     public void setDiabetic(boolean diabetic) {
         this.diabetic = diabetic;
     }
-
-
 
     public static Patient setupPatient(JSONObject jsonObject){
         Patient patient = new Patient();
