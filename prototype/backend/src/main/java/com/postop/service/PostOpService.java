@@ -70,14 +70,14 @@ public class PostOpService {
         }
     }
 
-    public void updatePatient(String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
+    public void updatePatient(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             PatientDao pdi = new PatientDaoImpl();
 
             Patient patient = Patient.setupPatient(jsonObject);
-            pdi.updatePatient(patient);
+            pdi.updatePatient(email, patient);
 
         }catch (ParseException e){
             logger.error("Illegal JSON error");

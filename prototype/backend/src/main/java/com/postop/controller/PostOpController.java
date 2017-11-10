@@ -74,8 +74,9 @@ public class PostOpController {
 
         /*Implements update the patient*/
         put(API_CONTEXT + "/patient/:email", "application/json", (request, response) -> {
+            String email = request.params(":email");
             try {
-                postOpService.updatePatient(request.body());
+                postOpService.updatePatient(email, request.body());
                 response.status(200);
             } catch (IllegalSqlException ex) {
                 response.status(500);
