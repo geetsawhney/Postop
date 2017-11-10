@@ -172,9 +172,9 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
-    public void updatePatient(Patient patient) throws IllegalSqlException, PatientNotFoundException {
+    public void updatePatient(String email,Patient patient) throws IllegalSqlException, PatientNotFoundException {
 
-        if (checkPatientExist(patient.getEmail())){
+        if (checkPatientExist(email)) {
             String sql = "UPDATE \"Patient\" " +
                     "SET ssn = \'" + patient.getSsn() +
                     "\',device_id = \'" + patient.getDeviceId() +
