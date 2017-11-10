@@ -106,7 +106,19 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        
+        /*Implements get a list of all patient*/
+        get(API_CONTEXT + "/patients/all", "application/json", (request, response) -> {
+            try {
+                List<Patient> patients = postOpService.getAllPatients();
+                response.status(200);
+                return patients;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+
+
         post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
             try {
                 JSONObject jsonObject = postOpService.addFitnessData(request.body());
