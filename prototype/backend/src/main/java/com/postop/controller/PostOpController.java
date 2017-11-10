@@ -54,7 +54,7 @@ public class PostOpController {
         }, new JsonTransformer());
 
         /* Implements create new patient */
-        post(API_CONTEXT + "/patient/", "application/json", (request, response) -> {
+        post(API_CONTEXT + "/patient", "application/json", (request, response) -> {
             try {
                 postOpService.addPatient(request.body());
                 response.status(200);
@@ -134,6 +134,7 @@ public class PostOpController {
                 return ex.getHash();
             }
         }, new JsonTransformer());
+
         // Implements updating or adding a callback for a patient
         put(API_CONTEXT + "/patients/callbacks/:email", "application/json", (request, response) -> {
             String email = request.params(":email");
@@ -146,6 +147,18 @@ public class PostOpController {
                 return ex.getHash();
             } catch (IllegalJsonException ex) {
                 response.status(400);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+
+        /*Implements get a list of all patient*/
+        get(API_CONTEXT + "/patients/all", "application/json", (request, response) -> {
+            try {
+                List<Callback> callbacks = postOpService.getAllCallbacks();
+                response.status(200);
+                return callbacks;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
                 return ex.getHash();
             }
         }, new JsonTransformer());
