@@ -34,7 +34,21 @@ public class PatientDaoImpl implements PatientDao {
             ResultSet resultSet = statement.executeQuery(sql);
             Patient patient;
             while (resultSet.next()) {
-                patient = populateDetails(resultSet);
+//                patient = populateDetails(resultSet);
+                patient = new Patient();
+                patient.setName(resultSet.getString("name"));
+                patient.setSex(resultSet.getString("sex"));
+                patient.setSsn(resultSet.getString("ssn"));
+                patient.setDob(resultSet.getString("dob"));
+                patient.setEmail(resultSet.getString("email"));
+                patient.setAddress(resultSet.getString("address"));
+                patient.setPhone(resultSet.getString("phone"));
+                patient.setHospitalVisitReason(resultSet.getString("hospital_visit_reason"));
+                patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("uti_visit_count")));
+                patient.setCatheterUsage(resultSet.getBoolean("catheter_usage"));
+                patient.setDiabetic(resultSet.getBoolean("diabetic"));
+                patient.setDeviceId(resultSet.getString("device_id"));
+                patient.setLastVisitDate(resultSet.getString("last_visit_date"));
                 allPatients.add(patient);
             }
             resultSet.close();
