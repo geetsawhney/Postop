@@ -90,7 +90,23 @@ public class PostOpController {
             return Collections.EMPTY_MAP;
         }, new JsonTransformer());
 
+        /*Implements get a patient */
+        get(API_CONTEXT + "/patient/:email", "application/json", (request, response) -> {
+            String email = request.params(":email");
+            try {
+                Patient patient = postOpService.getPatient(email);
+                response.status(200);
+                return patient;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (PatientNotFoundException ex) {
+                response.status(404);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
 
+        
         post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
             try {
                 JSONObject jsonObject = postOpService.addFitnessData(request.body());
