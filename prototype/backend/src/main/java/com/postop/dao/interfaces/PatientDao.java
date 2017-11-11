@@ -17,5 +17,5 @@ public interface PatientDao {
     public boolean deletePatient(Patient patient);
     public List<Patient> getPatientByName(String s);
     public void updatePatient(String email,Patient patient) throws IllegalSqlException, PatientNotFoundException;
-    public boolean checkPatientExist(String email) throws SQLException, IllegalSqlException;
+    public boolean checkPatientExist(String email) throws IllegalSqlException;
 }

@@ -17,13 +17,12 @@ public class CallbackDaoImpl implements CallbackDao {
     private Connection connection;
     private final Logger logger = LoggerFactory.getLogger(CallbackDaoImpl.class);
 
-
     public CallbackDaoImpl() {
         this.connection = DbConnector.getConnection();
     }
 
     @Override
-    public boolean checkPreviousCallbackExists(String email) throws IllegalSqlException {
+    public boolean checkCallbackExists(String email) throws IllegalSqlException {
         String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
         try {
             Statement statement = connection.createStatement();

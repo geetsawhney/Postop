@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.List;
 
 public class PostOpService {
@@ -159,7 +160,7 @@ public class PostOpService {
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             if (new PatientDaoImpl().checkPatientExist(email)) {
-                if (cd.checkPreviousCallbackExists(email)) {
+                if (cd.checkCallbackExists(email)) {
 
                     jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
                     cd.updateCallback(email, jsonObject);
@@ -189,5 +190,16 @@ public class PostOpService {
         Patient patient = pdi.getPatientByDeviceId(id);
 
         Push.sendPush(patient);
+    }
+
+    public Callback getCallback(String email) throws IllegalSqlException, PatientNotFoundException, CallbackNotFoundException, SQLException {
+        CallbackDao cd=new CallbackDaoImpl();
+        PatientDao pdi=new PatientDaoImpl();
+        if(!pdi.checkPatientExist(email)){
+            throw new PatientNotFoundException("Patient does not exist");
+        }
+        if (!cd.checkCallbackExists(email))
+            throw  new CallbackNotFoundException("Callback for patient does not exist");
+        return cd.getCallback(email);
     }
 }
