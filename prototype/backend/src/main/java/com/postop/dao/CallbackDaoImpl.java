@@ -24,7 +24,7 @@ public class CallbackDaoImpl implements CallbackDao {
 
     @Override
     public boolean checkPreviousCallbackExists(String email) throws IllegalSqlException {
-        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email;
+        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -39,13 +39,13 @@ public class CallbackDaoImpl implements CallbackDao {
     @Override
     public void updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
         String sql = "UPDATE \"Callback\" " +
-                "SET date = \'" + jsonObject.get("date").toString() +
+                "SET callback_date = \'" + jsonObject.get("callbackDate").toString() +
                 "\',severity = \'" + jsonObject.get("severity").toString() +
-                "\', has_pain = \'" + Boolean.parseBoolean(jsonObject.get("has_pain").toString()) +
-                "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("has_nausea").toString()) +
-                "\',has_fever = \'" + Boolean.parseBoolean(jsonObject.get("has_fever").toString()) +
-                "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("has_fatigue").toString()) +
-                "\', urine_color =\'" + jsonObject.get("urine_color").toString()+
+                "\', has_pain = \'" + Boolean.parseBoolean(jsonObject.get("hasPain").toString()) +
+                "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("hasNausea").toString()) +
+                "\',has_fever = \'" + Boolean.parseBoolean(jsonObject.get("hasFever").toString()) +
+                "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()) +
+                "\', urine_color =\'" + jsonObject.get("urineColor").toString()+
                 "\', is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
                 "\' WHERE email = \'" + email + "\'";
         try {
@@ -58,20 +58,20 @@ public class CallbackDaoImpl implements CallbackDao {
 
     @Override
     public void addCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
-       String sql= "INSERT INTO \"Callback\" (email, date, severity, has_pain, has_nausea, " +
-                "has_fever, has_fatigue, urine_color, is_resolved VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+       String sql= "INSERT INTO \"Callback\" (email, callback_date, severity, has_pain, has_nausea, " +
+                "has_fever, has_fatigue, urine_color, is_resolved) VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, jsonObject.get("date").toString());
+            preparedStatement.setString(2, jsonObject.get("callbackDate").toString());
             preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("severity").toString()));
-            preparedStatement.setBoolean(4, Boolean.parseBoolean(jsonObject.get("has_pain").toString()));
-            preparedStatement.setBoolean(5, Boolean.parseBoolean(jsonObject.get("has_nausea").toString()));
-            preparedStatement.setBoolean(6, Boolean.parseBoolean(jsonObject.get("has_fever").toString()));
-            preparedStatement.setBoolean(7, Boolean.parseBoolean(jsonObject.get("has_fatigue").toString()));
-            preparedStatement.setString(8, jsonObject.get("urine_color").toString());
-            preparedStatement.setBoolean(9, false);
+            preparedStatement.setBoolean(4, Boolean.parseBoolean(jsonObject.get("hasPain").toString()));
+            preparedStatement.setBoolean(5, Boolean.parseBoolean(jsonObject.get("hasNausea").toString()));
+            preparedStatement.setBoolean(6, Boolean.parseBoolean(jsonObject.get("hasFever").toString()));
+            preparedStatement.setBoolean(7, Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()));
+            preparedStatement.setString(8, jsonObject.get("urineColor").toString());
+            preparedStatement.setBoolean(9, Boolean.parseBoolean(jsonObject.get("isResolved").toString()));
 
             preparedStatement.execute();
         }catch (SQLException e){
@@ -91,7 +91,7 @@ public class CallbackDaoImpl implements CallbackDao {
                 callback = new Callback();
 
                 callback.setEmail(resultSet.getString("email"));
-                callback.setDate(resultSet.getString("date"));
+                callback.setCallbackDate(resultSet.getString("callback_date"));
                 callback.setSeverity(Integer.parseInt(resultSet.getString("severity")));
                 callback.setHasFatigue(resultSet.getBoolean("has_fatigue"));
                 callback.setHasNausea(resultSet.getBoolean("has_nausea"));
@@ -107,5 +107,36 @@ public class CallbackDaoImpl implements CallbackDao {
             throw new IllegalSqlException(e.getMessage());
         }
         return allCallbacks;
+    }
+
+    public Callback getCallback(String email) throws IllegalSqlException {
+
+        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" +email + "\'";
+
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery(sql);
+            Callback callback = null;
+            if (resultSet.next()) {
+                callback = new Callback();
+                callback.setEmail(resultSet.getString("email"));
+                callback.setCallbackDate(resultSet.getString("callback_date"));
+                callback.setSeverity(Integer.parseInt(resultSet.getString("severity")));
+                callback.setHasFatigue(resultSet.getBoolean("has_fatigue"));
+                callback.setHasNausea(resultSet.getBoolean("has_nausea"));
+                callback.setHasFever(resultSet.getBoolean("has_fever"));
+                callback.setHasPain(resultSet.getBoolean("has_pain"));
+                callback.setUrineColor(resultSet.getString("urine_color"));
+                callback.setIsResolved(resultSet.getBoolean("is_resolved"));
+            }
+
+            resultSet.close();
+            statement.close();
+
+            return callback;
+        } catch (SQLException e) {
+            throw new IllegalSqlException(e.getMessage());
+        }
+
     }
 }
