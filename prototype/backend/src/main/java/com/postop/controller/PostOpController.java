@@ -13,7 +13,6 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -79,6 +78,9 @@ public class PostOpController {
             try {
                 postOpService.updatePatient(email, request.body());
                 response.status(200);
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
+                return output;
             } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();
@@ -89,7 +91,6 @@ public class PostOpController {
                 response.status(404);
                 return ex.getHash();
             }
-            return Collections.EMPTY_MAP;
         }, new JsonTransformer());
 
         /*Implements get a patient */
@@ -141,7 +142,9 @@ public class PostOpController {
             try {
                 postOpService.updateCallback(email, request.body());
                 response.status(200);
-                return Collections.EMPTY_MAP;
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
+                return output;
             } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();
@@ -171,13 +174,13 @@ public class PostOpController {
             try {
                 postOpService.sendPush(request.params("id"));
                 response.status(200);
-
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
+                return output;
             } catch (IllegalSqlException ex) {
                 response.status(500);
                 return ex.getHash();
             }
-            return Collections.EMPTY_MAP;
         }, new JsonTransformer());
-
     }
 }
