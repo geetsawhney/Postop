@@ -1,5 +1,6 @@
 package com.postop.service;
 
+import com.postop.model.Callback;
 import com.postop.dao.CallbackDaoImpl;
 import com.postop.dao.FitnessHistoryDaoImpl;
 import com.postop.dao.PatientDaoImpl;
@@ -7,14 +8,12 @@ import com.postop.dao.PatientLoginDaoImpl;
 import com.postop.dao.interfaces.CallbackDao;
 import com.postop.dao.interfaces.PatientDao;
 import com.postop.dao.interfaces.PatientLoginDao;
-import com.postop.exceptions.IllegalJsonException;
-import com.postop.exceptions.IllegalSqlException;
-import com.postop.exceptions.InvalidHashAlgorithmException;
-import com.postop.exceptions.PatientNotFoundException;
+import com.postop.exceptions.*;
+import com.postop.helper.CallbackLogic;
 import com.postop.helper.NotificationLogic;
-import com.postop.model.Callback;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
+import com.postop.model.Push;
 import com.postop.utils.HashGenerator;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -146,24 +145,42 @@ public class PostOpService {
     }
 
 
-    public void updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException {
+    public void updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             CallbackDao cd = new CallbackDaoImpl();
 
-            if (cd.checkPreviousCallbackExists(email)) {
-                cd.updateCallback(email,jsonObject);
+            if (new PatientDaoImpl().checkPatientExist(email)) {
+                if (cd.checkPreviousCallbackExists(email)) {
+
+                    jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
+                    cd.updateCallback(email, jsonObject);
+                } else {
+
+                    jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
+                    jsonObject.put("isResolved", false);
+                    cd.addCallback(email, jsonObject);
+                }
             } else {
-                cd.addCallback(email,jsonObject);
+                throw new PatientNotFoundException("Patient does not exist");
             }
+
         } catch (ParseException e) {
             throw new IllegalJsonException("Illegal JSON found");
         }
     }
 
     public List<Callback> getAllCallbacks() throws IllegalSqlException {
-        CallbackDao cd=new CallbackDaoImpl();
+        CallbackDao cd = new CallbackDaoImpl();
         return cd.getAllCallbacks();
+    }
+
+
+    public void sendPush(String id) throws PatientNotFoundException, IllegalSqlException, InvalidEncodingException, InvalidIOException {
+        PatientDaoImpl pdi = new PatientDaoImpl();
+        Patient patient = pdi.getPatientByDeviceId(id);
+
+        Push.sendPush(patient);
     }
 }
