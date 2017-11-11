@@ -35,7 +35,7 @@ public class Push {
         try {
             params = new StringEntity(j1.toString());
             request.addHeader("content-type", "application/json");
-            request.addHeader("Authorization", "key=" + patient.getDeviceId());
+            request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
             request.setEntity(params);
             HttpResponse response = httpClient.execute(request);
 
