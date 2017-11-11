@@ -32,9 +32,9 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, jsonObject.get("email").toString());
-            preparedStatement.setString(2, jsonObject.get("capture_date").toString());
-            preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("step_count").toString()));
-            preparedStatement.setInt(4, Integer.parseInt(jsonObject.get("calories_expended").toString()));
+            preparedStatement.setString(2, jsonObject.get("captureDate").toString());
+            preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("stepCount").toString()));
+            preparedStatement.setInt(4, Integer.parseInt(jsonObject.get("caloriesExpended").toString()));
 
             preparedStatement.execute();
         } catch (SQLException e) {
