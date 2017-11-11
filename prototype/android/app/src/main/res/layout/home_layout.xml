@@ -29,9 +29,9 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         plainpie:inner_pie_padding="40"
-        plainpie:percentage="75"
+        plainpie:percentage="0.1"
         plainpie:percentage_size="40"
-        plainpie:inner_text_visibility="true"/>
+        plainpie:inner_text_visibility="false"/>
 
     <TextView
         android:id="@+id/caloriesExpended"
@@ -50,6 +50,16 @@
         android:layout_marginTop="8dp"
         android:text="CALLBACK"
         android:onClick="callback"/>
+
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="LOGOUT"
+        android:onClick="logout"/>
 
     </LinearLayout>
 </RelativeLayout>

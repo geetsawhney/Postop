@@ -49,7 +49,8 @@ public class DeviceIdDAO
     }
 
     //Delete Id From DB
-    public void deleteID(SQLiteDatabase d){
+    public void deleteID(){
+        SQLiteDatabase d = new DatabaseHelper(context).getWritableDatabase();
         d.execSQL("DELETE FROM "+Database.DeviceId.TABLE_NAME +" WHERE " + Database.DeviceId.ID + " = '"+ id+"'" );
     }
 
