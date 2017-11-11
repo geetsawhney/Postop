@@ -148,6 +148,9 @@ public class PostOpController {
             } catch (IllegalJsonException ex) {
                 response.status(400);
                 return ex.getHash();
+            } catch (PatientNotFoundException ex){
+                response.status(404);
+                return ex.getHash();
             }
         }, new JsonTransformer());
 
@@ -163,7 +166,18 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        
+        /* Implements sending out a push notification */
+        get(API_CONTEXT + "/patient/:id/push", "application/json", (request, response) -> {
+            try {
+                postOpService.sendPush(request.params("id"));
+                response.status(200);
+
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            }
+            return Collections.EMPTY_MAP;
+        }, new JsonTransformer());
 
     }
 }
