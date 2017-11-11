@@ -76,6 +76,10 @@ public class PostOpService {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+
+            if(!email.equals(jsonObject.get("email")))
+                throw new IllegalJsonException("email in parameter and body does not match");
+
             PatientDao pdi = new PatientDaoImpl();
             Patient patient = Patient.setupPatient(jsonObject);
             pdi.updatePatient(email, patient);
@@ -150,6 +154,9 @@ public class PostOpService {
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
             CallbackDao cd = new CallbackDaoImpl();
+
+            if(!email.equals(jsonObject.get("email")))
+                throw new IllegalJsonException("email in parameter and body does not match");
 
             if (new PatientDaoImpl().checkPatientExist(email)) {
                 if (cd.checkPreviousCallbackExists(email)) {
