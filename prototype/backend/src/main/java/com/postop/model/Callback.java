@@ -11,7 +11,7 @@ import java.util.Date;
 public class Callback {
 
     private String email;
-    private Date date;
+    private Date callbackDate;
     private int severity;
     private boolean hasPain;
     private boolean hasNausea;
@@ -31,23 +31,23 @@ public class Callback {
         this.email = email;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getCallbackDate() {
+        return callbackDate;
     }
 
     public String getDateString(){
-        return new SimpleDateFormat("yyyy-MM-dd").format(date);
+        return new SimpleDateFormat("yyyy-MM-dd").format(callbackDate);
     }
 
-    public void setDate(String date) {
+    public void setCallbackDate(String callbackDate) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date d = null;
         try {
-            d = df.parse(date);
+            d = df.parse(callbackDate);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        this.date = d;
+        this.callbackDate = d;
     }
 
     public int getSeverity() {
