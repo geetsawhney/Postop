@@ -78,8 +78,6 @@ public class NotificationLogic {
         {
             status = incrementStatus(stat);
         }
-        System.out.println("the initial criticality of the patient is: "+ status);
-
         status = statusDecrease(status, getNoOfDays(patient.getLastVisitDate()));
     }
 
@@ -153,7 +151,6 @@ public class NotificationLogic {
     public int  getNumberOfNotifications()
     {
         ageStatus();
-        System.out.println("the new status is " + status);
         int notificationCount =0;
         if(status=="C")
         {
@@ -193,11 +190,6 @@ public class NotificationLogic {
                 notificationCount = 2;
             }
         }
-
-        //TODO
-
-        System.out.println("the number of notifications that need to be sent out are:" + notificationCount);
-
         return notificationCount;
     }
 
