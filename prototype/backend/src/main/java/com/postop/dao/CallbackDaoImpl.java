@@ -82,7 +82,7 @@ public class CallbackDaoImpl implements CallbackDao {
     @Override
     public List<Callback> getAllCallbacks() throws IllegalSqlException {
         List<Callback> allCallbacks = new ArrayList<>();
-        String sql = "SELECT * FROM \"Callback\"";
+        String sql = "SELECT * FROM \"Callback\" WHERE is_resolved = false";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -107,6 +107,5 @@ public class CallbackDaoImpl implements CallbackDao {
             throw new IllegalSqlException(e.getMessage());
         }
         return allCallbacks;
-
     }
 }

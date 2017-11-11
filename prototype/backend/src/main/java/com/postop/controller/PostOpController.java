@@ -108,8 +108,8 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        /*Implements get a list of all patient*/
-        get(API_CONTEXT + "/patients/all", "application/json", (request, response) -> {
+        /* Implements get a list of all patient */
+        get(API_CONTEXT + "/patients", "application/json", (request, response) -> {
             try {
                 List<Patient> patients = postOpService.getAllPatients();
                 response.status(200);
@@ -120,7 +120,7 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-
+        /* Implements adding daily fitness data and returning the number of notifications */
         post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
             try {
                 JSONObject jsonObject = postOpService.addFitnessData(request.body());
@@ -135,8 +135,8 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        // Implements updating or adding a callback for a patient
-        put(API_CONTEXT + "/patients/callbacks/:email", "application/json", (request, response) -> {
+        /* Implements updating or adding a callback for a patient */
+        put(API_CONTEXT + "/patient/:email/callback", "application/json", (request, response) -> {
             String email = request.params(":email");
             try {
                 postOpService.updateCallback(email, request.body());
@@ -151,8 +151,8 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        /*Implements get a list of all patient*/
-        get(API_CONTEXT + "/patients/all", "application/json", (request, response) -> {
+        /* Implements get a list of all callbacks */
+        get(API_CONTEXT + "/patients/callbacks", "application/json", (request, response) -> {
             try {
                 List<Callback> callbacks = postOpService.getAllCallbacks();
                 response.status(200);
@@ -162,5 +162,8 @@ public class PostOpController {
                 return ex.getHash();
             }
         }, new JsonTransformer());
+
+        
+
     }
 }
