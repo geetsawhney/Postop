@@ -1,10 +1,7 @@
 package com.postop.controller;
 
 
-import com.postop.exceptions.IllegalJsonException;
-import com.postop.exceptions.IllegalSqlException;
-import com.postop.exceptions.InvalidHashAlgorithmException;
-import com.postop.exceptions.PatientNotFoundException;
+import com.postop.exceptions.*;
 import com.postop.model.Callback;
 import com.postop.model.Patient;
 import com.postop.service.PostOpService;
@@ -165,6 +162,25 @@ public class PostOpController {
                 return callbacks;
             } catch (IllegalSqlException ex) {
                 response.status(500);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+
+        /*Implements get a callback*/
+        get(API_CONTEXT + "/patient/:email/callback", "application/json", (request, response) -> {
+            try {
+                String email=request.params(":email");
+                Callback callback = postOpService.getCallback(email);
+                response.status(200);
+                return callback;
+            } catch (IllegalSqlException ex) {
+                response.status(500);
+                return ex.getHash();
+            } catch (CallbackNotFoundException ex) {
+                response.status(404);
+                return ex.getHash();
+            }catch (PatientNotFoundException ex) {
+                response.status(404);
                 return ex.getHash();
             }
         }, new JsonTransformer());
