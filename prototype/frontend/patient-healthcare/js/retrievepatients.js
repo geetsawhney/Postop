@@ -1,6 +1,6 @@
 function getpatientsList() {
   //  var patientsEndpoint = ' http://www.mocky.io/v2/5a07556d2f00001707e610c7';
-var patientsEndpoint = 'http://10.194.107.57:8080/api/v1/patients';
+var patientsEndpoint = 'http://10.194.97.187:8080/api/v1/patients';
     $.ajax({url: patientsEndpoint, success: function(result) {
         var patients = result;
         console.log(patients)

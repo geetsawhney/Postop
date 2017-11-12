@@ -1,6 +1,6 @@
 function getcallbacksList() {
   //  var callbacksEndpoint = ' http://www.mocky.io/v2/5a07556d2f00001707e610c7';
-var callbacksEndpoint = 'http://10.194.107.57:8080/api/v1/patients/callbacks';
+var callbacksEndpoint = 'http://10.194.97.187:8080/api/v1/patients/callbacks';
     $.ajax({url: callbacksEndpoint, success: function(result) {
         var callbacks = result;
         console.log(callbacks)

@@ -42,7 +42,7 @@ function submitPatient() {
 
         var postRequest = $.ajax({
             type: 'POST',
-            url: 'http://10.194.107.57:8080/api/v1/patient',
+            url: 'http://10.194.97.187:8080/api/v1/patient',
             data: JSON.stringify(data),
             contentType: 'application/json',
             success: function(data) {
