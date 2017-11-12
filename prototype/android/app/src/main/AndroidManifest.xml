@@ -32,7 +32,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".CallbackActivity">
+            <intent-filter>
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <receiver
             android:name="com.oose.postop.GcmBroadcastReceiver"
             android:exported="true"

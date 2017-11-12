@@ -24,4 +24,7 @@ public class ConnectionHelper {
     }
 
     public String getPushNotificationUrl(String id){return ip+"/api/v1/patient/"+id+"/push";}
+
+    public String SendCallbackUrl(String email){return ip+"/api/v1/patient/"+email+"/callback";}
+
 }

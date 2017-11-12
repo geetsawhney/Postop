@@ -41,6 +41,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     public static int dailyTotalCount = 0;
     public static int dailyCaloriesExpended = 0;
     public String id;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
         //Display Welcome Text
         String name = getIntent().getExtras().getString("name");
-        String email = getIntent().getExtras().getString("email");
+        email = getIntent().getExtras().getString("email");
         String address = getIntent().getExtras().getString("address");
         id = getIntent().getExtras().getString("id");
         TextView welcomeTextview = (TextView) findViewById(R.id.welcomeText);
@@ -177,6 +178,11 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     public void callback(View v){
+        Intent localIntent = new Intent(HomepageActivity.this, CallbackActivity.class);
+        Bundle localBundle = new Bundle();
+        localBundle.putString("email",email);
+        localIntent.putExtras(localBundle);
+        startActivity(localIntent);
 
     }
 
