@@ -213,7 +213,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
                         try {
                             String n = response.get("notificationCount").toString();
-                            Toast.makeText(context, n.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Count ="+n.toString(), Toast.LENGTH_LONG).show();
                             calculateInterval(Integer.parseInt(n));
                         } catch (Exception e) {
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -238,7 +238,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
     }
     public void calculateInterval(int notificationCount){
         //int interval = (14*60)/notificationCount;
-        int interval = (14*60)/100;
+        int interval = 30;
         PushNotificationAlarm a = new PushNotificationAlarm();
         a.setAlarm(getApplicationContext(), interval);
 

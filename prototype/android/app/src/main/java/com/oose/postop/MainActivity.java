@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                         setContentView(R.layout.activity_main);
 
                         // Initialize all fields
-                        mTextView = (TextView) findViewById(R.id.output);
+
                         emailField = (EditText) findViewById(R.id.email);
                         passwordField = (EditText) findViewById(R.id.password);
 

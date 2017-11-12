@@ -40,7 +40,7 @@ public class NotificationCountAlarm extends BroadcastReceiver {
 
         manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
 
-        Toast.makeText(context, "Alarm Set1", Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, "Scheduled Count Fetch", Toast.LENGTH_SHORT).show();
 
     }
 
