@@ -49,7 +49,10 @@
             android:name="com.oose.postop.RegistrationIntentService"
             android:exported="false">
         </service>
-
+        <service
+            android:name="com.oose.postop.GoogleFitFetchService"
+            android:label="Google Fit Fetch">
+        </service>
 
     </application>
 
