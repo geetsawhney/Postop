@@ -160,13 +160,12 @@ public class PostOpService {
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             if (new PatientDaoImpl().checkPatientExist(email)) {
-                if (cd.checkCallbackExists(email)) {
-
+                if(jsonObject.containsKey("hasPain")){
                     jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
+                }
+                if (cd.checkCallbackExists(email)) {
                     cd.updateCallback(email, jsonObject);
                 } else {
-
-                    jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
                     jsonObject.put("isResolved", false);
                     cd.addCallback(email, jsonObject);
                 }
@@ -201,5 +200,9 @@ public class PostOpService {
         if (!cd.checkCallbackExists(email))
             throw  new CallbackNotFoundException("Callback for patient does not exist");
         return cd.getCallback(email);
+    }
+
+    public void updateCallbackNurse(String email, String body) {
+
     }
 }

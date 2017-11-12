@@ -10,6 +10,7 @@ import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,6 +28,14 @@ public class PostOpController {
     }
 
     private void setupEndpoints() {
+
+        options("*", (request, response) -> {
+            response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.header("Access-Control-Allow-Origin", "*");
+            response.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+            response.status(200);
+            return Collections.EMPTY_MAP;
+        });
 
         /* Implements patient login */
         post(API_CONTEXT + "/patient/login", "application/json", (request, response) -> {
@@ -138,6 +147,9 @@ public class PostOpController {
             String email = request.params(":email");
             try {
                 postOpService.updateCallback(email, request.body());
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
                 response.status(200);
                 HashMap<String, String> output = new HashMap<>();
                 output.put("message", "SUCCESS");
@@ -158,6 +170,8 @@ public class PostOpController {
         get(API_CONTEXT + "/patients/callbacks", "application/json", (request, response) -> {
             try {
                 List<Callback> callbacks = postOpService.getAllCallbacks();
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
                 response.status(200);
                 return callbacks;
             } catch (IllegalSqlException ex) {
@@ -198,5 +212,9 @@ public class PostOpController {
                 return ex.getHash();
             }
         }, new JsonTransformer());
+
+
+
+
     }
 }

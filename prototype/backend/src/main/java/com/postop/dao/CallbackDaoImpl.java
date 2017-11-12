@@ -37,16 +37,26 @@ public class CallbackDaoImpl implements CallbackDao {
 
     @Override
     public void updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
-        String sql = "UPDATE \"Callback\" " +
-                "SET callback_date = \'" + jsonObject.get("callbackDate").toString() +
-                "\',severity = \'" + jsonObject.get("severity").toString() +
-                "\', has_pain = \'" + Boolean.parseBoolean(jsonObject.get("hasPain").toString()) +
-                "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("hasNausea").toString()) +
-                "\',has_fever = \'" + Boolean.parseBoolean(jsonObject.get("hasFever").toString()) +
-                "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()) +
-                "\', urine_color =\'" + jsonObject.get("urineColor").toString()+
-                "\', is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
-                "\' WHERE email = \'" + email + "\'";
+
+        String sql = "";
+        if(jsonObject.containsKey("hasPain")){
+            sql = "UPDATE \"Callback\" " +
+                    "SET callback_date = \'" + jsonObject.get("callbackDate").toString() +
+                    "\',severity = \'" + jsonObject.get("severity").toString() +
+                    "\', has_pain = \'" + Boolean.parseBoolean(jsonObject.get("hasPain").toString()) +
+                    "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("hasNausea").toString()) +
+                    "\',has_fever = \'" + Boolean.parseBoolean(jsonObject.get("hasFever").toString()) +
+                    "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()) +
+                    "\', urine_color =\'" + jsonObject.get("urineColor").toString()+
+                    "\', is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
+                    "\' WHERE email = \'" + email + "\'";
+        }else{
+            sql = "UPDATE \"Callback\" " +
+                    "SET is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
+                    "\' WHERE email = \'" + email + "\'";
+        }
+
+
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
