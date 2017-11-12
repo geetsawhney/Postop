@@ -62,6 +62,9 @@ public class PostOpController {
         post(API_CONTEXT + "/patient", "application/json", (request, response) -> {
             try {
                 postOpService.addPatient(request.body());
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
                 response.status(200);
                 HashMap<String, String> output = new HashMap<>();
                 output.put("message", "SUCCESS");
@@ -119,6 +122,9 @@ public class PostOpController {
         get(API_CONTEXT + "/patients", "application/json", (request, response) -> {
             try {
                 List<Patient> patients = postOpService.getAllPatients();
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
                 response.status(200);
                 return patients;
             } catch (IllegalSqlException ex) {
