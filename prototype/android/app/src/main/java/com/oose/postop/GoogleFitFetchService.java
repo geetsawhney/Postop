@@ -1,13 +1,20 @@
 package com.oose.postop;
 
+import android.app.Service;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -22,16 +29,25 @@ import com.google.android.gms.fitness.result.DailyTotalResult;
 
 import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import az.plainpie.PieView;
 
 /**
- * Created by Omotola, Rohit on 10/23/2017.
+ * Created by Omotola on 11/9/2017.
  */
 
-public class HomepageActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+public class GoogleFitFetchService extends Service implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
-
     public static final String TAG = "BasicHistoryApi";
     private static final String AUTH_PENDING = "auth_state_pending";
     private static boolean authInProgress = false;
@@ -39,50 +55,43 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     public static GoogleApiClient googleApiClient = null;
     public static int dailyTotalCount = 0;
     public static int dailyCaloriesExpended = 0;
+    public static float angle = 0;
+    ConnectionHelper connectionHelper = new ConnectionHelper();
+ /*if (savedInstanceState != null) {
+        authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
+    }*/
+
+
+  //  public void buildFitnessClient(Context c) {
+
+   // }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_layout);
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (savedInstanceState != null) {
-            authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
-        }
-
-        //Display Welcome Text
-        String name = getIntent().getExtras().getString("name");
-        String email = getIntent().getExtras().getString("email");
-        String address = getIntent().getExtras().getString("address");
-        TextView welcomeTextview = (TextView) findViewById(R.id.welcomeText);
-        welcomeTextview.setText("Welcome, " + name + "\n Email: " + email + "\n Address: " + address);
-        welcomeTextview.setTextSize(20);
-
-        buildFitnessClient();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-    }
-
-    private void buildFitnessClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.HISTORY_API)
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addConnectionCallbacks(this)
-                .enableAutoManage(this, 0, this)
+                //.enableAutoManage(this, 0, this)
                 .build();
+        googleApiClient.connect();
+        return super.onStartCommand(intent, flags, startId);
     }
+
+
+
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         Log.i(TAG, "Connected");
         new ReadFitnessData().execute();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private class ReadFitnessData extends AsyncTask<Void, Void, Void> {
@@ -94,7 +103,8 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            displayChart(fetchFitData(dailyTotalCount,10000));
+            fetchFitData(dailyTotalCount,10000);
+            buildRequest();
         }
     }
 
@@ -155,25 +165,73 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     //Fetch google fit data
-    public float fetchFitData(int steps, int total){
+    public void fetchFitData(int steps, int total){
         int stepCount = steps;
         int totalCount = total;
-        float angle = ((float)stepCount/(float)totalCount)*360;
-        return angle;
+        angle = ((float)stepCount/(float)totalCount)*360;
+        //return angle;
     }
 
-    //Display the Google Fit UI
-    public void displayChart(float angle){
-        PieView pieView = (PieView) findViewById(R.id.pieView);
-        pieView.setInnerText(dailyTotalCount + "\n Steps");
-        pieView.setPieAngle(angle);
-        pieView.setInnerTextVisibility(1);
-        TextView caloriesExpended = (TextView) findViewById(R.id.caloriesExpended);
-        caloriesExpended.setText("You have burnt " + dailyCaloriesExpended + " calories!");
-        caloriesExpended.setAllCaps(true);
-    }
+    public void buildRequest(){
+    DeviceIdDAO d = new DeviceIdDAO(this);
+    String id = d.retrieveID();
 
-    public void callback(View v){
+    //g.buildFitnessClient(context);
+    Calendar c = Calendar.getInstance();
+    //
+    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+    String formattedDate = df.format(c.getTime());
+    //Toast.makeText(context, formattedDate.toString(), Toast.LENGTH_LONG).show();
+
+    JSONObject j = new JSONObject();
+        try {
+        j.put("id", id);
+        j.put("captureDate", formattedDate);
+        j.put("stepCount", dailyTotalCount);
+        j.put("caloriesExpended", dailyCaloriesExpended);
+    } catch (JSONException e) {
+        e.printStackTrace();
+    }
+    //  Toast.makeText(context, g.dailyTotalCount, Toast.LENGTH_LONG).show();
+    volleyRequest(j, this);
+
+}
+
+
+    public void volleyRequest(JSONObject jsonRequestObject, final Context context) {
+
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(context);
+        final String url = connectionHelper.getRetrieveFitUrl();
+
+        // Request a string response from the provided URL.
+        JsonObjectRequest jsObjRequest = new JsonObjectRequest
+                (Request.Method.POST, url, jsonRequestObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        try {
+                            Toast.makeText(context, response.get("notificationCount").toString(), Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //mTextView.setText("That didn't work!");
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+
+
+                    }
+                });
+        queue.add(jsObjRequest);
+
 
     }
 

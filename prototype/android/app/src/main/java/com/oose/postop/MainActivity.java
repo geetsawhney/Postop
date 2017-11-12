@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     String deviceId;
     ProgressBar progress;
     DeviceIdDAO d;
+    boolean idExists =false;
     ConnectionHelper connectionHelper = new ConnectionHelper();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     @Override
@@ -68,16 +69,18 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //check if the id already exists in DB. If it does show homepage, if not show the login page
-                     d = new DeviceIdDAO(token,getApplicationContext());
+                     d = new DeviceIdDAO(getApplicationContext());
                     deviceId = token;
-                    if(d.checkIdExists(getApplicationContext()) == true){
+                    if(d.checkIdExists(getApplicationContext(),deviceId) == true){
+                        idExists=true;
                         Toast.makeText(getApplicationContext(),"ID Exists",Toast.LENGTH_LONG).show();
                         Map<String,String> requestList = new HashMap<String,String>();
                         requestList.put("id",deviceId);
                         volleyRequest(requestList);
 
                     }else{
-                        d.addIDToDB();
+                        idExists = false;
+                        d.addIDToDB(deviceId);
                         setContentView(R.layout.activity_main);
 
                         // Initialize all fields
@@ -197,8 +200,10 @@ public class MainActivity extends AppCompatActivity {
                             Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
-                           // Alarm a = new Alarm();
-                           // a.setAlarm(getApplicationContext(),deviceId);
+                            if(!idExists) {
+                                Alarm a = new Alarm();
+                                a.setAlarm(getApplicationContext());
+                            }
                             finish();
                         }catch(JSONException ex){
                             //mTextView.setText("Bad Response!");
@@ -209,7 +214,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //mTextView.setText("That didn't work!");
-                        d.deleteID();
+                        d.deleteID(deviceId);
                         try {
 
                             JSONObject obj = new JSONObject(new String(error.networkResponse.data));
