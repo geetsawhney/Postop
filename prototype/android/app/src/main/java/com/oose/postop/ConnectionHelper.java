@@ -14,6 +14,7 @@ public class ConnectionHelper {
     String retrievePatientUrl = "/api/v1/patient/login";
     String retrieveFitUrl = "/api/v1/patient/gfit";
 
+
     public String getRetrievePatientUrl(){
         return ip+retrievePatientUrl;
     }
@@ -21,4 +22,6 @@ public class ConnectionHelper {
     public String getRetrieveFitUrl(){
         return ip+retrieveFitUrl;
     }
+
+    public String getPushNotificationUrl(String id){return ip+"/api/v1/patient/"+id+"/push";}
 }

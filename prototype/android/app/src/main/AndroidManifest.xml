@@ -43,7 +43,10 @@
             </intent-filter>
         </receiver>
         <receiver android:process=":remote"
-            android:name="com.oose.postop.Alarm">
+            android:name="com.oose.postop.NotificationCountAlarm">
+        </receiver>
+        <receiver android:process=":remote"
+            android:name="com.oose.postop.PushNotificationAlarm">
         </receiver>
         <service
             android:name="com.oose.postop.RegistrationIntentService"

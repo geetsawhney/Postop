@@ -201,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
                             if(!idExists) {
-                                Alarm a = new Alarm();
+                                NotificationCountAlarm a = new NotificationCountAlarm();
                                 a.setAlarm(getApplicationContext());
                             }
                             finish();
