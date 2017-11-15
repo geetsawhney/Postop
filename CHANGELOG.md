@@ -48,7 +48,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Revised UML class diagram to capture all models
 - Restructured backend code and got rid of junks, added proper documentation
 
-##Iteration 2
+## Iteration 2
 ### Added
 - UML Diagrams
 - Documentation for RESTful endpoints
@@ -59,7 +59,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - UI sketches to reflect interation with Google Fit API
 - Added non-CRUD features: Callback flexibility to the patient; Notification calculation in the backend
 
-##Iteration 1
+## Iteration 1
 ### Added
 - Vision Statement
 - Feature List
