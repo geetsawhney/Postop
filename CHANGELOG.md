@@ -4,19 +4,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [0.1.0] - 2017-11-09
+## Iteration 4
 ### Added
 - Endpoint for inserting daily fitness data
 - Return number of notifications as response on calling the endpoint
 - Endpoint for adding a patient
 
 ### Changed
+- Created CHANGELOG.md
+- Restructured android code and added javadoc
+- Updated project board for all Iterations
+- Added relevant endpoints
+- Updated README to include language versions, technology stack
 - Fixed bugs for creating a patient
 - Formatted JSON body for requests from android client
 
 ## Iteration 3
 ### Added
-- Password hashing
 - Created README.md
 - Test cases for notification logic
 - Basic unit tests for testing notification logic
