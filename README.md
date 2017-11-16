@@ -1,7 +1,7 @@
 # 2017-group-19
 ## Setup
 
-1. The project requires Java 8 and Maven to build and run.
+1. The project requires Java 8, Gradle 2.3.3, Android Studio 3.0, IDEA 2017 2.3 and Maven 4.0.0 to build and run.
 1. You'll also need an android device equipped with google play services to run the android project.
 1. Connect your android device to your machine via usb and ensure usb debugging is turned on.
 1. Ensure your android device and your machine are connected to the same wi-fi network.
