@@ -6,14 +6,34 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## Iteration 4
 ### Added
+- Layout for patient to create a callback
+- Functionality to allow a nurse to add a patient
+- Nurse frontend to display list of pending callbacks, list of patients
+- Scheduler for sending push notifications for drinking water
+- Scheduler for sending Google fit data and fetching the notification count
+- Logout button for patient in android client
+- IOException and UnsupportedExceptionHandling
+- Endpoint for sending push notifications
+- Callback logic
+- Endpoint to fetch a list of pending callbacks
+- Endpoint to update callback
+- Callback model, dao interface and implementation
+- Endpoint to fetch a list of all patients
+- Endpoint to fetch a patient
+- Endpoint for updating a patient
+- Endpoint for inserting google fit data and returning the number of notifications
 - Endpoint for inserting daily fitness data
+- Patient Login model
+- Password hashing
 - Return number of notifications as response on calling the endpoint
 - Endpoint for adding a patient
 
 ### Changed
+- Switched from SSN to password login
+- Notification Logic
 - Created CHANGELOG.md
 - Restructured android code and added javadoc
-- Updated project board for all Iterations
+- Updated project board for all iterations
 - Added relevant endpoints
 - Updated README to include language versions, technology stack
 - Fixed bugs for creating a patient
