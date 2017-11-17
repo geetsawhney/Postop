@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Patient {
+    private final Logger logger = LoggerFactory.getLogger(Patient.class);
     private String email;
     private String ssn;
     private String deviceId;
@@ -24,7 +25,47 @@ public class Patient {
     private boolean diabetic;
     private Date lastVisitDate;
 
-    private final Logger logger = LoggerFactory.getLogger(Patient.class);
+
+
+    public Patient(String email, String ssn, String deviceId, String name, String sex, Date dob, String address, String phone, String hospitalVisitReason, int utiVisitCount, boolean catheterUsage, boolean diabetic, Date lastVisitDate) {
+        this.email = email;
+        this.ssn = ssn;
+        this.deviceId = deviceId;
+        this.name = name;
+        this.sex = sex;
+        this.dob = dob;
+        this.address = address;
+        this.phone = phone;
+        this.hospitalVisitReason = hospitalVisitReason;
+        this.utiVisitCount = utiVisitCount;
+        this.catheterUsage = catheterUsage;
+        this.diabetic = diabetic;
+        this.lastVisitDate = lastVisitDate;
+    }
+
+    public Patient() {
+
+    }
+
+    public static Patient setupPatient(JSONObject jsonObject) {
+        Patient patient = new Patient();
+
+        patient.setEmail(jsonObject.get("email").toString());
+        patient.setSsn(jsonObject.get("ssn").toString());
+        patient.setDeviceId(jsonObject.get("id").toString());
+        patient.setName(jsonObject.get("name").toString());
+        patient.setSex(jsonObject.get("sex").toString());
+        patient.setDob(jsonObject.get("dob").toString());
+        patient.setAddress(jsonObject.get("address").toString());
+        patient.setPhone(jsonObject.get("phone").toString());
+        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
+        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
+        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
+        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
+        patient.setLastVisitDate(jsonObject.get("lastVisitDate").toString());
+
+        return patient;
+    }
 
     public boolean getCatheterUsage() {
         return catheterUsage;
@@ -42,10 +83,6 @@ public class Patient {
         return lastVisitDate;
     }
 
-    public String getLastVisitDateString() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
-    }
-
     public void setLastVisitDate(String lastVisitDate) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -55,6 +92,10 @@ public class Patient {
             e.printStackTrace();
         }
         this.lastVisitDate = date;
+    }
+
+    public String getLastVisitDateString() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
     }
 
     public int getUtiVisitCount() {
@@ -73,6 +114,14 @@ public class Patient {
         this.phone = phone;
     }
 
+
+//    public Patient(String email, String name, String sex, String ssn) {
+//        this.email = email;
+//        this.name = name;
+//        this.sex = sex;
+//        this.ssn = ssn;
+//    }
+
     public void setDob(Date dob) {
         this.dob = dob;
     }
@@ -85,26 +134,13 @@ public class Patient {
         this.deviceId = deviceId;
     }
 
-
-//    public Patient(String email, String name, String sex, String ssn) {
-//        this.email = email;
-//        this.name = name;
-//        this.sex = sex;
-//        this.ssn = ssn;
-//    }
-
-    public Patient() {
-
+    public String getName() {
+        return name;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getName() {
-        return name;
-    }
-
 
     public String getEmail() {
         return email;
@@ -134,10 +170,6 @@ public class Patient {
         return dob;
     }
 
-    public String getDobString() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
-    }
-
     public void setDob(String dob) {
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -148,6 +180,10 @@ public class Patient {
             e.printStackTrace();
         }
         this.dob = date;
+    }
+
+    public String getDobString() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
     }
 
     public String getSex() {
@@ -172,25 +208,5 @@ public class Patient {
 
     public void setDiabetic(boolean diabetic) {
         this.diabetic = diabetic;
-    }
-
-    public static Patient setupPatient(JSONObject jsonObject){
-        Patient patient = new Patient();
-
-        patient.setEmail(jsonObject.get("email").toString());
-        patient.setSsn(jsonObject.get("ssn").toString());
-        patient.setDeviceId(jsonObject.get("id").toString());
-        patient.setName(jsonObject.get("name").toString());
-        patient.setSex(jsonObject.get("sex").toString());
-        patient.setDob(jsonObject.get("dob").toString());
-        patient.setAddress(jsonObject.get("address").toString());
-        patient.setPhone(jsonObject.get("phone").toString());
-        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
-        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
-        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
-        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-        patient.setLastVisitDate(jsonObject.get("lastVisitDate").toString());
-
-        return patient;
     }
 }

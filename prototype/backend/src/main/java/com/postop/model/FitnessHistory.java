@@ -11,6 +11,16 @@ public class FitnessHistory {
     private int stepCount;
     private int caloriesExpended;
 
+    public FitnessHistory() {
+    }
+
+    public FitnessHistory(String email, Date captureDate, int stepCount, int caloriesExpended) {
+        this.email = email;
+        this.captureDate = captureDate;
+        this.stepCount = stepCount;
+        this.caloriesExpended = caloriesExpended;
+    }
+
     public String getEmail() {
         return email;
     }
