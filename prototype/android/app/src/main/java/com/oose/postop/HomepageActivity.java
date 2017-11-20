@@ -1,5 +1,6 @@
 package com.oose.postop;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -39,6 +40,8 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     public static GoogleApiClient googleApiClient = null;
     public static int dailyTotalCount = 0;
     public static int dailyCaloriesExpended = 0;
+    public String id;
+    String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,9 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
         //Display Welcome Text
         String name = getIntent().getExtras().getString("name");
-        String email = getIntent().getExtras().getString("email");
+        email = getIntent().getExtras().getString("email");
         String address = getIntent().getExtras().getString("address");
+        id = getIntent().getExtras().getString("id");
         TextView welcomeTextview = (TextView) findViewById(R.id.welcomeText);
         welcomeTextview.setText("Welcome, " + name + "\n Email: " + email + "\n Address: " + address);
         welcomeTextview.setTextSize(20);
@@ -94,7 +98,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            displayChart(fetchFitData(dailyTotalCount,5000));
+            displayChart(fetchFitData(dailyTotalCount,10000));
         }
     }
 
@@ -167,12 +171,27 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         PieView pieView = (PieView) findViewById(R.id.pieView);
         pieView.setInnerText(dailyTotalCount + "\n Steps");
         pieView.setPieAngle(angle);
+        pieView.setInnerTextVisibility(1);
         TextView caloriesExpended = (TextView) findViewById(R.id.caloriesExpended);
         caloriesExpended.setText("You have burnt " + dailyCaloriesExpended + " calories!");
         caloriesExpended.setAllCaps(true);
     }
 
     public void callback(View v){
+        Intent localIntent = new Intent(HomepageActivity.this, CallbackActivity.class);
+        Bundle localBundle = new Bundle();
+        localBundle.putString("email",email);
+        localIntent.putExtras(localBundle);
+        startActivity(localIntent);
+
+    }
+
+    public void logout(View v){
+        DeviceIdDAO d = new DeviceIdDAO(this);
+        d.deleteID(id);
+        Intent localIntent = new Intent(HomepageActivity.this, MainActivity.class);
+        startActivity(localIntent);
+
 
     }
 

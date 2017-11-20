@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="com.oose.postop.MainActivity">
+tools:context="com.oose.postop.activities.MainActivity">
 
 <LinearLayout
     android:layout_width="match_parent"
@@ -23,10 +23,10 @@ tools:context="com.oose.postop.MainActivity">
         android:layout_marginTop="8dp" />
 
     <EditText
-        android:id="@+id/ssn"
+        android:id="@+id/password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="SSN"
+        android:hint="Password"
         android:inputType="textPassword"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp" />
@@ -38,13 +38,6 @@ tools:context="com.oose.postop.MainActivity">
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         android:text="LOGIN"
-        android:onClick="login"/>
-    <TextView
-        android:id="@+id/output"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/loginButton"
-        android:text="Output"
         android:onClick="login"/>
 
 </LinearLayout>

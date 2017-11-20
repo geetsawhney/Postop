@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:plainpie="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.oose.postop.activities.CallbackActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/welcomeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Callback"
+            android:textAlignment="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/UrineText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Urine Color:"
+            android:textAlignment="center"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"/>
+        <Spinner
+            android:id="@+id/urineDropdown"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+           />
+
+        <CheckBox
+            android:id="@+id/hasNausea"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nausea" />
+
+        <CheckBox
+            android:id="@+id/hasPain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pain" />
+
+        <CheckBox
+            android:id="@+id/hasFever"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fever" />
+
+        <CheckBox
+            android:id="@+id/hasFatigue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fatigue" />
+
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:text="SUBMIT"
+            android:onClick="submit"/>
+
+
+
+    </LinearLayout>
+</RelativeLayout>

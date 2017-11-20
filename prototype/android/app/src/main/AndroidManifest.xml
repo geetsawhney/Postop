@@ -19,22 +19,27 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomepageActivity">
+        <activity android:name=".activities.HomepageActivity">
             <intent-filter>
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".activities.CallbackActivity">
+            <intent-filter>
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <receiver
-            android:name="com.oose.postop.GcmBroadcastReceiver"
+            android:name="com.oose.postop.receivers.GcmBroadcastReceiver"
             android:exported="true"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
@@ -42,12 +47,20 @@
                 <category android:name="com.oose.postop" />
             </intent-filter>
         </receiver>
-
+        <receiver android:process=":remote"
+            android:name="com.oose.postop.receivers.NotificationCountAlarm">
+        </receiver>
+        <receiver android:process=":remote"
+            android:name="com.oose.postop.receivers.PushNotificationAlarm">
+        </receiver>
         <service
-            android:name="com.oose.postop.RegistrationIntentService"
+            android:name="com.oose.postop.services.RegistrationIntentService"
             android:exported="false">
         </service>
-
+        <service
+            android:name="com.oose.postop.services.GoogleFitFetchService"
+            android:label="Google Fit Fetch">
+        </service>
 
     </application>
 

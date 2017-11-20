@@ -35,9 +35,12 @@ public class MainActivity extends AppCompatActivity {
 
     TextView mTextView;
     EditText emailField;
-    EditText ssnField;
+    EditText passwordField;
     String deviceId;
     ProgressBar progress;
+    DeviceIdDAO d;
+    boolean idExists =false;
+    ConnectionHelper connectionHelper = new ConnectionHelper();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,22 +69,25 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //check if the id already exists in DB. If it does show homepage, if not show the login page
-                    DeviceIdDAO d = new DeviceIdDAO(token,getApplicationContext());
-                    if(d.checkIdExists(getApplicationContext()) == true){
+                     d = new DeviceIdDAO(getApplicationContext());
+                    deviceId = token;
+                    if(d.checkIdExists(getApplicationContext(),deviceId) == true){
+                        idExists=true;
                         Toast.makeText(getApplicationContext(),"ID Exists",Toast.LENGTH_LONG).show();
                         Map<String,String> requestList = new HashMap<String,String>();
-                        requestList.put("id",token);
+                        requestList.put("id",deviceId);
                         volleyRequest(requestList);
 
                     }else{
-                        d.addIDToDB();
+                        idExists = false;
+                        d.addIDToDB(deviceId);
                         setContentView(R.layout.activity_main);
 
                         // Initialize all fields
-                        mTextView = (TextView) findViewById(R.id.output);
+
                         emailField = (EditText) findViewById(R.id.email);
-                        ssnField = (EditText) findViewById(R.id.ssn);
-                        deviceId = token;
+                        passwordField = (EditText) findViewById(R.id.password);
+
                     }
                 } else if (intent.getAction().equals(RegistrationIntentService.REGISTRATION_ERROR)) {
                     Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
@@ -146,13 +152,13 @@ public class MainActivity extends AppCompatActivity {
 
         // Get the email and ssn field data
         String userNameVal = emailField.getText().toString();
-        String passwordVal = ssnField.getText().toString();
+        String passwordVal = passwordField.getText().toString();
         String idVal = deviceId;
 
         //Save the values to a Hashmap
         Map<String,String> requestList = new HashMap<String,String>();
         requestList.put("email",userNameVal);
-        requestList.put("ssn",passwordVal);
+        requestList.put("password",passwordVal);
         requestList.put("id",idVal);
 
 
@@ -176,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="http://192.168.0.35:8080/api/v1/patient/login";
+        String url =connectionHelper.getRetrievePatientUrl();
 
         // Request a string response from the provided URL.
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
@@ -189,10 +195,16 @@ public class MainActivity extends AppCompatActivity {
                             localBundle.putString("name", response.get("name").toString());
                             localBundle.putString("email", response.get("email").toString());
                             localBundle.putString("address", response.get("address").toString());
+                            localBundle.putString("id", deviceId);
                             //progress.setVisibility(View.INVISIBLE);
                             Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
+                            if(!idExists) {
+                                NotificationCountAlarm a = new NotificationCountAlarm();
+                                a.setAlarm(getApplicationContext());
+                            }
+                            finish();
                         }catch(JSONException ex){
                             //mTextView.setText("Bad Response!");
                             Toast.makeText(getApplicationContext(), "BAD RESPONSE", Toast.LENGTH_LONG).show();
@@ -202,8 +214,18 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         //mTextView.setText("That didn't work!");
-                        Toast.makeText(getApplicationContext(), "That Didn't Work", Toast.LENGTH_LONG).show();
-                        error.printStackTrace();
+                        d.deleteID(deviceId);
+                        try {
+
+                            JSONObject obj = new JSONObject(new String(error.networkResponse.data));
+                            Toast.makeText(getApplicationContext(),obj.getString("error"), Toast.LENGTH_LONG).show();
+                            progress.setVisibility(View.INVISIBLE);
+                        } catch (Exception e) {
+                            progress.setVisibility(View.INVISIBLE);
+                            Toast.makeText(getApplicationContext(),"That Didn't work!", Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+
                     }
                 });
         queue.add(jsObjRequest);
