@@ -3,14 +3,13 @@ package com.postop.helper;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 import org.json.simple.JSONObject;
-import org.testng.annotations.Test;
+
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class NotificationLogicTest {
 

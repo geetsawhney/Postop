@@ -1,12 +1,11 @@
 package com.postop.helper;
 
 import org.json.simple.JSONObject;
-import org.testng.annotations.Test;
+import org.junit.*;
+import static org.junit.Assert.*;
 
 import java.text.ParseException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class CallbackLogicTest {
 

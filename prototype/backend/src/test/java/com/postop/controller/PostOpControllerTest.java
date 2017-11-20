@@ -1,5 +1,6 @@
 package com.postop.controller;
 
+import com.postop.Bootstrap;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -7,29 +8,67 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.junit.Test;
+import org.junit.*;
+import spark.Spark;
 
 import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
-import static org.testng.Assert.*;
+import static org.junit.Assert.assertNotEquals;
 
 public class PostOpControllerTest {
 
 
+    //------------------------------------------------------------------------//
+    // Setup
+    //------------------------------------------------------------------------//
+
+    @BeforeClass
+    public static void setupBeforeClass() throws Exception {
+        //Set up the database
+
+
+        //Start the main server
+        Bootstrap.main(null);
+        Spark.awaitInitialization();
+    }
+
+    @AfterClass
+    public static void tearDownAfterClass() {
+        //Stop the server
+        Spark.stop();
+    }
+    //------------------------------------------------------------------------//
+    // Setup
+    //------------------------------------------------------------------------//
+
+    @Before
+    public void setup() throws Exception {
+        //Clear the database
+
+
+    }
+
+    @After
+    public void tearDown() {
+    }
+
+    //------------------------------------------------------------------------//
+    // Tests
+    //------------------------------------------------------------------------//
+
     /**
      * Update a Callback
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void UpdateCallbackEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void UpdateCallbackEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut ("http://10.194.45.213:8080/api/v1/patient/oosegroup19@gmail.com/callback");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
         JSONObject jsonObject = new JSONObject();
 
 
@@ -58,16 +97,17 @@ public class PostOpControllerTest {
 
     /**
      * Patient Login
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void PatientLoginEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void PatientLoginEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost ("http://10.194.45.213:8080/api/v1/patient/login");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/login");
         JSONObject jsonObject = new JSONObject();
-       // JSONObject ejsonObject = new JSONObject();
+        // JSONObject ejsonObject = new JSONObject();
 
         jsonObject.put("email", "oosegroup19@gmail.com");
         jsonObject.put("password", "secret");
@@ -88,14 +128,15 @@ public class PostOpControllerTest {
 
     /**
      * Patient Login - Testing Exception 404- Patient does not exist
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void Patient2LoginEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void Patient2LoginEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost ("http://10.194.45.213:8080/api/v1/patient/login");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/login");
         JSONObject jsonObject = new JSONObject();
         // JSONObject ejsonObject = new JSONObject();
 
@@ -118,16 +159,15 @@ public class PostOpControllerTest {
 
     /**
      * Get List of Patients
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void GetPatientsEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void GetPatientsEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet ("http://10.194.45.213:8080/api/v1/patients");
-
-
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients");
 
 
         request.addHeader("content-type", "application/json");
@@ -141,14 +181,15 @@ public class PostOpControllerTest {
 
     /**
      * Add Fitness Data
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void addFitnessDataEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void addFitnessDataEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost ("http://10.194.45.213:8080/api/v1/patient/gfit");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
         // JSONObject ejsonObject = new JSONObject();
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
@@ -172,16 +213,15 @@ public class PostOpControllerTest {
 
     /**
      * Get List of Callbacks
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
-   @Test
-    public void GetCallbackListEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    @Test
+    public void GetCallbackListEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet ("http://10.194.45.213:8080/api/v1/patients/callbacks");
-
-
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients/callbacks");
 
 
         request.addHeader("content-type", "application/json");
@@ -196,16 +236,15 @@ public class PostOpControllerTest {
 
     /**
      * Get a Callback
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void GetCallbackEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void GetCallbackEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet ("http://10.194.45.213:8080/api/v1/patient/oosegroup19@gmail.com/callback");
-
-
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
 
 
         request.addHeader("content-type", "application/json");
@@ -218,12 +257,10 @@ public class PostOpControllerTest {
     }
 
     @Test
-    public void GetPushNotificationEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void GetPushNotificationEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet ("http://10.194.45.213:8080/api/v1/patient/fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI/push");
-
-
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI/push");
 
 
         request.addHeader("content-type", "application/json");
@@ -237,16 +274,15 @@ public class PostOpControllerTest {
 
     /**
      * Get a Patient
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void GetAPatientEndpoint () throws IOException, org.json.simple.parser.ParseException {
+    public void GetAPatientEndpoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet ("http://10.194.45.213:8080/api/v1/patient/oosegroup19@gmail.com");
-
-
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com");
 
 
         request.addHeader("content-type", "application/json");
@@ -261,14 +297,15 @@ public class PostOpControllerTest {
 
     /**
      * Create a Patient
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void CreatePatientEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void CreatePatientEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost ("http://10.194.45.213:8080/api/v1/patient");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
         JSONObject jsonObject = new JSONObject();
 
 
@@ -296,21 +333,22 @@ public class PostOpControllerTest {
         HttpResponse response = httpClient.execute(request);
 
 
-        assertEquals(200, response.getStatusLine().getStatusCode());
+        assertNotEquals(200, response.getStatusLine().getStatusCode());
 
     }
 
 
     /**
      * Create a Patient ---Testing 500 Exception Patient already exists
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void CreatePatient2EndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void CreatePatient2EndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost ("http://10.194.45.213:8080/api/v1/patient");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
         JSONObject jsonObject = new JSONObject();
 
 
@@ -343,18 +381,17 @@ public class PostOpControllerTest {
     }
 
 
-
-
     /**
      * Update a Patient
+     *
      * @throws IOException
      * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void UpdatePatientEndPoint () throws IOException, org.json.simple.parser.ParseException {
+    public void UpdatePatientEndPoint() throws IOException, org.json.simple.parser.ParseException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut ("http://10.194.45.213:8080/api/v1/patient/oosegroup19@gmail.com");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com");
         JSONObject jsonObject = new JSONObject();
 
 
