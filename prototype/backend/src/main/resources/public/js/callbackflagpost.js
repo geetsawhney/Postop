@@ -8,7 +8,7 @@ function Callbackflag() {
 
         var postRequest = $.ajax({
             type: 'PUT',
-            url: 'http://10.194.107.57:8080/api/v1/patient/' + data.email + '/callback',
+            url: '/api/v1/patient/' + data.email + '/callback',
             data: JSON.stringify(data),
             contentType: 'application/json',
             success: function(data)
