@@ -49,7 +49,6 @@ public class NotificationLogic {
                 return stat;
             } else if (numberOfDays <= 0) {
                 stat = "L";
-//                numberOfDays= numberOfDays*-1;
                 return stat;
             } else {
                 return stat;

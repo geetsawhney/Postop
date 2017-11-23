@@ -145,6 +145,9 @@ public class PostOpController {
             } catch (IllegalJsonException ex) {
                 response.status(400);
                 return ex.getHash();
+            } catch (PatientNotFoundException ex){
+                response.status(404);
+                return ex.getHash();
             }
         }, new JsonTransformer());
 
@@ -218,9 +221,5 @@ public class PostOpController {
                 return ex.getHash();
             }
         }, new JsonTransformer());
-
-
-
-
     }
 }
