@@ -1,4 +1,7 @@
 # 2017-group-19
+## Demo
+The app has been deployed on [Heroku](https://remcare.herokuapp.com) 
+
 ## Setup
 
 1. The project requires Java 8, Gradle 2.3.3, Android Studio 3.0, IDEA 2017 2.3 and Maven 4.0.0 to build and run.

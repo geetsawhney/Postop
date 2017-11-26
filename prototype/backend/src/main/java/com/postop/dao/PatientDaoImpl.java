@@ -115,23 +115,23 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
-    @Override
-    public boolean deletePatient(Patient patient) {
-        String sql = "DELETE FROM \"Patient\" where email = \'" + patient.getEmail() + "\'";
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return true;
-    }
-
-
-    @Override
-    public List<Patient> getPatientByName(String s) {
-        return null;
-    }
+//    @Override
+//    public boolean deletePatient(Patient patient) {
+//        String sql = "DELETE FROM \"Patient\" where email = \'" + patient.getEmail() + "\'";
+//        try {
+//            Statement statement = connection.createStatement();
+//            statement.executeUpdate(sql);
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//        return true;
+//    }
+//
+//
+//    @Override
+//    public List<Patient> getPatientByName(String s) {
+//        return null;
+//    }
 
 
     public Patient populateDetails(ResultSet resultSet) throws SQLException {

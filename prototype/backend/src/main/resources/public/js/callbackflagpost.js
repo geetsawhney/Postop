@@ -1,7 +1,7 @@
 function Callbackflag() {
-    $("#callback-btn").click(function() {
+    $(".updateFlag").click(function() {
         var data = {
-            email: $("#callback-btn").val(),
+            email: $(this).val(),
             isResolved: true
         }
         console.log(data)

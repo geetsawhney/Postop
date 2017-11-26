@@ -11,13 +11,15 @@ var callbacksEndpoint = '/api/v1/patients/callbacks';
         //     return Mustache.render(template, { severity: callback.Severity, patientName: callback.patientName, patientEmail: callback.patientEmail,
         //     patientPhone: callback.patientPhone});
         // });
-
+        var i = 1;
         callbacks = callbacks.map(function(c) {
           var returnObj = c;
           returnObj.patientEmail = returnObj.email;
-          returnObj.stringSeverity = (returnObj.severity>=5) ? 'Critical' : (returnObj.severity>=3 ? 'Medium': 'Low')
+          returnObj.stringSeverity = (returnObj.severity>=5) ? 'Critical' : (returnObj.severity>=3 ? 'Medium': 'Low');
+          returnObj.callbackBtn = i;
         // returnObj.patientName = returnObj.severity;
-          returnObj.displayColor = (returnObj.severity>=5) ? 'red' : (returnObj.severity>=3 ? 'orange': 'green')
+          returnObj.displayColor = (returnObj.severity>=5) ? 'red' : (returnObj.severity>=3 ? 'orange': 'green');
+          i = i+1;
           return returnObj;
         })
         var callbacksHTML = Mustache.render(template, { callbacks: callbacks });

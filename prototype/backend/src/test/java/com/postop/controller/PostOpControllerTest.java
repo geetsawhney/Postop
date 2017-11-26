@@ -1,6 +1,7 @@
 package com.postop.controller;
 
 import com.postop.Bootstrap;
+import com.postop.exceptions.IllegalJsonException;
 import com.postop.exceptions.InvalidClientProtocolException;
 import com.postop.exceptions.InvalidEncodingException;
 import com.postop.exceptions.InvalidIOException;
@@ -31,9 +32,6 @@ public class PostOpControllerTest {
 
     @BeforeClass
     public static void setupBeforeClass() throws Exception {
-        //Set up the database
-
-
         //Start the main server
         Bootstrap.main(null);
         Spark.awaitInitialization();
@@ -50,8 +48,6 @@ public class PostOpControllerTest {
 
     @Before
     public void setup() throws Exception {
-        //Clear the database
-
 
     }
 
@@ -144,7 +140,6 @@ public class PostOpControllerTest {
             throw new InvalidIOException(e.getMessage());
         }
 
-
     }
 
     /**
@@ -209,6 +204,36 @@ public class PostOpControllerTest {
 
     }
 
+    @Test
+    public void Patient2LoginEndPoint2() throws InvalidIOException, IllegalJsonException, InvalidEncodingException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/login");
+        JSONObject jsonObject = new JSONObject();
+        // JSONObject ejsonObject = new JSONObject();
+
+        //jsonObject.put("email", "oosegroup1119@gmail.com");
+        //jsonObject.put("password", "secret");
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+
+
+        StringEntity params = null;
+        try {
+            params = new StringEntity("hello");
+            request.addHeader("content-type", "application/json");
+            request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+            request.setEntity(params);
+
+            HttpResponse response = httpClient.execute(request);
+
+            assertNotEquals(404, response.getStatusLine().getStatusCode());
+        } catch (UnsupportedEncodingException e) {
+            throw new InvalidEncodingException(e.getMessage());
+        } catch(IOException e){
+            throw new InvalidIOException(e.getMessage());
+        }
+    }
+
     /**
      * Get List of Patients
      *
@@ -269,8 +294,8 @@ public class PostOpControllerTest {
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
         // JSONObject ejsonObject = new JSONObject();
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6F6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
-        jsonObject.put("captureDate", "11-11-2011");
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("captureDate", "2017-11-25");
         jsonObject.put("stepCount", "2345");
         jsonObject.put("caloriesExpended", "456");
 
@@ -283,7 +308,7 @@ public class PostOpControllerTest {
         HttpResponse response = httpClient.execute(request);
 
 
-        assertEquals(404, response.getStatusLine().getStatusCode());
+        assertEquals(200, response.getStatusLine().getStatusCode());
 
     }
 
@@ -329,6 +354,22 @@ public class PostOpControllerTest {
 
 
         assertEquals(200, response.getStatusLine().getStatusCode());
+
+    }
+
+    @Test
+    public void GetCallbackEndPoint2() throws IOException, org.json.simple.parser.ParseException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/hitesh@jhu.edu/callback");
+
+
+        request.addHeader("content-type", "application/json");
+        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+        HttpResponse response = httpClient.execute(request);
+
+
+        assertEquals(404, response.getStatusLine().getStatusCode());
 
     }
 
