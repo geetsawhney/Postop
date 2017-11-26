@@ -25,12 +25,21 @@ public class FitnessHistory {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Date getCaptureDate() {
         return captureDate;
+    }
+
+    public void setCaptureDate(Date captureDate) {
+        this.captureDate = captureDate;
+    }
+
+    public int getCaloriesExpended() {
+        return caloriesExpended;
+    }
+
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public void setCaptureDate(String captureDate) {
@@ -45,9 +54,7 @@ public class FitnessHistory {
 
     }
 
-    public void setCaptureDate(Date captureDate) {
-        this.captureDate = captureDate;
-    }
+
 
     public int getStepCount() {
         return stepCount;
@@ -55,10 +62,6 @@ public class FitnessHistory {
 
     public void setStepCount(int stepCount) {
         this.stepCount = stepCount;
-    }
-
-    public int getCaloriesExpended() {
-        return caloriesExpended;
     }
 
     public void setCaloriesExpended(int caloriesExpended) {

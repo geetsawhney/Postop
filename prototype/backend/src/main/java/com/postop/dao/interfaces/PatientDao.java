@@ -14,8 +14,8 @@ public interface PatientDao {
     public Patient getPatientByDeviceId(String id) throws IllegalSqlException, PatientNotFoundException;
     public void updatePatientDeviceId(Patient patient) throws IllegalSqlException;
     public void addPatient(JSONObject patient) throws IllegalSqlException;
-    public boolean deletePatient(Patient patient);
-    public List<Patient> getPatientByName(String s);
+//    public boolean deletePatient(Patient patient);
+//    public List<Patient> getPatientByName(String s);
     public void updatePatient(String email,Patient patient) throws IllegalSqlException, PatientNotFoundException;
     public boolean checkPatientExist(String email) throws IllegalSqlException;
 }
