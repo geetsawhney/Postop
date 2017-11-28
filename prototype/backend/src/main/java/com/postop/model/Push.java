@@ -1,7 +1,5 @@
 package com.postop.model;
 
-import com.postop.exceptions.InvalidEncodingException;
-import com.postop.exceptions.InvalidIOException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -18,7 +16,7 @@ public class Push {
 
     private static final Logger logger = LoggerFactory.getLogger(Push.class);
 
-    public static void sendPush(Patient patient) throws InvalidIOException, InvalidEncodingException {
+    public static void sendPush(Patient patient) {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         HttpPost request = new HttpPost("https://gcm-http.googleapis.com/gcm/send");
@@ -44,10 +42,10 @@ public class Push {
             logger.info("Response Code : " + response.getStatusLine().getStatusCode());
         } catch (UnsupportedEncodingException e) {
             logger.error("" + e.getMessage());
-            throw new InvalidEncodingException(e.getMessage());
+            e.printStackTrace();
         } catch (IOException e) {
             logger.error("" + e.getMessage());
-            throw new InvalidIOException(e.getMessage());
+            e.printStackTrace();
         }
 
     }
