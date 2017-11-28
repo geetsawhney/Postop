@@ -9,13 +9,14 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface PatientDao {
-    public List<Patient> getAllPatients() throws IllegalSqlException;
-    public Patient getPatientByEmail(String email) throws IllegalSqlException, PatientNotFoundException;
-    public Patient getPatientByDeviceId(String id) throws IllegalSqlException, PatientNotFoundException;
-    public void updatePatientDeviceId(Patient patient) throws IllegalSqlException;
+    List<Patient> getAllPatients();
+    Patient getPatientByEmail(String email) throws  PatientNotFoundException;
+    public Patient getPatientByDeviceId(String id) throws  PatientNotFoundException;
+    public void updatePatientDeviceId(Patient patient) ;
     public void addPatient(JSONObject patient) throws IllegalSqlException;
-//    public boolean deletePatient(Patient patient);
+    public boolean deletePatient(String email);
 //    public List<Patient> getPatientByName(String s);
-    public void updatePatient(String email,Patient patient) throws IllegalSqlException, PatientNotFoundException;
+    public void updatePatient(String email,Patient patient) throws  PatientNotFoundException;
     public boolean checkPatientExist(String email) throws IllegalSqlException;
+
 }

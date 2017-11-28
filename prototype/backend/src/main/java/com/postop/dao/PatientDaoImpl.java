@@ -24,9 +24,8 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
-
     @Override
-    public List<Patient> getAllPatients() throws IllegalSqlException {
+    public List<Patient> getAllPatients() {
         List<Patient> allPatients = new ArrayList<>();
         String sql = "SELECT * FROM \"Patient\"";
         try {
@@ -54,25 +53,25 @@ public class PatientDaoImpl implements PatientDao {
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
         return allPatients;
     }
 
     @Override
-    public Patient getPatientByEmail(String email) throws IllegalSqlException, PatientNotFoundException {
+    public Patient getPatientByEmail(String email) throws PatientNotFoundException {
         String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email + "\'";
         return getPatient(sql);
     }
 
     @Override
-    public Patient getPatientByDeviceId(String id) throws IllegalSqlException, PatientNotFoundException {
+    public Patient getPatientByDeviceId(String id) throws PatientNotFoundException {
         String sql = "SELECT * FROM \"Patient\" WHERE device_id = \'" + id + "\'";
         return getPatient(sql);
     }
 
     @Override
-    public void updatePatientDeviceId(Patient patient) throws IllegalSqlException {
+    public void updatePatientDeviceId(Patient patient) {
 
         String sql = "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
                 + "\' WHERE email = \'" + patient.getEmail() + "\'";
@@ -80,7 +79,7 @@ public class PatientDaoImpl implements PatientDao {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -115,19 +114,19 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
-//    @Override
-//    public boolean deletePatient(Patient patient) {
-//        String sql = "DELETE FROM \"Patient\" where email = \'" + patient.getEmail() + "\'";
-//        try {
-//            Statement statement = connection.createStatement();
-//            statement.executeUpdate(sql);
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//        return true;
-//    }
-//
-//
+    @Override
+    public boolean deletePatient(String email) {
+        String sql = "DELETE FROM \"Patient\" where email = \'" + email + "\'";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+
 //    @Override
 //    public List<Patient> getPatientByName(String s) {
 //        return null;
@@ -156,8 +155,8 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
-    private Patient getPatient(String sql) throws IllegalSqlException, PatientNotFoundException {
-        Patient patient;
+    private Patient getPatient(String sql) throws PatientNotFoundException {
+        Patient patient = null;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSetEmail = statement.executeQuery(sql);
@@ -165,14 +164,14 @@ public class PatientDaoImpl implements PatientDao {
             resultSetEmail.close();
             statement.close();
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
-        if(patient==null)
+        if (patient == null)
             throw new PatientNotFoundException("Patient does not exist");
         return patient;
     }
 
-    public void updatePatient(String email,Patient patient) throws IllegalSqlException, PatientNotFoundException {
+    public void updatePatient(String email, Patient patient) throws PatientNotFoundException {
 
         if (checkPatientExist(email)) {
             String sql = "UPDATE \"Patient\" " +
@@ -189,19 +188,19 @@ public class PatientDaoImpl implements PatientDao {
                     ", diabetic =" + patient.getDiabetic() +
                     ", last_visit_date = \'" + patient.getLastVisitDateString() +
                     "\' WHERE email = \'" + patient.getEmail() + "\'";
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
-        }
-    } else{
+            try {
+                Statement statement = connection.createStatement();
+                statement.executeUpdate(sql);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
             throw new PatientNotFoundException("Patient with this email does not exist");
         }
-}
+    }
 
     @Override
-    public boolean checkPatientExist(String email) throws IllegalSqlException {
+    public boolean checkPatientExist(String email) {
 
         String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email
                 + "\'";
@@ -210,7 +209,8 @@ public class PatientDaoImpl implements PatientDao {
             ResultSet resultSet = statement.executeQuery(sql);
             return resultSet.next();
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
+        return false;
     }
 }

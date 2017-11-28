@@ -29,9 +29,9 @@ public class PostOpService {
 
     private final Logger logger = LoggerFactory.getLogger(PostOpService.class);
 
-    public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException, IllegalSqlException, InvalidHashAlgorithmException {
+    public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
-        Patient patient;
+        Patient patient = null;
         body = body.replaceAll("^\"|\"$", "");
 
         try {
@@ -63,17 +63,18 @@ public class PostOpService {
                     throw new PatientNotFoundException("device_id does not exist");
                 }
             }
-            return patient;
+
         } catch (ParseException e) {
             logger.error("Illegal JSON");
             throw new IllegalJsonException(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
             logger.error("No such hash algorithm");
-            throw new InvalidHashAlgorithmException(e.getMessage());
+            e.printStackTrace();
         }
+        return patient;
     }
 
-    public void updatePatient(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
+    public void updatePatient(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
@@ -93,7 +94,7 @@ public class PostOpService {
     }
 
 
-    public void addPatient(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException {
+    public void addPatient(String body) throws IllegalJsonException, IllegalSqlException {
         JSONParser jsonParser = new JSONParser();
 
         try {
@@ -111,7 +112,7 @@ public class PostOpService {
     }
 
 
-    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, InvalidHashAlgorithmException, PatientNotFoundException {
+    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, PatientNotFoundException {
         body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 
@@ -139,12 +140,12 @@ public class PostOpService {
         }
     }
 
-    public Patient getPatient(String email) throws IllegalSqlException, PatientNotFoundException {
+    public Patient getPatient(String email) throws PatientNotFoundException {
         PatientDao pdi = new PatientDaoImpl();
         return pdi.getPatientByEmail(email);
     }
 
-    public List<Patient> getAllPatients() throws IllegalSqlException {
+    public List<Patient> getAllPatients() {
         PatientDao pdi = new PatientDaoImpl();
         return pdi.getAllPatients();
     }
@@ -184,7 +185,7 @@ public class PostOpService {
     }
 
 
-    public void sendPush(String id) throws PatientNotFoundException, IllegalSqlException, InvalidEncodingException, InvalidIOException {
+    public void sendPush(String id) throws PatientNotFoundException, IllegalSqlException {
         PatientDaoImpl pdi = new PatientDaoImpl();
         Patient patient = pdi.getPatientByDeviceId(id);
 
@@ -202,7 +203,5 @@ public class PostOpService {
         return cd.getCallback(email);
     }
 
-    public void updateCallbackNurse(String email, String body) {
 
-    }
 }

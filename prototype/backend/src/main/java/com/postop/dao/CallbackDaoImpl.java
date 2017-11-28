@@ -148,4 +148,16 @@ public class CallbackDaoImpl implements CallbackDao {
         }
 
     }
+
+    @Override
+    public boolean deleteCallback(String email) {
+        String sql="DELETE FROM \"Callback\" WHERE email=\'"+ email+"\'";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
