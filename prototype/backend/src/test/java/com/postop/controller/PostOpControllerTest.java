@@ -1,12 +1,16 @@
 package com.postop.controller;
 
 import com.postop.Bootstrap;
+import com.postop.dao.CallbackDaoImpl;
+import com.postop.dao.FitnessHistoryDaoImpl;
 import com.postop.dao.PatientDaoImpl;
 import com.postop.dao.PatientLoginDaoImpl;
+import com.postop.dao.interfaces.CallbackDao;
+import com.postop.dao.interfaces.FitnessHistoryDao;
 import com.postop.dao.interfaces.PatientDao;
 import com.postop.dao.interfaces.PatientLoginDao;
+import com.postop.model.FitnessHistory;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -18,7 +22,9 @@ import org.junit.*;
 import spark.Spark;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -151,18 +157,14 @@ public class PostOpControllerTest {
     @Test
     public void createPatientEndPoint3() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
-
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
-
 
         StringEntity params = new StringEntity("test");
         request.addHeader("content-type", "application/json");
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
-
         assertEquals(400, response.getStatusLine().getStatusCode());
-
     }
 
 
@@ -459,234 +461,476 @@ public class PostOpControllerTest {
 
 
     /**
-     * Update a Callback
-     *
-     * @throws IOException
-     * @throws org.json.simple.parser.ParseException
-     */
-    @Test
-    public void updateCallbackEndPoint1() {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
-        JSONObject jsonObject = new JSONObject();
-
-
-        jsonObject.put("email", "oosegroup19@gmail.com");
-        jsonObject.put("callbackDate", "10-10-2017");
-        jsonObject.put("isResolved", "false");
-        jsonObject.put("severity", 0);
-        jsonObject.put("hasPain", true);
-        jsonObject.put("hasNausea", true);
-        jsonObject.put("hasFever", true);
-        jsonObject.put("hasFatigue", true);
-        jsonObject.put("urineColor", "Cloudy");
-
-
-        StringEntity params = null;
-        try {
-            params = new StringEntity(jsonObject.toString());
-            request.addHeader("content-type", "application/json");
-            request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
-            request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
-
-            assertEquals(200, response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }
-
-    @Test
-    public void updateCallbackEndPoint2() throws IOException {
-        HttpClient httpClient = HttpClientBuilder.create().build();
-
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
-        JSONObject jsonObject = new JSONObject();
-
-
-        jsonObject.put("email", "someemaildoesnotexists@gmail.com");
-        jsonObject.put("callbackDate", "10-10-2017");
-        jsonObject.put("isResolved", "false");
-        jsonObject.put("severity", 0);
-        jsonObject.put("hasPain", true);
-        jsonObject.put("hasNausea", true);
-        jsonObject.put("hasFever", true);
-        jsonObject.put("hasFatigue", true);
-        jsonObject.put("urineColor", "Cloudy");
-
-
-        StringEntity params = null;
-        try {
-            params = new StringEntity(jsonObject.toString());
-            request.addHeader("content-type", "application/json");
-            request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
-            request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
-
-            assertNotEquals(200, response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Get List of Patients
+     * Get List of Patients -- testing 200
      *
      * @throws IOException
      */
     @Test
     public void getPatientsEndPoint() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
-
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients");
-
-
         request.addHeader("content-type", "application/json");
-        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         HttpResponse response = httpClient.execute(request);
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+
+    /**
+     * Adding a callback -- testing 200
+     *
+     * @throws IOException
+     **/
+    @Test
+    public void updateCallbackEndPoint1() throws IOException {
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
+        JSONObject jsonObject = new JSONObject();
+
+
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("password", "life");
+        jsonObject.put("ssn", "865432111");
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("name", "Test Case");
+        jsonObject.put("sex", "M");
+        jsonObject.put("dob", "2019-09-09");
+        jsonObject.put("address", "Somewhere in Somewhere'sville");
+        jsonObject.put("phone", "9096784563");
+        jsonObject.put("hospitalVisitReason", "Death");
+        jsonObject.put("utiVisitCount", 200);
+        jsonObject.put("catheterUsage", true);
+        jsonObject.put("diabetic", true);
+        jsonObject.put("lastVisitDate", "2019-09-09");
+
+        StringEntity params = new StringEntity(jsonObject.toString());
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        httpClient.execute(request);
+
+
+        httpClient = HttpClientBuilder.create().build();
+
+        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        jsonObject = new JSONObject();
+
+
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("isResolved", "false");
+        jsonObject.put("severity", 0);
+        jsonObject.put("hasPain", true);
+        jsonObject.put("hasNausea", true);
+        jsonObject.put("hasFever", true);
+        jsonObject.put("hasFatigue", true);
+        jsonObject.put("urineColor", "Cloudy");
+
+
+        params = new StringEntity(jsonObject.toString());
+        requestPut.addHeader("content-type", "application/json");
+        requestPut.setEntity(params);
+        HttpResponse response = httpClient.execute(requestPut);
+
+        PatientLoginDao pld = new PatientLoginDaoImpl();
+        pld.deletePatient(jsonObject.get("email").toString());
+        CallbackDao cd = new CallbackDaoImpl();
+        cd.deleteCallback(jsonObject.get("email").toString());
+        PatientDao pd = new PatientDaoImpl();
+        pd.deletePatient(jsonObject.get("email").toString());
+
+
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+
+
+    /**
+     * Update an existing callback --testing 200
+     * @throws IOException
+     */
+    @Test
+    public void updateCallbackEndPoint2() throws IOException {
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
+        JSONObject jsonObject = new JSONObject();
+
+
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("password", "life");
+        jsonObject.put("ssn", "865432111");
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("name", "Test Case");
+        jsonObject.put("sex", "M");
+        jsonObject.put("dob", "2019-09-09");
+        jsonObject.put("address", "Somewhere in Somewhere'sville");
+        jsonObject.put("phone", "9096784563");
+        jsonObject.put("hospitalVisitReason", "Death");
+        jsonObject.put("utiVisitCount", 200);
+        jsonObject.put("catheterUsage", true);
+        jsonObject.put("diabetic", true);
+        jsonObject.put("lastVisitDate", "2019-09-09");
+
+        StringEntity params = new StringEntity(jsonObject.toString());
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        httpClient.execute(request);
+
+
+        httpClient = HttpClientBuilder.create().build();
+
+        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        jsonObject = new JSONObject();
+
+
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("isResolved", "false");
+        jsonObject.put("severity", 0);
+        jsonObject.put("hasPain", true);
+        jsonObject.put("hasNausea", true);
+        jsonObject.put("hasFever", true);
+        jsonObject.put("hasFatigue", true);
+        jsonObject.put("urineColor", "Cloudy");
+
+
+        params = new StringEntity(jsonObject.toString());
+        requestPut.addHeader("content-type", "application/json");
+        requestPut.setEntity(params);
+        httpClient.execute(requestPut);
+
+
+        httpClient = HttpClientBuilder.create().build();
+        requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        jsonObject = new JSONObject();
+
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("isResolved", "false");
+        jsonObject.put("severity", 0);
+        jsonObject.put("hasPain", false);
+        jsonObject.put("hasNausea", true);
+        jsonObject.put("hasFever", true);
+        jsonObject.put("hasFatigue", true);
+        jsonObject.put("urineColor", "Normal");
+
+        params = new StringEntity(jsonObject.toString());
+        requestPut.addHeader("content-type", "application/json");
+        requestPut.setEntity(params);
+        HttpResponse response=httpClient.execute(requestPut);
+
+
+        PatientLoginDao pld = new PatientLoginDaoImpl();
+        pld.deletePatient(jsonObject.get("email").toString());
+        CallbackDao cd = new CallbackDaoImpl();
+        cd.deleteCallback(jsonObject.get("email").toString());
+        PatientDao pd = new PatientDaoImpl();
+        pd.deletePatient(jsonObject.get("email").toString());
 
 
         assertEquals(200, response.getStatusLine().getStatusCode());
 
     }
 
+
     /**
-     * Add Fitness Data
+     * Update a callback -- testing 400 for illegal json
      *
      * @throws IOException
      */
     @Test
-    public void addFitnessDataEndPoint() throws IOException {
+    public void updateCallbackEndPoint3() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
-        JSONObject jsonObject = new JSONObject();
-        // JSONObject ejsonObject = new JSONObject();
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
-        jsonObject.put("captureDate", "11-11-2011");
-        jsonObject.put("stepCount", "2345");
-        jsonObject.put("caloriesExpended", "456");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
 
-
-        StringEntity params = null;
-        params = new StringEntity(jsonObject.toString());
+        StringEntity params = new StringEntity("test");
         request.addHeader("content-type", "application/json");
-        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
-
-        assertEquals(200, response.getStatusLine().getStatusCode());
-
+        assertEquals(400, response.getStatusLine().getStatusCode());
     }
 
+
+
+    /**
+     * Updating a callback -- testing 404 patient does not exist
+     *
+     * @throws IOException
+     */
     @Test
-    public void addFitnessDataEndPoint2() throws IOException, org.json.simple.parser.ParseException {
+    public void updateCallbackEndPoint4() throws IOException {
+
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
         JSONObject jsonObject = new JSONObject();
-        // JSONObject ejsonObject = new JSONObject();
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
-        jsonObject.put("captureDate", "2017-11-25");
-        jsonObject.put("stepCount", "2345");
-        jsonObject.put("caloriesExpended", "456");
 
 
-        StringEntity params = null;
-        params = new StringEntity(jsonObject.toString());
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("isResolved", "false");
+        jsonObject.put("severity", 0);
+        jsonObject.put("hasPain", true);
+        jsonObject.put("hasNausea", true);
+        jsonObject.put("hasFever", true);
+        jsonObject.put("hasFatigue", true);
+        jsonObject.put("urineColor", "Cloudy");
+
+
+        StringEntity params = new StringEntity(jsonObject.toString());
         request.addHeader("content-type", "application/json");
-        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
+        PatientLoginDao pld = new PatientLoginDaoImpl();
+        pld.deletePatient(jsonObject.get("email").toString());
+        PatientDao pd = new PatientDaoImpl();
+        pd.deletePatient(jsonObject.get("email").toString());
 
-        assertEquals(200, response.getStatusLine().getStatusCode());
-
+        assertEquals(404, response.getStatusLine().getStatusCode());
     }
 
+
+
     /**
-     * Get List of Callbacks
+     * Update a callback -- testing 400 for illegal json when email and
      *
      * @throws IOException
-     * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void GetCallbackListEndPoint() throws IOException, org.json.simple.parser.ParseException {
+    public void updateCallbackEndPoint5() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients/callbacks");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("email", "test1@test.com");
 
-
+        StringEntity params = new StringEntity("test");
         request.addHeader("content-type", "application/json");
-        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+        request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
-
-        assertEquals(200, response.getStatusLine().getStatusCode());
-
+        assertEquals(400, response.getStatusLine().getStatusCode());
     }
 
 
     /**
-     * Get a Callback
+     * Get a Callback -- testing 200
      *
      * @throws IOException
-     * @throws org.json.simple.parser.ParseException
      */
     @Test
-    public void GetCallbackEndPoint() throws IOException, org.json.simple.parser.ParseException {
+    public void getCallbackEndPoint1() throws IOException{
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
 
-
         request.addHeader("content-type", "application/json");
         request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         HttpResponse response = httpClient.execute(request);
-
 
         assertEquals(200, response.getStatusLine().getStatusCode());
 
     }
 
+    /**
+     * Get a Callback where callback does not exist for a patient --testing 404
+     *
+     * @throws IOException
+     */
     @Test
-    public void GetCallbackEndPoint2() throws IOException, org.json.simple.parser.ParseException {
+    public void getCallbackEndPoint2() throws IOException{
+
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/hitesh@jhu.edu/callback");
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
+        JSONObject jsonObject = new JSONObject();
 
 
+        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("password", "life");
+        jsonObject.put("ssn", "865432111");
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("name", "Test Case");
+        jsonObject.put("sex", "M");
+        jsonObject.put("dob", "2019-09-09");
+        jsonObject.put("address", "Somewhere in Somewhere'sville");
+        jsonObject.put("phone", "9096784563");
+        jsonObject.put("hospitalVisitReason", "Death");
+        jsonObject.put("utiVisitCount", 200);
+        jsonObject.put("catheterUsage", true);
+        jsonObject.put("diabetic", true);
+        jsonObject.put("lastVisitDate", "2019-09-09");
+
+        StringEntity params = new StringEntity(jsonObject.toString());
         request.addHeader("content-type", "application/json");
-        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+        request.setEntity(params);
+        httpClient.execute(request);
+
+        httpClient = HttpClientBuilder.create().build();
+
+        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        requestGet.addHeader("content-type", "application/json");
+        HttpResponse response = httpClient.execute(requestGet);
+
+        PatientLoginDao pld = new PatientLoginDaoImpl();
+        pld.deletePatient(jsonObject.get("email").toString());
+        PatientDao pd = new PatientDaoImpl();
+        pd.deletePatient(jsonObject.get("email").toString());
+
+        assertEquals(404, response.getStatusLine().getStatusCode());
+    }
+
+
+    /**
+     * Get a Callback where a patient does not exist --testing 404
+     *
+     * @throws IOException
+     */
+    @Test
+    public void getCallbackEndPoint3() throws IOException{
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        requestGet.addHeader("content-type", "application/json");
+        HttpResponse response = httpClient.execute(requestGet);
+
+        assertEquals(404, response.getStatusLine().getStatusCode());
+    }
+
+    /**
+     * Get List of Callbacks --testing 200
+     *
+     * @throws IOException
+     */
+    @Test
+    public void GetCallbackListEndPoint() throws IOException{
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients/callbacks");
+        request.addHeader("content-type", "application/json");
         HttpResponse response = httpClient.execute(request);
 
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+
+    /**
+     * Add Fitness Data -- testing 200
+     *
+     * @throws IOException
+     */
+    @Test
+    public void addFitnessDataEndPoint1() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
+        JSONObject jsonObject = new JSONObject();
+        Date date=new Date();
+        DateFormat sdf= new SimpleDateFormat("YYYY-mm-dd");
+        String captureDate=sdf.format(date);
+
+        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("captureDate", captureDate);
+        jsonObject.put("stepCount", "2345");
+        jsonObject.put("caloriesExpended", "456");
+
+        StringEntity params = new StringEntity(jsonObject.toString());
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
+
+        FitnessHistory fitnessHistory=new FitnessHistory();
+        fitnessHistory.setEmail("oosegroup19@gmail.com");
+        fitnessHistory.setCaptureDate(jsonObject.get("captureDate").toString());
+        fitnessHistory.setStepCount(Integer.parseInt(jsonObject.get("stepCount").toString()));
+        fitnessHistory.setCaloriesExpended(Integer.parseInt(jsonObject.get("caloriesExpended").toString()));
+        FitnessHistoryDao fhd=new FitnessHistoryDaoImpl();
+        fhd.deleteFitnessData(fitnessHistory);
+
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+    /**
+     * Add Fitness Data -- patient does not exist --testing 404
+     *
+     * @throws IOException
+     */
+    @Test
+    public void addFitnessDataEndPoint2() throws IOException{
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
+        JSONObject jsonObject = new JSONObject();
+        Date date=new Date();
+        DateFormat sdf= new SimpleDateFormat("YYYY-mm-dd");
+        String captureDate=sdf.format(date);
+
+        jsonObject.put("id", "fBoWR-eAfHQ:RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("captureDate", captureDate);
+        jsonObject.put("stepCount", "2345");
+        jsonObject.put("caloriesExpended", "456");
+
+        StringEntity params = new StringEntity(jsonObject.toString());
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
 
         assertEquals(404, response.getStatusLine().getStatusCode());
 
     }
 
+    /**
+     * Add Fitness Data -- illegal json --testing 400
+     *
+     * @throws IOException
+     */
     @Test
-    public void GetPushNotificationEndPoint() throws IOException, org.json.simple.parser.ParseException {
+    public void addFitnessDataEndPoint3() throws IOException{
         HttpClient httpClient = HttpClientBuilder.create().build();
 
+        HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
+
+        StringEntity params = new StringEntity("test");
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
+
+        assertEquals(400, response.getStatusLine().getStatusCode());
+
+    }
+
+    /**
+     * Send Push Notification -- testing 200
+     * @throws IOException
+     */
+    @Test
+    public void getPushNotificationEndPoint1() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI/push");
-
-
         request.addHeader("content-type", "application/json");
         request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         HttpResponse response = httpClient.execute(request);
-
-
         assertEquals(200, response.getStatusLine().getStatusCode());
+    }
 
+    /**
+     * Send Push Notification -- testing 404 patient does not exist
+     * @throws IOException
+     */
+    @Test
+    public void getPushNotificationEndPoint2() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/fBoWR-eAfHQ:APVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI/push");
+        request.addHeader("content-type", "application/json");
+        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+        HttpResponse response = httpClient.execute(request);
+        assertEquals(404, response.getStatusLine().getStatusCode());
     }
 
 }

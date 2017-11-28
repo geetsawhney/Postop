@@ -5,7 +5,7 @@ import com.postop.model.FitnessHistory;
 import org.json.simple.JSONObject;
 
 public interface FitnessHistoryDao {
-    boolean addFitnessData(JSONObject fitnessData) throws IllegalSqlException;
-    FitnessHistory getFitnessDataByEmail(String email) throws IllegalSqlException;
+    boolean addFitnessData(JSONObject fitnessData);
+    FitnessHistory getFitnessDataByEmail(String email) ;
     boolean deleteFitnessData(FitnessHistory fitnessHistory);
 }

@@ -117,23 +117,7 @@ public class PostOpController {
             return patients;
         }, new JsonTransformer());
 
-        /* Implements adding daily fitness data and returning the number of notifications */
-        post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
-            try {
-                JSONObject jsonObject = postOpService.addFitnessData(request.body());
-                response.status(200);
-                return jsonObject;
-            } catch (IllegalSqlException ex) {
-                response.status(500);
-                return ex.getHash();
-            } catch (IllegalJsonException ex) {
-                response.status(400);
-                return ex.getHash();
-            } catch (PatientNotFoundException ex) {
-                response.status(404);
-                return ex.getHash();
-            }
-        }, new JsonTransformer());
+
 
         /* Implements updating or adding a callback for a patient */
         put(API_CONTEXT + "/patient/:email/callback", "application/json", (request, response) -> {
@@ -147,9 +131,6 @@ public class PostOpController {
                 HashMap<String, String> output = new HashMap<>();
                 output.put("message", "SUCCESS");
                 return output;
-            } catch (IllegalSqlException ex) {
-                response.status(500);
-                return ex.getHash();
             } catch (IllegalJsonException ex) {
                 response.status(400);
                 return ex.getHash();
@@ -159,30 +140,14 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
-        /* Implements get a list of all callbacks */
-        get(API_CONTEXT + "/patients/callbacks", "application/json", (request, response) -> {
-            try {
-                List<Callback> callbacks = postOpService.getAllCallbacks();
-                response.header("Access-Control-Allow-Origin", "*");
-                response.type("application/json");
-                response.status(200);
-                return callbacks;
-            } catch (IllegalSqlException ex) {
-                response.status(500);
-                return ex.getHash();
-            }
-        }, new JsonTransformer());
 
-        /*Implements get a callback*/
+         /*Implements get a callback*/
         get(API_CONTEXT + "/patient/:email/callback", "application/json", (request, response) -> {
             try {
                 String email = request.params(":email");
                 Callback callback = postOpService.getCallback(email);
                 response.status(200);
                 return callback;
-            } catch (IllegalSqlException ex) {
-                response.status(500);
-                return ex.getHash();
             } catch (CallbackNotFoundException ex) {
                 response.status(404);
                 return ex.getHash();
@@ -192,6 +157,33 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
+
+        /* Implements get a list of all callbacks */
+        get(API_CONTEXT + "/patients/callbacks", "application/json", (request, response) -> {
+            List<Callback> callbacks = postOpService.getAllCallbacks();
+            response.header("Access-Control-Allow-Origin", "*");
+            response.type("application/json");
+            response.status(200);
+            return callbacks;
+        }, new JsonTransformer());
+
+
+        /* Implements adding daily fitness data and returning the number of notifications */
+        post(API_CONTEXT + "/patient/gfit", "application/json", (request, response) -> {
+            try {
+                JSONObject jsonObject = postOpService.addFitnessData(request.body());
+                response.status(200);
+                return jsonObject;
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            } catch (PatientNotFoundException ex) {
+                response.status(404);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+
+
         /* Implements sending out a push notification */
         get(API_CONTEXT + "/patient/:id/push", "application/json", (request, response) -> {
             try {
@@ -200,8 +192,8 @@ public class PostOpController {
                 HashMap<String, String> output = new HashMap<>();
                 output.put("message", "SUCCESS");
                 return output;
-            } catch (IllegalSqlException ex) {
-                response.status(500);
+            } catch (PatientNotFoundException ex) {
+                response.status(404);
                 return ex.getHash();
             }
         }, new JsonTransformer());
