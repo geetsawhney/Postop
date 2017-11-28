@@ -11,12 +11,11 @@ import java.util.List;
 public interface PatientDao {
     List<Patient> getAllPatients();
     Patient getPatientByEmail(String email) throws  PatientNotFoundException;
-    public Patient getPatientByDeviceId(String id) throws  PatientNotFoundException;
-    public void updatePatientDeviceId(Patient patient) ;
-    public void addPatient(JSONObject patient) throws IllegalSqlException;
-    public boolean deletePatient(String email);
-//    public List<Patient> getPatientByName(String s);
-    public void updatePatient(String email,Patient patient) throws  PatientNotFoundException;
-    public boolean checkPatientExist(String email) throws IllegalSqlException;
+    Patient getPatientByDeviceId(String id) throws  PatientNotFoundException;
+    boolean updatePatientDeviceId(Patient patient) ;
+    boolean addPatient(JSONObject patient) throws IllegalSqlException;
+    boolean deletePatient(String email);
+    boolean updatePatient(String email,Patient patient) throws  PatientNotFoundException;
+    boolean checkPatientExist(String email) throws IllegalSqlException;
 
 }

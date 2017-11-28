@@ -71,7 +71,7 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     @Override
-    public void updatePatientDeviceId(Patient patient) {
+    public boolean updatePatientDeviceId(Patient patient) {
 
         String sql = "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
                 + "\' WHERE email = \'" + patient.getEmail() + "\'";
@@ -81,10 +81,11 @@ public class PatientDaoImpl implements PatientDao {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 
     @Override
-    public void addPatient(JSONObject jsonObject) throws IllegalSqlException {
+    public boolean addPatient(JSONObject jsonObject) throws IllegalSqlException {
 
         String sql = "INSERT INTO \"Patient\" (email, ssn, device_id, name, sex, " +
                 "dob, address, phone, hospital_visit_reason, uti_visit_count, " +
@@ -111,6 +112,7 @@ public class PatientDaoImpl implements PatientDao {
             logger.error("Failed to add the patient");
             throw new IllegalSqlException(e.getMessage());
         }
+        return true;
     }
 
 
@@ -171,7 +173,7 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
-    public void updatePatient(String email, Patient patient) throws PatientNotFoundException {
+    public boolean updatePatient(String email, Patient patient) throws PatientNotFoundException {
 
         if (checkPatientExist(email)) {
             String sql = "UPDATE \"Patient\" " +
@@ -197,6 +199,7 @@ public class PatientDaoImpl implements PatientDao {
         } else {
             throw new PatientNotFoundException("Patient with this email does not exist");
         }
+        return true;
     }
 
     @Override
