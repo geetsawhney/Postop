@@ -1,7 +1,6 @@
 package com.postop.dao;
 
 import com.postop.dao.interfaces.CallbackDao;
-import com.postop.exceptions.IllegalSqlException;
 import com.postop.model.Callback;
 import com.postop.utils.DbConnector;
 import org.json.simple.JSONObject;
@@ -22,7 +21,7 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     @Override
-    public boolean checkCallbackExists(String email) throws IllegalSqlException {
+    public boolean checkCallbackExists(String email) {
         String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
         try {
             Statement statement = connection.createStatement();
@@ -31,15 +30,16 @@ public class CallbackDaoImpl implements CallbackDao {
 
         } catch (SQLException e) {
             logger.error("SQL Exception");
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
+        return true;
     }
 
     @Override
-    public boolean updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
+    public boolean updateCallback(String email, JSONObject jsonObject) {
 
         String sql = "";
-        if(jsonObject.containsKey("hasPain")){
+        if (jsonObject.containsKey("hasPain")) {
             sql = "UPDATE \"Callback\" " +
                     "SET callback_date = \'" + jsonObject.get("callbackDate").toString() +
                     "\',severity = \'" + jsonObject.get("severity").toString() +
@@ -47,12 +47,12 @@ public class CallbackDaoImpl implements CallbackDao {
                     "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("hasNausea").toString()) +
                     "\',has_fever = \'" + Boolean.parseBoolean(jsonObject.get("hasFever").toString()) +
                     "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()) +
-                    "\', urine_color =\'" + jsonObject.get("urineColor").toString()+
-                    "\', is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
+                    "\', urine_color =\'" + jsonObject.get("urineColor").toString() +
+                    "\', is_resolved =\'" + Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
                     "\' WHERE email = \'" + email + "\'";
-        }else{
+        } else {
             sql = "UPDATE \"Callback\" " +
-                    "SET is_resolved =\'" +  Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
+                    "SET is_resolved =\'" + Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
                     "\' WHERE email = \'" + email + "\'";
         }
 
@@ -61,14 +61,14 @@ public class CallbackDaoImpl implements CallbackDao {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
         return true;
     }
 
     @Override
-    public boolean addCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
-       String sql= "INSERT INTO \"Callback\" (email, callback_date, severity, has_pain, has_nausea, " +
+    public boolean addCallback(String email, JSONObject jsonObject) {
+        String sql = "INSERT INTO \"Callback\" (email, callback_date, severity, has_pain, has_nausea, " +
                 "has_fever, has_fatigue, urine_color, is_resolved) VALUES (?,?,?,?,?,?,?,?,?)";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
@@ -84,14 +84,14 @@ public class CallbackDaoImpl implements CallbackDao {
             preparedStatement.setBoolean(9, Boolean.parseBoolean(jsonObject.get("isResolved").toString()));
 
             preparedStatement.execute();
-        }catch (SQLException e){
-            throw  new IllegalSqlException(e.getMessage());
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return true;
     }
 
     @Override
-    public List<Callback> getAllCallbacks() throws IllegalSqlException {
+    public List<Callback> getAllCallbacks() {
         List<Callback> allCallbacks = new ArrayList<>();
         String sql = "SELECT * FROM \"Callback\" WHERE is_resolved = false";
         try {
@@ -115,19 +115,19 @@ public class CallbackDaoImpl implements CallbackDao {
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
         return allCallbacks;
     }
 
-    public Callback getCallback(String email) throws IllegalSqlException {
+    public Callback getCallback(String email) {
 
-        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" +email + "\'";
+        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
 
+        Callback callback = null;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            Callback callback = null;
             if (resultSet.next()) {
                 callback = new Callback();
                 callback.setEmail(resultSet.getString("email"));
@@ -144,16 +144,16 @@ public class CallbackDaoImpl implements CallbackDao {
             resultSet.close();
             statement.close();
 
-            return callback;
-        } catch (SQLException e) {
-            throw new IllegalSqlException(e.getMessage());
-        }
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return callback;
     }
 
     @Override
     public boolean deleteCallback(String email) {
-        String sql="DELETE FROM \"Callback\" WHERE email=\'"+ email+"\'";
+        String sql = "DELETE FROM \"Callback\" WHERE email=\'" + email + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

@@ -1,5 +1,6 @@
 package com.postop.service;
 
+import com.postop.dao.interfaces.FitnessHistoryDao;
 import com.postop.model.Callback;
 import com.postop.dao.CallbackDaoImpl;
 import com.postop.dao.FitnessHistoryDaoImpl;
@@ -114,7 +115,7 @@ public class PostOpService {
     }
 
 
-    public JSONObject addFitnessData(String body) throws IllegalJsonException, IllegalSqlException, PatientNotFoundException {
+    public JSONObject addFitnessData(String body) throws IllegalJsonException, PatientNotFoundException {
         body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 
@@ -126,7 +127,7 @@ public class PostOpService {
             jsonObject.put("email", patient.getEmail());
             jsonObject.remove("id");
 
-            FitnessHistoryDaoImpl fhdi = new FitnessHistoryDaoImpl();
+            FitnessHistoryDao fhdi = new FitnessHistoryDaoImpl();
             fhdi.addFitnessData(jsonObject);
 
             NotificationLogic notificationLogic = new NotificationLogic(patient, fhdi.getFitnessDataByEmail(jsonObject.get("email").toString()));
@@ -153,7 +154,7 @@ public class PostOpService {
     }
 
 
-    public boolean updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
+    public boolean updateCallback(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
@@ -182,20 +183,20 @@ public class PostOpService {
         return  true;
     }
 
-    public List<Callback> getAllCallbacks() throws IllegalSqlException {
+    public List<Callback> getAllCallbacks()  {
         CallbackDao cd = new CallbackDaoImpl();
         return cd.getAllCallbacks();
     }
 
 
-    public boolean sendPush(String id) throws PatientNotFoundException, IllegalSqlException {
+    public boolean sendPush(String id) throws PatientNotFoundException {
         PatientDaoImpl pdi = new PatientDaoImpl();
         Patient patient = pdi.getPatientByDeviceId(id);
         Push.sendPush(patient);
         return true;
     }
 
-    public Callback getCallback(String email) throws IllegalSqlException, PatientNotFoundException, CallbackNotFoundException, SQLException {
+    public Callback getCallback(String email) throws PatientNotFoundException, CallbackNotFoundException, SQLException {
         CallbackDao cd=new CallbackDaoImpl();
         PatientDao pdi=new PatientDaoImpl();
         if(!pdi.checkPatientExist(email)){
@@ -205,5 +206,5 @@ public class PostOpService {
             throw  new CallbackNotFoundException("Callback for patient does not exist");
         return cd.getCallback(email);
     }
-    
+
 }

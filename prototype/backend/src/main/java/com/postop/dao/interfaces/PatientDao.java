@@ -16,6 +16,6 @@ public interface PatientDao {
     boolean addPatient(JSONObject patient) throws IllegalSqlException;
     boolean deletePatient(String email);
     boolean updatePatient(String email,Patient patient) throws  PatientNotFoundException;
-    boolean checkPatientExist(String email) throws IllegalSqlException;
+    boolean checkPatientExist(String email);
 
 }

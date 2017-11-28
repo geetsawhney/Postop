@@ -23,7 +23,7 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
     }
 
     @Override
-    public boolean addFitnessData(JSONObject jsonObject) throws IllegalSqlException {
+    public boolean addFitnessData(JSONObject jsonObject) {
 
         String sql = "INSERT INTO \"Fitness_History\" (email, capture_date, step_count, calories_expended) "
                 + "VALUES (?,?,?,?)";
@@ -39,13 +39,13 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
             preparedStatement.execute();
         } catch (SQLException e) {
             logger.error("Failed to add fitness data");
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
         return true;
     }
 
     @Override
-    public FitnessHistory getFitnessDataByEmail(String email) throws IllegalSqlException {
+    public FitnessHistory getFitnessDataByEmail(String email) {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -7);
         Date lastWeekDate = calendar.getTime();
@@ -57,11 +57,13 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
                 "\' AND capture_date >= \'" + lastWeekDateString + "\' GROUP BY email;";
 
 
+
+        FitnessHistory fitnessHistory = null;
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
+            fitnessHistory = new FitnessHistory();
 
-            FitnessHistory fitnessHistory = new FitnessHistory();
             while (resultSet.next()) {
 
                 fitnessHistory.setEmail(resultSet.getString("email"));
@@ -69,15 +71,11 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
                 fitnessHistory.setStepCount(resultSet.getInt("step_count"));
                 fitnessHistory.setCaloriesExpended(resultSet.getInt("calories_expended"));
             }
-
-            return fitnessHistory;
-
         } catch (SQLException e) {
             logger.error("Failed to add fitness data");
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
-
-
+        return fitnessHistory;
     }
 
     @Override
