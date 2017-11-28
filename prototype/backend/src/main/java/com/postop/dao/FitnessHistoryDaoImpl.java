@@ -23,7 +23,7 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
     }
 
     @Override
-    public void addFitnessData(JSONObject jsonObject) throws IllegalSqlException {
+    public boolean addFitnessData(JSONObject jsonObject) throws IllegalSqlException {
 
         String sql = "INSERT INTO \"Fitness_History\" (email, capture_date, step_count, calories_expended) "
                 + "VALUES (?,?,?,?)";
@@ -41,7 +41,7 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
             logger.error("Failed to add fitness data");
             throw new IllegalSqlException(e.getMessage());
         }
-
+        return true;
     }
 
     @Override
@@ -83,10 +83,10 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
     @Override
     public boolean deleteFitnessData(FitnessHistory fitnessHistory) {
         String sql = "DELETE FROM \"Fitness_History\" WHERE " +
-                "email= \'"+ fitnessHistory.getEmail()+
-                "\' AND capture_date=\'"+fitnessHistory.getCaptureDate()+
-                "\' AND step_count="+fitnessHistory.getStepCount()+
-                "AND calories_expended="+fitnessHistory.getCaloriesExpended();
+                "email= \'" + fitnessHistory.getEmail() +
+                "\' AND capture_date=\'" + fitnessHistory.getCaptureDate() +
+                "\' AND step_count=" + fitnessHistory.getStepCount() +
+                "AND calories_expended=" + fitnessHistory.getCaloriesExpended();
 
         try {
             Statement statement = connection.createStatement();

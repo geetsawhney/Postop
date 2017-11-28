@@ -74,7 +74,7 @@ public class PostOpService {
         return patient;
     }
 
-    public void updatePatient(String email, String body) throws IllegalJsonException, PatientNotFoundException {
+    public boolean updatePatient(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
@@ -91,10 +91,11 @@ public class PostOpService {
             throw new IllegalJsonException(e.getMessage());
 
         }
+        return true;
     }
 
 
-    public void addPatient(String body) throws IllegalJsonException, IllegalSqlException {
+    public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException {
         JSONParser jsonParser = new JSONParser();
 
         try {
@@ -109,6 +110,7 @@ public class PostOpService {
             logger.error("Illegal JSON");
             throw new IllegalJsonException(e.getMessage());
         }
+        return true;
     }
 
 
@@ -151,7 +153,7 @@ public class PostOpService {
     }
 
 
-    public void updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
+    public boolean updateCallback(String email, String body) throws IllegalSqlException, IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
@@ -177,6 +179,7 @@ public class PostOpService {
         } catch (ParseException e) {
             throw new IllegalJsonException("Illegal JSON found");
         }
+        return  true;
     }
 
     public List<Callback> getAllCallbacks() throws IllegalSqlException {
@@ -185,11 +188,11 @@ public class PostOpService {
     }
 
 
-    public void sendPush(String id) throws PatientNotFoundException, IllegalSqlException {
+    public boolean sendPush(String id) throws PatientNotFoundException, IllegalSqlException {
         PatientDaoImpl pdi = new PatientDaoImpl();
         Patient patient = pdi.getPatientByDeviceId(id);
-
         Push.sendPush(patient);
+        return true;
     }
 
     public Callback getCallback(String email) throws IllegalSqlException, PatientNotFoundException, CallbackNotFoundException, SQLException {
@@ -202,6 +205,5 @@ public class PostOpService {
             throw  new CallbackNotFoundException("Callback for patient does not exist");
         return cd.getCallback(email);
     }
-
-
+    
 }

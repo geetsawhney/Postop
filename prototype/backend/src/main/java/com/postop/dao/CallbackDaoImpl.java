@@ -36,7 +36,7 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     @Override
-    public void updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
+    public boolean updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
 
         String sql = "";
         if(jsonObject.containsKey("hasPain")){
@@ -63,10 +63,11 @@ public class CallbackDaoImpl implements CallbackDao {
         } catch (SQLException e) {
             throw new IllegalSqlException(e.getMessage());
         }
+        return true;
     }
 
     @Override
-    public void addCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
+    public boolean addCallback(String email, JSONObject jsonObject) throws IllegalSqlException {
        String sql= "INSERT INTO \"Callback\" (email, callback_date, severity, has_pain, has_nausea, " +
                 "has_fever, has_fatigue, urine_color, is_resolved) VALUES (?,?,?,?,?,?,?,?,?)";
         try {
@@ -86,6 +87,7 @@ public class CallbackDaoImpl implements CallbackDao {
         }catch (SQLException e){
             throw  new IllegalSqlException(e.getMessage());
         }
+        return true;
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.json.simple.JSONObject;
 
 
 public interface PatientLoginDao {
-    public boolean validatePatient(String email, String password) ;
+    boolean validatePatient(String email, String password) ;
     boolean deletePatient(String email);
-    public void addPatient(JSONObject jsonObject) throws  IllegalSqlException;
+    boolean addPatient(JSONObject jsonObject) throws  IllegalSqlException;
 }

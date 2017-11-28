@@ -49,7 +49,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
     }
 
     @Override
-    public void addPatient(JSONObject jsonObject) throws  IllegalSqlException {
+    public boolean addPatient(JSONObject jsonObject) throws  IllegalSqlException {
         String sql = "INSERT INTO \"Patient_Login\"(email,password) "
                  + "VALUES (?,?)";
         try {
@@ -67,5 +67,6 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
             logger.error("Wrong Algorithm in Hashing");
             e.printStackTrace();
         }
+        return true;
     }
 }
