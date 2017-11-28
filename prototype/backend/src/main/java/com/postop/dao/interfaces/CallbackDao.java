@@ -10,8 +10,7 @@ public interface CallbackDao {
     boolean checkCallbackExists(String email) throws IllegalSqlException;
     void updateCallback(String email, JSONObject jsonObject) throws IllegalSqlException;
     void addCallback(String email, JSONObject jsonObject) throws IllegalSqlException;
-
     List<Callback> getAllCallbacks() throws IllegalSqlException;
-
     Callback getCallback(String email) throws IllegalSqlException;
+    boolean deleteCallback(String email);
 }
