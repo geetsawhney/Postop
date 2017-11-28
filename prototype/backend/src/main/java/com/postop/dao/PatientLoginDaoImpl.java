@@ -2,7 +2,6 @@ package com.postop.dao;
 
 import com.postop.dao.interfaces.PatientLoginDao;
 import com.postop.exceptions.IllegalSqlException;
-import com.postop.exceptions.InvalidHashAlgorithmException;
 import com.postop.utils.DbConnector;
 import com.postop.utils.HashGenerator;
 import org.json.simple.JSONObject;
@@ -21,7 +20,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         connection = DbConnector.getConnection();
     }
 
-    public boolean validatePatient(String email, String password) throws IllegalSqlException{
+    public boolean validatePatient(String email, String password) {
 
         String sql = "SELECT * FROM \"Patient_Login\" WHERE email = \'" + email
                 +"\' AND password = \'" + password + "\'";
@@ -32,12 +31,25 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
             return resultSet.next();
         } catch (SQLException e) {
             logger.error("SQL Exception");
-            throw new IllegalSqlException(e.getMessage());
+            e.printStackTrace();
         }
+        return false;
     }
 
     @Override
-    public void addPatient(JSONObject jsonObject) throws InvalidHashAlgorithmException, IllegalSqlException {
+    public boolean deletePatient(String email) {
+        String sql="DELETE FROM \"Patient_Login\" WHERE email= \'"+ email +"\'";
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    @Override
+    public void addPatient(JSONObject jsonObject) throws  IllegalSqlException {
         String sql = "INSERT INTO \"Patient_Login\"(email,password) "
                  + "VALUES (?,?)";
         try {
@@ -53,7 +65,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         }
         catch (NoSuchAlgorithmException e){
             logger.error("Wrong Algorithm in Hashing");
-            throw new InvalidHashAlgorithmException(e.getMessage());
+            e.printStackTrace();
         }
     }
 }
