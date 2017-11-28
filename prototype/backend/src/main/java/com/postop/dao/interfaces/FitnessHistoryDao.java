@@ -7,4 +7,5 @@ import org.json.simple.JSONObject;
 public interface FitnessHistoryDao {
     public void addFitnessData(JSONObject fitnessData) throws IllegalSqlException;
     public FitnessHistory getFitnessDataByEmail(String email) throws IllegalSqlException;
+    boolean deleteFitnessData(FitnessHistory fitnessHistory);
 }

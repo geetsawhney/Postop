@@ -79,4 +79,21 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
 
 
     }
+
+    @Override
+    public boolean deleteFitnessData(FitnessHistory fitnessHistory) {
+        String sql = "DELETE FROM \"Fitness_History\" WHERE " +
+                "email= \'"+ fitnessHistory.getEmail()+
+                "\' AND capture_date=\'"+fitnessHistory.getCaptureDate()+
+                "\' AND step_count="+fitnessHistory.getStepCount()+
+                "AND calories_expended="+fitnessHistory.getCaloriesExpended();
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 }
