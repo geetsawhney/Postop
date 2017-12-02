@@ -20,8 +20,11 @@ import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
-import com.oose.postop.dao.DeviceIdDAO;
+import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.R;
+import com.oose.postop.receivers.NotificationCountAlarm;
+import com.oose.postop.receivers.PushNotificationAlarm;
+import com.oose.postop.services.GoogleFitFetchService;
 
 import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
@@ -245,10 +248,23 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
      * @param v
      */
     public void logout(View v){
-        DeviceIdDAO d = new DeviceIdDAO(this);
+        PatientDataDAO d = new PatientDataDAO(this);
         d.deleteID(id);
+
+        cancelAlarms();
+
+
         Intent localIntent = new Intent(HomepageActivity.this, MainActivity.class);
         startActivity(localIntent);
+
+
+    }
+
+    void cancelAlarms(){
+        stopService(new Intent(this, GoogleFitFetchService.class));
+       new PushNotificationAlarm().StopAlarm(getApplicationContext());
+        new NotificationCountAlarm().StopAlarm(getApplicationContext());
+
 
 
     }

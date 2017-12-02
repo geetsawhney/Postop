@@ -15,7 +15,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.oose.postop.dao.DeviceIdDAO;
+import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.helpers.ConnectionHelper;
 
 import org.json.JSONObject;
@@ -28,7 +28,8 @@ public class PushNotificationAlarm extends BroadcastReceiver {
 
     ConnectionHelper connectionHelper = new ConnectionHelper();
 
-    public void setAlarm(Context context, int mins) {
+
+    public void setAlarm(Context context, int mins, boolean test) {
        /* Setting the alarm here */
         Intent alarmIntent = new Intent(context, PushNotificationAlarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
@@ -39,8 +40,15 @@ public class PushNotificationAlarm extends BroadcastReceiver {
         c.set(Calendar.MILLISECOND,0);
         c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * mins;
-        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
+        int interval=0;
+        if(test) {
+
+
+             interval = 1000 * 30;
+        }else{
+            interval = 1000 *60* mins;
+        }
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
 
 
         Toast.makeText(context, "Push Notification Scheduled!", Toast.LENGTH_SHORT).show();
@@ -49,7 +57,7 @@ public class PushNotificationAlarm extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, "Notification Coming in!", Toast.LENGTH_LONG).show();
-        DeviceIdDAO d = new DeviceIdDAO(context);
+        PatientDataDAO d = new PatientDataDAO(context);
         String id = d.retrieveID();
         volleyRequest(context,id);
     }
@@ -83,4 +91,17 @@ public class PushNotificationAlarm extends BroadcastReceiver {
 
 
     }
+    public static void StopAlarm(Context c){
+
+
+        Intent alarmIntent = new Intent(c, PushNotificationAlarm.class);
+
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(c, 0, alarmIntent, 0);
+
+        AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+    }
+
+
 }

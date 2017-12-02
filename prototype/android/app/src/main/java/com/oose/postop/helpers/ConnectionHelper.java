@@ -10,7 +10,7 @@ public class ConnectionHelper {
 
 
 
-    String ip = "http://10.194.45.213:8080";
+    String ip = "http://remcare.herokuapp.com";
     String retrievePatientUrl = "/api/v1/patient/login";
     String retrieveFitUrl = "/api/v1/patient/gfit";
 

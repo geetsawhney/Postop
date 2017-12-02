@@ -14,13 +14,15 @@ public class Database {
     /**
      * Creates DeviceID Table
      */
-    public static class DeviceId implements BaseColumns {
-        public static final String TABLE_NAME = "SavedDeviceID";
+    public static class Data implements BaseColumns {
+        public static final String TABLE_NAME = "PatientData";
         public static final String ID = "id";
+        public static final String INTERVAL = "notificationInterval";
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " ( " +
                 ID + " TEXT " +
+                INTERVAL+" INTEGER "+
                ")";
 
 

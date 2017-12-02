@@ -32,7 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.oose.postop.dao.DeviceIdDAO;
+import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.helpers.ConnectionHelper;
 import com.oose.postop.receivers.PushNotificationAlarm;
 
@@ -72,7 +72,6 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      */
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.HISTORY_API)
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
@@ -81,6 +80,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                 .build();
         googleApiClient.connect();
         return super.onStartCommand(intent, flags, startId);
+       // return  START_NOT_STICKY;
     }
 
 
@@ -205,7 +205,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
     }
 
     public void buildRequest(){
-    DeviceIdDAO d = new DeviceIdDAO(this);
+    PatientDataDAO d = new PatientDataDAO(this);
     String id = d.retrieveID();
 
     //g.buildFitnessClient(context);
@@ -280,10 +280,13 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      * @param notificationCount
      */
     public void calculateInterval(int notificationCount){
-        //int interval = (14*60)/notificationCount;
-        int interval = 30;
+        int interval =(int) Math.round((24*60)/notificationCount);
+        //int interval = 30;
+
+        //Restart push alarm
         PushNotificationAlarm a = new PushNotificationAlarm();
-        a.setAlarm(getApplicationContext(), interval);
+        a.StopAlarm(getApplicationContext());
+        a.setAlarm(getApplicationContext(), interval, false);
 
 }
 }

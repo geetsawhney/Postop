@@ -35,7 +35,7 @@ public class RegistrationIntentService extends IntentService {
         Intent registrationComplete = null;
 
         //Register token is also null
-        //we will get the token on successfull registration
+        //we will get the token on successful registration
         String token = null;
         try {
             //Creating an instanceid

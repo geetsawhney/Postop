@@ -22,7 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.oose.postop.helpers.ConnectionHelper;
-import com.oose.postop.dao.DeviceIdDAO;
+import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.receivers.NotificationCountAlarm;
 import com.oose.postop.R;
 import com.oose.postop.services.RegistrationIntentService;
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     EditText passwordField;
     String deviceId;
     ProgressBar progress;
-    DeviceIdDAO d;
+    PatientDataDAO d;
     boolean idExists =false;
     ConnectionHelper connectionHelper = new ConnectionHelper();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                     //check if the id already exists in DB. If it does show homepage, if not show the login page
-                     d = new DeviceIdDAO(getApplicationContext());
+                     d = new PatientDataDAO(getApplicationContext());
                     deviceId = token;
                     if(d.checkIdExists(getApplicationContext(),deviceId) == true){
                         idExists=true;
@@ -91,8 +91,8 @@ public class MainActivity extends AppCompatActivity {
                         volleyRequest(requestList);
 
                     }else{
-                        idExists = false;
-                        d.addIDToDB(deviceId);
+
+
                         setContentView(R.layout.activity_main);
 
                         // Initialize all fields
@@ -180,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
         requestList.put("password",passwordVal);
         requestList.put("id",idVal);
 
+        idExists = false;
+
 
 
         // Send the credentials to the server for authentication
@@ -219,9 +221,10 @@ public class MainActivity extends AppCompatActivity {
                             Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
-                            if(!idExists) {
+                            if(d.checkIdExists(getApplicationContext(),deviceId) == false) {
                                 NotificationCountAlarm a = new NotificationCountAlarm();
-                                a.setAlarm(getApplicationContext());
+                                a.setAlarm(getApplicationContext(),false);
+                                d.addIDToDB(deviceId);
                             }
                             finish();
                         }catch(JSONException ex){
