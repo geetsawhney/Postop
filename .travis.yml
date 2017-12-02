@@ -17,7 +17,7 @@ matrix:
                                 - extra-android-m2repository
                                 - addon-google_apis-google
                         before_script: cd prototype/android
-                        script: ./gradlew connectedCheck
+                        script: ./gradlew build connectedCheck
 
 notifications:
         slack: oose-group19:ryaOZ0MyxhojlMt6WavN3giX
