@@ -12,11 +12,13 @@ matrix:
                                 - tools
                                 - android-26
                                 - build-tools-26.0.2
+                                - tools  
                                 - extra-google-google_play_services
                                 - extra-google-m2repository
                                 - extra-android-m2repository
                                 - addon-google_apis-google-19
-                        before_script: cd prototype/android
+                        before_script: 
+                                - cd prototype/android && ant install
                         script: gradle build connectedCheck
 
 notifications:
