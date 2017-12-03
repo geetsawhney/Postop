@@ -98,6 +98,9 @@ public class PostOpController {
             String email = request.params(":email");
             try {
                 Patient patient = postOpService.getPatient(email);
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
                 response.status(200);
                 return patient;
             } catch (PatientNotFoundException ex) {

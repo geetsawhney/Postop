@@ -8,9 +8,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-  <script type='text/javascript' src="js/retrievepatients.js"></script>
   <script type='text/javascript' src="js/EditPatient.js"></script>
-
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -21,23 +19,18 @@
     <ul class="nav navbar-nav">
       <li><a href="index.html">Home</a></li>
       <li><a href="New_Patient.html">New Patient</a></li>
-      <li class="active"><a href="#">List all Patients</a></li>
+      <li><a href="listPatients.html">List all Patients</a></li>
     </ul>
   </div>
 </nav>
 
-<div id='patient-template-container'></div>
+<div id='patient-edit-template-container'></div>
 <div id='nurse-template-container'></div>
 
 <div class='container'>
-  <div id='patient-list-container'>
-    <h3>List of Patients </h3>
-    <ul id='patients-list'>
-  </div>
+  <h3> Edit Patient</h3>
+  <ul id='patients-edit-list'>
   </ul>
-
-  <div id='patient-edit-template-container' style='display:none'></div>
 </div>
-
 </body>
 </html>
