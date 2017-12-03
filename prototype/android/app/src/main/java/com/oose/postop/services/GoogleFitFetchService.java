@@ -281,12 +281,14 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      */
     public void calculateInterval(int notificationCount){
         int interval =(int) Math.round((24*60)/notificationCount);
+        new PatientDataDAO(this).setInterval(interval);
+
         //int interval = 30;
 
         //Restart push alarm
-        PushNotificationAlarm a = new PushNotificationAlarm();
-        a.StopAlarm(getApplicationContext());
-        a.setAlarm(getApplicationContext(), interval, false);
+       //PushNotificationAlarm a = new PushNotificationAlarm();
+        //a.StopAlarm(getApplicationContext());
+        //a.setAlarm(getApplicationContext(), interval, false);
 
 }
 }

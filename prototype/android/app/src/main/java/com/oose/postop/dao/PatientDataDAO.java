@@ -96,7 +96,7 @@ public class PatientDataDAO
         return null;
     }
 
- /*   public void addIntervalToDB(String interval){
+    public void setInterval(int interval){
 
         //get the database or create the database if it doesnt exist already
         SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
@@ -112,12 +112,12 @@ public class PatientDataDAO
 
 
         Cursor c = database.rawQuery("SELECT "+ Database.Data.INTERVAL+" FROM " + Database.Data.TABLE_NAME , new String[]{});
-        if(c != null)
+        if(c.getCount() >0)
         {
             c.moveToFirst();
-            String interval = c.getString(c.getColumnIndex(Database.Data.INTERVAL));
+            Integer interval = c.getInt(c.getColumnIndex(Database.Data.INTERVAL));
             //Toast.makeText(context, id, Toast.LENGTH_LONG).show();
-            return Integer.parseInt(interval);
+            return interval;
 
 
             // use these strings as you want
@@ -126,5 +126,6 @@ public class PatientDataDAO
         Toast.makeText(context,"DIDNT WORK!!!", Toast.LENGTH_LONG).show();
         return null;
     }
-    */
+
+
 }

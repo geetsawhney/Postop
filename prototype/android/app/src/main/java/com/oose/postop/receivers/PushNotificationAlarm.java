@@ -7,6 +7,9 @@ import android.content.Context;
 import android.content.Intent;
 import java.util.Calendar;
 import java.util.TimeZone;
+
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -29,7 +32,7 @@ public class PushNotificationAlarm extends BroadcastReceiver {
     ConnectionHelper connectionHelper = new ConnectionHelper();
 
 
-    public void setAlarm(Context context, int mins, boolean test) {
+    public void setAlarm(Context context) {
        /* Setting the alarm here */
         Intent alarmIntent = new Intent(context, PushNotificationAlarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
@@ -40,14 +43,12 @@ public class PushNotificationAlarm extends BroadcastReceiver {
         c.set(Calendar.MILLISECOND,0);
         c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        int interval=0;
-        if(test) {
 
 
-             interval = 1000 * 30;
-        }else{
-            interval = 1000 *60* mins;
-        }
+            int interval = 1000 *60* new PatientDataDAO(context).retrieveInterval();
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        prefs.edit().putInt("interval",interval);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
 
 
@@ -56,10 +57,23 @@ public class PushNotificationAlarm extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Toast.makeText(context, "Notification Coming in!", Toast.LENGTH_LONG).show();
-        PatientDataDAO d = new PatientDataDAO(context);
-        String id = d.retrieveID();
-        volleyRequest(context,id);
+
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        int interval = prefs.getInt("interval",0);
+
+         PatientDataDAO p = new PatientDataDAO(context);
+        if (interval == p.retrieveInterval()){
+
+                Toast.makeText(context, "Notification Coming in!", Toast.LENGTH_LONG).show();
+                PatientDataDAO d = new PatientDataDAO(context);
+                String id = d.retrieveID();
+                volleyRequest(context, id);
+
+        }else{
+            StopAlarm(context);
+            setAlarm(context);
+        }
     }
 
     public void volleyRequest( final Context context, String id) {

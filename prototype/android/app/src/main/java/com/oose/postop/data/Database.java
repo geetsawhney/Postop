@@ -21,8 +21,8 @@ public class Database {
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " ( " +
-                ID + " TEXT " +
-                INTERVAL+" INTEGER "+
+                ID + " TEXT, " +
+                INTERVAL +" NUMBER "+
                ")";
 
 

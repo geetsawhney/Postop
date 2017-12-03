@@ -25,6 +25,7 @@ import com.oose.postop.helpers.ConnectionHelper;
 import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.receivers.NotificationCountAlarm;
 import com.oose.postop.R;
+import com.oose.postop.receivers.PushNotificationAlarm;
 import com.oose.postop.services.RegistrationIntentService;
 
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     String deviceId;
     ProgressBar progress;
     PatientDataDAO d;
-    boolean idExists =false;
+
     ConnectionHelper connectionHelper = new ConnectionHelper();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
                      d = new PatientDataDAO(getApplicationContext());
                     deviceId = token;
                     if(d.checkIdExists(getApplicationContext(),deviceId) == true){
-                        idExists=true;
+
                         Toast.makeText(getApplicationContext(),"ID Exists",Toast.LENGTH_LONG).show();
                         Map<String,String> requestList = new HashMap<String,String>();
                         requestList.put("id",deviceId);
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
         requestList.put("password",passwordVal);
         requestList.put("id",idVal);
 
-        idExists = false;
+
 
 
 
@@ -222,9 +223,12 @@ public class MainActivity extends AppCompatActivity {
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
                             if(d.checkIdExists(getApplicationContext(),deviceId) == false) {
-                                NotificationCountAlarm a = new NotificationCountAlarm();
-                                a.setAlarm(getApplicationContext(),false);
                                 d.addIDToDB(deviceId);
+                                d.setInterval(1000*60*5);
+                                 new NotificationCountAlarm().setAlarm(getApplicationContext(),false);
+                                 new PushNotificationAlarm().setAlarm(getApplicationContext());
+
+
                             }
                             finish();
                         }catch(JSONException ex){
