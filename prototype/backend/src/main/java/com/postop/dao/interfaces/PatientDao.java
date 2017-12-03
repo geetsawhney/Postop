@@ -5,11 +5,10 @@ import com.postop.exceptions.PatientNotFoundException;
 import com.postop.model.Patient;
 import org.json.simple.JSONObject;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface PatientDao {
-    List<Patient> getAllPatients();
+    List<JSONObject> getAllPatients();
     Patient getPatientByEmail(String email) throws  PatientNotFoundException;
     Patient getPatientByDeviceId(String id) throws  PatientNotFoundException;
     boolean updatePatientDeviceId(Patient patient) ;

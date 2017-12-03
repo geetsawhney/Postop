@@ -25,30 +25,32 @@ public class PatientDaoImpl implements PatientDao {
 
 
     @Override
-    public List<Patient> getAllPatients() {
-        List<Patient> allPatients = new ArrayList<>();
+    public List<JSONObject> getAllPatients() {
+        List<JSONObject> allPatients = new ArrayList<>();
         String sql = "SELECT * FROM \"Patient\"";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            Patient patient;
+            JSONObject jsonObject;
             while (resultSet.next()) {
 //                patient = populateDetails(resultSet);
-                patient = new Patient();
-                patient.setName(resultSet.getString("name"));
-                patient.setSex(resultSet.getString("sex"));
-                patient.setSsn(resultSet.getString("ssn"));
-                patient.setDob(resultSet.getString("dob"));
-                patient.setEmail(resultSet.getString("email"));
-                patient.setAddress(resultSet.getString("address"));
-                patient.setPhone(resultSet.getString("phone"));
-                patient.setHospitalVisitReason(resultSet.getString("hospital_visit_reason"));
-                patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("uti_visit_count")));
-                patient.setCatheterUsage(resultSet.getBoolean("catheter_usage"));
-                patient.setDiabetic(resultSet.getBoolean("diabetic"));
-                patient.setDeviceId(resultSet.getString("device_id"));
-                patient.setLastVisitDate(resultSet.getString("last_visit_date"));
-                allPatients.add(patient);
+                jsonObject = new JSONObject();
+
+                jsonObject.put("email",resultSet.getString("email"));
+                jsonObject.put("name",resultSet.getString("name"));
+                jsonObject.put("phone",resultSet.getString("phone"));
+                jsonObject.put("sex",resultSet.getString("sex"));
+                jsonObject.put("dob",resultSet.getString("dob"));
+                jsonObject.put("ssn",resultSet.getString("ssn"));
+                jsonObject.put("address",resultSet.getString("address"));
+                jsonObject.put("id",resultSet.getString("device_id"));
+                jsonObject.put("hospitalVisitReason",resultSet.getString("hospital_visit_reason"));
+                jsonObject.put("utiVisitCount",resultSet.getInt("uti_visit_count"));
+                jsonObject.put("diabetic",resultSet.getBoolean("diabetic"));
+                jsonObject.put("lastVisitDate",resultSet.getString("last_visit_date"));
+                jsonObject.put("catheterUsage",resultSet.getBoolean("catheter_usage"));
+
+                allPatients.add(jsonObject);
             }
             resultSet.close();
             statement.close();

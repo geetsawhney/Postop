@@ -148,7 +148,7 @@ public class PostOpService {
         return pdi.getPatientByEmail(email);
     }
 
-    public List<Patient> getAllPatients() {
+    public List<JSONObject> getAllPatients() {
         PatientDao pdi = new PatientDaoImpl();
         return pdi.getAllPatients();
     }
