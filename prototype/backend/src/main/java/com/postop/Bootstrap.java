@@ -13,7 +13,7 @@ public class Bootstrap {
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
     public static int PORT = 8080;
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
 
         //Specify the IP address and Port at which the server should be run
 

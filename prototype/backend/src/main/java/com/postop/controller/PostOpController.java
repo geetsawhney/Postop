@@ -163,7 +163,7 @@ public class PostOpController {
 
         /* Implements get a list of all callbacks */
         get(API_CONTEXT + "/patients/callbacks", "application/json", (request, response) -> {
-            List<Callback> callbacks = postOpService.getAllCallbacks();
+            List<JSONObject> callbacks = postOpService.getAllCallbacks();
             response.header("Access-Control-Allow-Origin", "*");
             response.type("application/json");
             response.status(200);

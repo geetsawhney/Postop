@@ -3,6 +3,7 @@ package com.postop.dao;
 import com.postop.dao.interfaces.CallbackDao;
 import com.postop.model.Callback;
 import com.postop.utils.DbConnector;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -91,26 +92,40 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     @Override
-    public List<Callback> getAllCallbacks() {
-        List<Callback> allCallbacks = new ArrayList<>();
-        String sql = "SELECT * FROM \"Callback\" WHERE is_resolved = false";
+    public List<JSONObject> getAllCallbacks() {
+        List<JSONObject> allCallbacks = new ArrayList<>();
+        String sql = "SELECT c.email, c.callback_date, c.severity, c.has_pain, c.has_fever, c.has_nausea, c.has_fatigue, c.urine_color , c.is_resolved, " +
+                "p.name, p.phone, p.catheter_usage,p.last_visit_date,p.sex,p.diabetic, p.hospital_visit_reason, p.uti_visit_count " +
+                "FROM \"Callback\" c, \"Patient\" p WHERE c.is_resolved = false AND c.email=p.email";
+
+        JSONObject jsonObject;
+
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            Callback callback;
             while (resultSet.next()) {
-                callback = new Callback();
+                jsonObject=new JSONObject();
 
-                callback.setEmail(resultSet.getString("email"));
-                callback.setCallbackDate(resultSet.getString("callback_date"));
-                callback.setSeverity(Integer.parseInt(resultSet.getString("severity")));
-                callback.setHasFatigue(resultSet.getBoolean("has_fatigue"));
-                callback.setHasNausea(resultSet.getBoolean("has_nausea"));
-                callback.setHasFever(resultSet.getBoolean("has_fever"));
-                callback.setHasPain(resultSet.getBoolean("has_pain"));
-                callback.setUrineColor(resultSet.getString("urine_color"));
-                callback.setIsResolved(resultSet.getBoolean("is_resolved"));
-                allCallbacks.add(callback);
+                jsonObject.put("email",resultSet.getString("email"));
+                jsonObject.put("callbackDate",resultSet.getString("callback_date"));
+                jsonObject.put("severity",resultSet.getInt("severity"));
+                jsonObject.put("hasFatigue",resultSet.getBoolean("has_fatigue"));
+                jsonObject.put("hasNausea",resultSet.getBoolean("has_nausea"));
+                jsonObject.put("hasFever",resultSet.getBoolean("has_fever"));
+                jsonObject.put("hasPain",resultSet.getBoolean("has_pain"));
+                jsonObject.put("urineColor",resultSet.getString("urine_color"));
+                jsonObject.put("isResolved",resultSet.getBoolean("is_resolved"));
+
+                jsonObject.put("name",resultSet.getString("name"));
+                jsonObject.put("phone",resultSet.getString("phone"));
+                jsonObject.put("sex",resultSet.getString("sex"));
+                jsonObject.put("hospitalVisitReason",resultSet.getString("hospital_visit_reason"));
+                jsonObject.put("utiVisitCount",resultSet.getInt("uti_visit_count"));
+                jsonObject.put("diabetic",resultSet.getBoolean("diabetic"));
+                jsonObject.put("lastVisitDate",resultSet.getString("last_visit_date"));
+                jsonObject.put("catheterUsage",resultSet.getBoolean("catheter_usage"));
+
+                allCallbacks.add(jsonObject);
             }
             resultSet.close();
             statement.close();

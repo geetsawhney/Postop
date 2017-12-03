@@ -183,7 +183,7 @@ public class PostOpService {
         return  true;
     }
 
-    public List<Callback> getAllCallbacks()  {
+    public List<JSONObject> getAllCallbacks()  {
         CallbackDao cd = new CallbackDaoImpl();
         return cd.getAllCallbacks();
     }
