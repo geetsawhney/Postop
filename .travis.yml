@@ -2,7 +2,7 @@ matrix:
   include:
   - language: java
     jdk: oraclejdk8
-    before_script: cd prototype/backend
+    before_script: cd postop/backend
     script: mvn clean verify
   - language: android
     sudo: false
@@ -20,7 +20,7 @@ matrix:
       - addon-google_apis-google-19
       - sys-img-armeabi-v7a-android-21
     before_script:
-    - cd prototype/android
+    - cd postop/android
     - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
     - emulator -avd test -no-skin -no-audio -no-window &
     - android-wait-for-emulator
