@@ -6,6 +6,7 @@ matrix:
                   script: mvn clean verify
 
                 - language: android
+                  sudo: required
                   jdk: oraclejdk8
                   android: 
                         components:
@@ -17,9 +18,10 @@ matrix:
                                 - extra-google-m2repository
                                 - extra-android-m2repository
                                 - addon-google_apis-google-19
-                        before_script: 
-                                - cd prototype/android && ant install
-                        script: gradle build connectedCheck
+
+
+                  before_script: cd prototype/android
+                  script: gradle build connectedCheck
 
 notifications:
         slack: oose-group19:ryaOZ0MyxhojlMt6WavN3giX
