@@ -8,21 +8,20 @@ matrix:
                 - language: android
                   sudo: false
                   jdk: oraclejdk8
-                  android: 
+                  android:
                         components:
                                 - tools
+                                - platform-tools
                                 - android-26
-                                - android-21
                                 - build-tools-26.0.2
-                                - tools  
                                 - extra-google-google_play_services
                                 - extra-google-m2repository
                                 - extra-android-m2repository
-                                - addon-google_apis-google-19
-                                - sys-img-armeabi-v7a-android-21
-                  before_script: 
+                                - addon-google_apis-google-26
+                                - sys-img-armeabi-v7a-android-26
+                  before_script:
                         - cd prototype/android
-                        - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+                        - echo no | android create avd --force -n test -t android-26 --abi armeabi-v7a --tag google_apis
                         - emulator -avd test -no-skin -no-audio -no-window &
                         - android-wait-for-emulator
                         - adb shell input keyevent 82 &
@@ -30,4 +29,3 @@ matrix:
 
 notifications:
         slack: oose-group19:ryaOZ0MyxhojlMt6WavN3giX
-
