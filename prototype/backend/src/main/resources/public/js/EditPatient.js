@@ -24,7 +24,12 @@ function EditPatient() {
               patientEmail: patients.email,
               patientName: patients.name,
               patientPhone: patients.phone,
-              patientSex: patients.sex
+              patientSex: patients.sex,
+              patientDOB: patients.dob,
+              patientAddress: patients.address,
+              patientReason: patients.hospitalVisitReason,
+              lastVisitDate: patients.lastVisitDate,
+              UTIcount: patients.utiVisitCount
             };
             console.log("Email = "+patients.email);
             // patients.patientEmail = patients.email;
