@@ -14,13 +14,9 @@ public class Bootstrap {
     public static int PORT = 8080;
 
     public static void main(String[] args){
-
         //Specify the IP address and Port at which the server should be run
-
         PORT = getHerokuAssignedPort();
         port(PORT);
-//        ipAddress(IP_ADDRESS);
-
 
         //Specify the sub-directory from which to serve static resources (like html and css)
         staticFileLocation("/public");

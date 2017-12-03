@@ -3,10 +3,7 @@ package com.postop.model;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Callback {
 
@@ -35,20 +32,20 @@ public class Callback {
         return callbackDate;
     }
 
-    public String getDateString(){
-        return new SimpleDateFormat("yyyy-MM-dd").format(callbackDate);
-    }
+//    public String getDateString(){
+//        return new SimpleDateFormat("yyyy-MM-dd").format(callbackDate);
+//    }
 
-    public void setCallbackDate(String callbackDate) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date d = null;
-        try {
-            d = df.parse(callbackDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.callbackDate = d;
-    }
+//    public void setCallbackDate(String callbackDate) {
+//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+//        Date d = null;
+//        try {
+//            d = df.parse(callbackDate);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        this.callbackDate = d;
+//    }
 
     public int getSeverity() {
         return severity;
@@ -108,5 +105,9 @@ public class Callback {
 
     public Logger getLogger() {
         return logger;
+    }
+
+    public void setCallbackDate(Date callbackDate) {
+        this.callbackDate = callbackDate;
     }
 }

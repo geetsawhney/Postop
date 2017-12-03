@@ -25,32 +25,30 @@ public class PatientDaoImpl implements PatientDao {
 
 
     @Override
-    public List<JSONObject> getAllPatients() {
-        List<JSONObject> allPatients = new ArrayList<>();
+    public List<Patient> getAllPatients() {
+        List<Patient> allPatients = new ArrayList<>();
         String sql = "SELECT * FROM \"Patient\"";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-            JSONObject jsonObject;
+            Patient patient;
             while (resultSet.next()) {
-//                patient = populateDetails(resultSet);
-                jsonObject = new JSONObject();
 
-                jsonObject.put("email",resultSet.getString("email"));
-                jsonObject.put("name",resultSet.getString("name"));
-                jsonObject.put("phone",resultSet.getString("phone"));
-                jsonObject.put("sex",resultSet.getString("sex"));
-                jsonObject.put("dob",resultSet.getString("dob"));
-                jsonObject.put("ssn",resultSet.getString("ssn"));
-                jsonObject.put("address",resultSet.getString("address"));
-                jsonObject.put("id",resultSet.getString("device_id"));
-                jsonObject.put("hospitalVisitReason",resultSet.getString("hospital_visit_reason"));
-                jsonObject.put("utiVisitCount",resultSet.getInt("uti_visit_count"));
-                jsonObject.put("diabetic",resultSet.getBoolean("diabetic"));
-                jsonObject.put("lastVisitDate",resultSet.getString("last_visit_date"));
-                jsonObject.put("catheterUsage",resultSet.getBoolean("catheter_usage"));
-
-                allPatients.add(jsonObject);
+                patient = new Patient();
+                patient.setName(resultSet.getString("name"));
+                patient.setSex(resultSet.getString("sex"));
+                patient.setSsn(resultSet.getString("ssn"));
+                patient.setDob(resultSet.getDate("dob"));
+                patient.setEmail(resultSet.getString("email"));
+                patient.setAddress(resultSet.getString("address"));
+                patient.setPhone(resultSet.getString("phone"));
+                patient.setHospitalVisitReason(resultSet.getString("hospital_visit_reason"));
+                patient.setUtiVisitCount(Integer.parseInt(resultSet.getString("uti_visit_count")));
+                patient.setCatheterUsage(resultSet.getBoolean("catheter_usage"));
+                patient.setDiabetic(resultSet.getBoolean("diabetic"));
+                patient.setDeviceId(resultSet.getString("device_id"));
+                patient.setLastVisitDate(resultSet.getDate("last_visit_date"));
+                allPatients.add(patient);
             }
             resultSet.close();
             statement.close();
@@ -100,14 +98,14 @@ public class PatientDaoImpl implements PatientDao {
             preparedStatement.setString(3, jsonObject.get("id").toString());
             preparedStatement.setString(4, jsonObject.get("name").toString());
             preparedStatement.setString(5, jsonObject.get("sex").toString());
-            preparedStatement.setString(6, jsonObject.get("dob").toString());
+            preparedStatement.setDate(6, Date.valueOf(jsonObject.get("dob").toString()));
             preparedStatement.setString(7, jsonObject.get("address").toString());
             preparedStatement.setString(8, jsonObject.get("phone").toString());
             preparedStatement.setString(9, jsonObject.get("hospitalVisitReason").toString());
             preparedStatement.setInt(10, Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
             preparedStatement.setBoolean(11, Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
             preparedStatement.setBoolean(12, Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-            preparedStatement.setString(13, jsonObject.get("lastVisitDate").toString());
+            preparedStatement.setDate(13, Date.valueOf(jsonObject.get("lastVisitDate").toString()));
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -145,7 +143,9 @@ public class PatientDaoImpl implements PatientDao {
             patient.setName(resultSet.getString("name"));
             patient.setSex(resultSet.getString("sex"));
             patient.setSsn(resultSet.getString("ssn"));
-            patient.setDob(resultSet.getString("dob"));
+
+            patient.setDob(resultSet.getDate("dob"));
+
             patient.setEmail(resultSet.getString("email"));
             patient.setAddress(resultSet.getString("address"));
             patient.setPhone(resultSet.getString("phone"));
@@ -154,7 +154,8 @@ public class PatientDaoImpl implements PatientDao {
             patient.setCatheterUsage(resultSet.getBoolean("catheter_usage"));
             patient.setDiabetic(resultSet.getBoolean("diabetic"));
             patient.setDeviceId(resultSet.getString("device_id"));
-            patient.setLastVisitDate(resultSet.getString("last_visit_date"));
+
+            patient.setLastVisitDate(resultSet.getDate("last_visit_date"));
         }
         return patient;
     }
@@ -183,14 +184,14 @@ public class PatientDaoImpl implements PatientDao {
                     "\',device_id = \'" + patient.getDeviceId() +
                     "\', name = \'" + patient.getName() +
                     "\',sex = \'" + patient.getSex() +
-                    "\',dob = \'" + patient.getDobString() +
+                    "\',dob = \'" + patient.getDob() +
                     "\', address =\'" + patient.getAddress() +
                     "\', phone =\'" + patient.getPhone() +
                     "\', hospital_visit_reason =\'" + patient.getHospitalVisitReason() +
                     "\', uti_visit_count =" + patient.getUtiVisitCount() +
                     ",catheter_usage =" + patient.getCatheterUsage() +
                     ", diabetic =" + patient.getDiabetic() +
-                    ", last_visit_date = \'" + patient.getLastVisitDateString() +
+                    ", last_visit_date = \'" + patient.getLastVisitDate() +
                     "\' WHERE email = \'" + patient.getEmail() + "\'";
             try {
                 Statement statement = connection.createStatement();

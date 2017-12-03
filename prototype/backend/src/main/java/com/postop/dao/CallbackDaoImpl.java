@@ -3,7 +3,6 @@ package com.postop.dao;
 import com.postop.dao.interfaces.CallbackDao;
 import com.postop.model.Callback;
 import com.postop.utils.DbConnector;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +41,7 @@ public class CallbackDaoImpl implements CallbackDao {
         String sql = "";
         if (jsonObject.containsKey("hasPain")) {
             sql = "UPDATE \"Callback\" " +
-                    "SET callback_date = \'" + jsonObject.get("callbackDate").toString() +
+                    "SET callback_date = \'" + Date.valueOf(jsonObject.get("callbackDate").toString()) +
                     "\',severity = \'" + jsonObject.get("severity").toString() +
                     "\', has_pain = \'" + Boolean.parseBoolean(jsonObject.get("hasPain").toString()) +
                     "\',has_nausea = \'" + Boolean.parseBoolean(jsonObject.get("hasNausea").toString()) +
@@ -75,7 +74,7 @@ public class CallbackDaoImpl implements CallbackDao {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, email);
-            preparedStatement.setString(2, jsonObject.get("callbackDate").toString());
+            preparedStatement.setDate(2, Date.valueOf(jsonObject.get("callbackDate").toString()));
             preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("severity").toString()));
             preparedStatement.setBoolean(4, Boolean.parseBoolean(jsonObject.get("hasPain").toString()));
             preparedStatement.setBoolean(5, Boolean.parseBoolean(jsonObject.get("hasNausea").toString()));
@@ -146,7 +145,7 @@ public class CallbackDaoImpl implements CallbackDao {
             if (resultSet.next()) {
                 callback = new Callback();
                 callback.setEmail(resultSet.getString("email"));
-                callback.setCallbackDate(resultSet.getString("callback_date"));
+                callback.setCallbackDate(resultSet.getDate("callback_date"));
                 callback.setSeverity(Integer.parseInt(resultSet.getString("severity")));
                 callback.setHasFatigue(resultSet.getBoolean("has_fatigue"));
                 callback.setHasNausea(resultSet.getBoolean("has_nausea"));

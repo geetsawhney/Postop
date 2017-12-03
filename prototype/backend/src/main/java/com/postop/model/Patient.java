@@ -3,11 +3,7 @@ package com.postop.model;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 public class Patient {
     private final Logger logger = LoggerFactory.getLogger(Patient.class);
@@ -55,14 +51,14 @@ public class Patient {
         patient.setDeviceId(jsonObject.get("id").toString());
         patient.setName(jsonObject.get("name").toString());
         patient.setSex(jsonObject.get("sex").toString());
-        patient.setDob(jsonObject.get("dob").toString());
+        patient.setDob(Date.valueOf(jsonObject.get("dob").toString()));
         patient.setAddress(jsonObject.get("address").toString());
         patient.setPhone(jsonObject.get("phone").toString());
         patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
         patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
         patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
         patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-        patient.setLastVisitDate(jsonObject.get("lastVisitDate").toString());
+        patient.setLastVisitDate(Date.valueOf(jsonObject.get("lastVisitDate").toString()));
 
         return patient;
     }
@@ -83,20 +79,13 @@ public class Patient {
         return lastVisitDate;
     }
 
-    public void setLastVisitDate(String lastVisitDate) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = df.parse(lastVisitDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.lastVisitDate = date;
-    }
+//    public void setLastVisitDate(String lastVisitDate) {
+//        this.lastVisitDate= Date.valueOf(lastVisitDate);
+//    }
 
-    public String getLastVisitDateString() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
-    }
+//    public String getLastVisitDateString() {
+//        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
+//    }
 
     public int getUtiVisitCount() {
         return utiVisitCount;
@@ -170,21 +159,13 @@ public class Patient {
         return dob;
     }
 
-    public void setDob(String dob) {
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = df.parse(dob);
+//    public void setDob(String dob) {
+//        this.dob=Date.valueOf(dob);
+//    }
 
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        this.dob = date;
-    }
-
-    public String getDobString() {
-        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
-    }
+//    public String getDobString() {
+//        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
+//    }
 
     public String getSex() {
         return sex;

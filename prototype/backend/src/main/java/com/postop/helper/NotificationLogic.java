@@ -3,7 +3,7 @@ package com.postop.helper;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.concurrent.TimeUnit;
 
 public class NotificationLogic {
@@ -148,12 +148,14 @@ public class NotificationLogic {
     }
 
     public long getAge(Date dob) {
-        long patientAge = (new Date().getTime() - dob.getTime()) / 365;
+        Date currentDate=new Date(System.currentTimeMillis());
+        long patientAge = (currentDate.getTime() - dob.getTime()) / 365;
         return TimeUnit.DAYS.convert(patientAge, TimeUnit.MILLISECONDS);
     }
 
     public long getNoOfDays(Date lastVisitDate) {
-        long noOfDays = new Date().getTime() - lastVisitDate.getTime();
+        Date currentDate=new Date(System.currentTimeMillis());
+        long noOfDays = currentDate.getTime() - lastVisitDate.getTime();
         return TimeUnit.DAYS.convert(noOfDays, TimeUnit.MILLISECONDS);
     }
 }

@@ -101,6 +101,7 @@ public class PostOpController {
                 response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
                 response.header("Access-Control-Allow-Origin", "*");
                 response.type("application/json");
+                logger.info(patient.getDob().toString());
                 response.status(200);
                 return patient;
             } catch (PatientNotFoundException ex) {
@@ -112,7 +113,7 @@ public class PostOpController {
 
         /* Implements get a list of all patient */
         get(API_CONTEXT + "/patients", "application/json", (request, response) -> {
-            List<JSONObject> patients = postOpService.getAllPatients();
+            List<Patient> patients = postOpService.getAllPatients();
             response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             response.header("Access-Control-Allow-Origin", "*");
             response.type("application/json");

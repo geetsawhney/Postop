@@ -22,12 +22,9 @@ import org.junit.*;
 import spark.Spark;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.sql.Date;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 public class PostOpControllerTest {
 
@@ -488,6 +485,7 @@ public class PostOpControllerTest {
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
         JSONObject jsonObject = new JSONObject();
 
+        //adding a new patient test1@test.com
 
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
@@ -517,7 +515,7 @@ public class PostOpControllerTest {
 
 
         jsonObject.put("email", "test1@test.com");
-        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
         jsonObject.put("hasPain", true);
@@ -538,7 +536,6 @@ public class PostOpControllerTest {
         cd.deleteCallback(jsonObject.get("email").toString());
         PatientDao pd = new PatientDaoImpl();
         pd.deletePatient(jsonObject.get("email").toString());
-
 
         assertEquals(200, response.getStatusLine().getStatusCode());
     }
@@ -586,7 +583,7 @@ public class PostOpControllerTest {
 
 
         jsonObject.put("email", "test1@test.com");
-        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
         jsonObject.put("hasPain", true);
@@ -607,7 +604,7 @@ public class PostOpControllerTest {
         jsonObject = new JSONObject();
 
         jsonObject.put("email", "test1@test.com");
-        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
         jsonObject.put("hasPain", false);
@@ -671,7 +668,7 @@ public class PostOpControllerTest {
 
 
         jsonObject.put("email", "test1@test.com");
-        jsonObject.put("callbackDate", "10-10-2017");
+        jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
         jsonObject.put("hasPain", true);
@@ -831,12 +828,10 @@ public class PostOpControllerTest {
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
-        Date date=new Date();
-        DateFormat sdf= new SimpleDateFormat("YYYY-mm-dd");
-        String captureDate=sdf.format(date);
+        Date date=new Date(System.currentTimeMillis());
 
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
-        jsonObject.put("captureDate", captureDate);
+        jsonObject.put("captureDate", date.toString());
         jsonObject.put("stepCount", "2345");
         jsonObject.put("caloriesExpended", "456");
 
@@ -847,7 +842,7 @@ public class PostOpControllerTest {
 
         FitnessHistory fitnessHistory=new FitnessHistory();
         fitnessHistory.setEmail("oosegroup19@gmail.com");
-        fitnessHistory.setCaptureDate(jsonObject.get("captureDate").toString());
+        fitnessHistory.setCaptureDate(Date.valueOf(jsonObject.get("captureDate").toString()));
         fitnessHistory.setStepCount(Integer.parseInt(jsonObject.get("stepCount").toString()));
         fitnessHistory.setCaloriesExpended(Integer.parseInt(jsonObject.get("caloriesExpended").toString()));
         FitnessHistoryDao fhd=new FitnessHistoryDaoImpl();
@@ -867,12 +862,10 @@ public class PostOpControllerTest {
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
-        Date date=new Date();
-        DateFormat sdf= new SimpleDateFormat("YYYY-mm-dd");
-        String captureDate=sdf.format(date);
+        Date date=new Date(System.currentTimeMillis());
 
         jsonObject.put("id", "fBoWR-eAfHQ:RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
-        jsonObject.put("captureDate", captureDate);
+        jsonObject.put("captureDate", date.toString());
         jsonObject.put("stepCount", "2345");
         jsonObject.put("caloriesExpended", "456");
 
