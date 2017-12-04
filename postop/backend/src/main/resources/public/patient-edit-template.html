@@ -1,6 +1,5 @@
 <script type='text/javascript' src="js/updatePatient.js"></script>
 <div id="patient-edit-template">
-  <form>
       <label for="Name">Name</label>
       <input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
       Email<input type="text" readonly="readonly" class="form-control" id="up-email" placeholder="Email" value={{patientEmail}}>
@@ -12,7 +11,6 @@
       Last Visit Date<input type="text" class="form-control" id="up-last-visit-date" placeholder="Last visit date" value={{lastVisitDate}}>
       UTI Visit count<input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
       <div class="form-group">
-          <button type="submit" id="update-patient-btn" class="btn btn-default updatePatient">Update</button>
+          <button type="button" id="update-patient-btn" class="btn btn-default updatePatient" onClick="updatePatient()">Update</button>
       </div>
-</form>
 </div>

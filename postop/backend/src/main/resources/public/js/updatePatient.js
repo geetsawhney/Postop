@@ -1,10 +1,10 @@
 function updatePatient() {
-
-    $(".updatePatient").click(function() {
+    console.log("here!")
+    //$("#update-patient-btn").click(function() {
+      console.log("inside update patient")
         var data = {
             name:$("#up-name").val(),
             email:$("#up-email").val(),
-            password:"secret",
             ssn:"",
             id:"",
             sex:$("#up-sex").val(),
@@ -15,7 +15,7 @@ function updatePatient() {
             utiVisitCount:5,
            catheterUsage:false,
            diabetic:false,
-            lastVisitDate:""
+            lastVisitDate:"2017-10-12"
           }
         console.log(data)
         var target=$("#up-email").val()
@@ -28,12 +28,13 @@ function updatePatient() {
             contentType: 'application/json',
             success: function(data)
             {
-              alert('Post success')
+              location.reload();              
             }
         });
-    })
+    //})
 }
 
 $(document).ready(function() {
-    updatePatient()
+    console.log("here....")
+    //updatePatient()
 });
