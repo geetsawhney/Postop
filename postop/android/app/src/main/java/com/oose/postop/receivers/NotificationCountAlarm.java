@@ -20,7 +20,6 @@ import java.util.TimeZone;
 
 public class NotificationCountAlarm extends BroadcastReceiver{
     ConnectionHelper connectionHelper = new ConnectionHelper();
-
     /**
      * Schedules the alarm for specified interval
      * @param context
@@ -33,7 +32,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         if(test) {
-            int interval = 1000 * 60 * 1;
+            int interval = 1000 * 60 * 2;
 
             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         }else{

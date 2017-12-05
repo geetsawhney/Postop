@@ -224,9 +224,9 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(localIntent);
                             if(d.checkIdExists(getApplicationContext(),deviceId) == false) {
                                 d.addIDToDB(deviceId);
-                                d.setInterval(1000*60*5);
-                                 new NotificationCountAlarm().setAlarm(getApplicationContext(),false);
-                                 new PushNotificationAlarm().setAlarm(getApplicationContext());
+                               // d.updateInterval(1, deviceId);
+                                 new NotificationCountAlarm().setAlarm(getApplicationContext(),true);
+                                // new PushNotificationAlarm().setAlarm(getApplicationContext());
 
 
                             }

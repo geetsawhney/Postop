@@ -96,15 +96,12 @@ public class PatientDataDAO
         return null;
     }
 
-    public void setInterval(int interval){
+    public void updateInterval(int interval, String id){
 
         //get the database or create the database if it doesnt exist already
         SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
 
-        ContentValues values = new ContentValues();
-        values.put(Database.Data.INTERVAL,interval);
-
-        database.insert(Database.Data.TABLE_NAME, null, values);
+        database.execSQL("UPDATE "+ Database.Data.TABLE_NAME +" SET " + Database.Data.INTERVAL + " = "+ interval + " WHERE " + Database.Data.ID + " = '"+ id+"'" );
     }
 
     public Integer retrieveInterval(){

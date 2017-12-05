@@ -23,9 +23,12 @@ import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.result.DailyTotalResult;
 
 import java.text.DateFormat;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -39,7 +42,8 @@ import com.oose.postop.receivers.PushNotificationAlarm;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-/**Service to get google fit data
+/**
+ * Service to get google fit data
  * Created by Omotola on 11/9/2017.
  */
 
@@ -48,23 +52,25 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
     public static final String TAG = "BasicHistoryApi";
     private static final String AUTH_PENDING = "auth_state_pending";
     private static boolean authInProgress = false;
-
+    //String id;
     public static GoogleApiClient googleApiClient = null;
     public static int dailyTotalCount = 0;
     public static int dailyCaloriesExpended = 0;
     public static float angle = 0;
     ConnectionHelper connectionHelper = new ConnectionHelper();
+
  /*if (savedInstanceState != null) {
         authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
     }*/
 
 
-  //  public void buildFitnessClient(Context c) {
+    //  public void buildFitnessClient(Context c) {
 
-   // }
+    // }
 
     /**
      * Invoked when service is started
+     *
      * @param intent
      * @param flags
      * @param startId
@@ -79,13 +85,14 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                 //.enableAutoManage(this, 0, this)
                 .build();
         googleApiClient.connect();
-        return super.onStartCommand(intent, flags, startId);
-       // return  START_NOT_STICKY;
+        //return super.onStartCommand(intent, flags, startId);
+         return  START_NOT_STICKY;
     }
 
 
     /**
      * Invoked when connected to google fit
+     *
      * @param bundle
      */
     @Override
@@ -116,32 +123,37 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
         /**
          * Invoked after the background tasks is finishes
+         *
          * @param aVoid
          */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            fetchFitData(dailyTotalCount,10000);
-            buildRequest();
+            fetchFitData(dailyTotalCount, 10000);
+            try {
+                buildRequest();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     /**
-     *  retrieves the raw fitness data
+     * retrieves the raw fitness data
      */
-    public void getFitnessDataForToday(){
+    public void getFitnessDataForToday() {
         DailyTotalResult resultSteps = Fitness.HistoryApi.
                 readDailyTotal(googleApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(1, TimeUnit.MINUTES);
         DataSet dataSet = resultSteps.getTotal();
 
         DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
-        for(DataPoint dp: dataSet.getDataPoints()){
+        for (DataPoint dp : dataSet.getDataPoints()) {
             Log.i(TAG, "Data point:");
             Log.i(TAG, "\tType: " + dp.getDataType().getName());
             Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for(Field field: dp.getDataType().getFields()){
+            for (Field field : dp.getDataType().getFields()) {
                 Log.i(TAG, "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
                 dailyTotalCount = dp.getValue(field).asInt();
@@ -154,15 +166,15 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                 readDailyTotal(googleApiClient, DataType.TYPE_CALORIES_EXPENDED).await(1, TimeUnit.MINUTES);
         dataSet = resultCalories.getTotal();
 
-        for(DataPoint dp: dataSet.getDataPoints()){
+        for (DataPoint dp : dataSet.getDataPoints()) {
             Log.i(TAG, "Data point:");
             Log.i(TAG, "\tType: " + dp.getDataType().getName());
             Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for(Field field: dp.getDataType().getFields()){
+            for (Field field : dp.getDataType().getFields()) {
                 Log.i(TAG, "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
-                dailyCaloriesExpended = (int)dp.getValue(field).asFloat();
+                dailyCaloriesExpended = (int) dp.getValue(field).asFloat();
                 Log.i(TAG, " Calories Expended " + dailyCaloriesExpended);
 
             }
@@ -171,6 +183,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
     /**
      * Invoked when connection is suspended
+     *
      * @param i
      */
     @Override
@@ -185,6 +198,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
     /**
      * Invoked when connection fails
+     *
      * @param connectionResult
      */
     @Override
@@ -197,41 +211,43 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      * Fetch google fit data
      */
 
-    public void fetchFitData(int steps, int total){
+    public void fetchFitData(int steps, int total) {
         int stepCount = steps;
         int totalCount = total;
-        angle = ((float)stepCount/(float)totalCount)*360;
+        angle = ((float) stepCount / (float) totalCount) * 360;
         //return angle;
     }
 
-    public void buildRequest(){
-    PatientDataDAO d = new PatientDataDAO(this);
-    String id = d.retrieveID();
+    public void buildRequest() throws ParseException {
+        PatientDataDAO d = new PatientDataDAO(this);
+         String id = d.retrieveID();
 
-    //g.buildFitnessClient(context);
-    Calendar c = Calendar.getInstance();
-    //
-    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-    String formattedDate = df.format(c.getTime());
-    //Toast.makeText(context, formattedDate.toString(), Toast.LENGTH_LONG).show();
+        //g.buildFitnessClient(context);
+        Calendar c = Calendar.getInstance();
+        //
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String date = df.format(c.getTime());
+        java.sql.Date formattedDate =  java.sql.Date.valueOf(date);
+       Toast.makeText(this, formattedDate.toString(), Toast.LENGTH_LONG).show();
 
-    JSONObject j = new JSONObject();
+        JSONObject j = new JSONObject();
         try {
-        j.put("id", id);
-        j.put("captureDate", formattedDate);
-        j.put("stepCount", dailyTotalCount);
-        j.put("caloriesExpended", dailyCaloriesExpended);
-    } catch (JSONException e) {
-        e.printStackTrace();
-    }
-    //  Toast.makeText(context, g.dailyTotalCount, Toast.LENGTH_LONG).show();
-    volleyRequest(j, this);
+            j.put("id", id);
+            j.put("captureDate",  formattedDate);
+            j.put("stepCount", dailyTotalCount);
+            j.put("caloriesExpended", dailyCaloriesExpended);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        //  Toast.makeText(context, g.dailyTotalCount, Toast.LENGTH_LONG).show();
+        volleyRequest(j, this);
 
-}
+    }
 
 
     /**
      * Sends Volley Request
+     *
      * @param jsonRequestObject
      * @param context
      */
@@ -249,8 +265,9 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                     public void onResponse(JSONObject response) {
 
                         try {
+                            ;
                             String n = response.get("notificationCount").toString();
-                            Toast.makeText(context, "Count ="+n.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(context, "Count ="+ n.toString(), Toast.LENGTH_LONG).show();
                             calculateInterval(Integer.parseInt(n));
                         } catch (Exception e) {
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -277,18 +294,19 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
     /**
      * Calculates push notification interval
+     *
      * @param notificationCount
      */
-    public void calculateInterval(int notificationCount){
-        int interval =(int) Math.round((24*60)/notificationCount);
-        new PatientDataDAO(this).setInterval(interval);
+    public void calculateInterval(int notificationCount) {
+        int interval = (int) Math.round((24 * 60) / notificationCount);
+       // new PatientDataDAO(this).updateInterval(interval, id);
 
-        //int interval = 30;
+       // int interval = 1000*30;
 
         //Restart push alarm
-       //PushNotificationAlarm a = new PushNotificationAlarm();
-        //a.StopAlarm(getApplicationContext());
-        //a.setAlarm(getApplicationContext(), interval, false);
+        PushNotificationAlarm a = new PushNotificationAlarm();
+       // a.StopAlarm(getApplicationContext());
+        a.setAlarm(getApplicationContext(), interval, true);
 
-}
+    }
 }
