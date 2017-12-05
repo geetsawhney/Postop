@@ -79,7 +79,7 @@ public class PostOpControllerTest {
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "Test Case");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
@@ -123,7 +123,7 @@ public class PostOpControllerTest {
         jsonObject.put("email", "oosegroup19@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "John Son");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
@@ -276,8 +276,8 @@ public class PostOpControllerTest {
 
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
-        jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("ssn", "8654321110");
+        jsonObject.put("id", "");
         jsonObject.put("name", "Test Case");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
@@ -302,8 +302,8 @@ public class PostOpControllerTest {
 
         jsonObject1.put("email", "test1@test.com");
         jsonObject1.put("password", "secret");
-        jsonObject1.put("ssn", "865432111");
-        jsonObject1.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject1.put("ssn", "8654321110");
+        jsonObject1.put("id", "");
         jsonObject1.put("name", "John Son");
         jsonObject1.put("sex", "M");
         jsonObject1.put("dob", "2019-09-09");
@@ -490,7 +490,7 @@ public class PostOpControllerTest {
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "Test Case");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
@@ -558,7 +558,7 @@ public class PostOpControllerTest {
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "Test Case");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
