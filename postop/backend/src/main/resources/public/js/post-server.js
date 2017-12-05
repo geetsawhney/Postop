@@ -112,8 +112,10 @@ function submitPatient() {
             phone:$("#cb-phone").val(),
             hospitalVisitReason:$("#cb-hospital-visit-reason").val(),
             utiVisitCount:$("#cb-uti-visit-count").val(),
-           catheterUsage: getBooleanFromCheckValue($("#cb-uses-catheter").val()),
-          diabetic: getBooleanFromCheckValue($("#cb-is-diabetic").val()),
+           // catheterUsage: getBooleanFromCheckValue($("#cb-uses-catheter").val()),
+            catheterUsage: document.getElementById("cb-uses-catheter").checked,
+          // diabetic: getBooleanFromCheckValue($("#cb-is-diabetic").val()),
+            diabetic: document.getElementById("cb-is-diabetic").checked,
             lastVisitDate:$("#cb-last-visit-date").val()
           }
 

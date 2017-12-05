@@ -346,7 +346,7 @@ public class PostOpControllerTest {
         jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "secret");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "John Son");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");

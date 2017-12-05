@@ -15,8 +15,7 @@ import com.postop.helper.NotificationLogic;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 import com.postop.model.Push;
-import com.postop.utils.CreatePatientJsonValidation;
-import com.postop.utils.HashGenerator;
+import com.postop.utils.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -80,6 +79,9 @@ public class PostOpService {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            if(! new UpdatePatientJsonValidation(jsonObject).validateJson()){
+                throw new IllegalJsonException("invalid values in one of the field");
+            }
 
             if(!email.equals(jsonObject.get("email")))
                 throw new IllegalJsonException("email in parameter and body does not match");
@@ -125,6 +127,10 @@ public class PostOpService {
 
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            if(! new FitnessDataJsonValidation(jsonObject).validateJson()){
+                throw new IllegalJsonException("invalid values in one of the field");
+            }
+
             PatientDaoImpl pdi = new PatientDaoImpl();
             Patient patient = pdi.getPatientByDeviceId(jsonObject.get("id").toString());
 
@@ -162,6 +168,9 @@ public class PostOpService {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
+            if(! new CallbackJsonValidation(jsonObject).validateJson()){
+                throw new IllegalJsonException("invalid values in one of the field");
+            }
             CallbackDao cd = new CallbackDaoImpl();
 
             if(!email.equals(jsonObject.get("email")))

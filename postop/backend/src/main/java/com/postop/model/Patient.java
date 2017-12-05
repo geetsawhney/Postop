@@ -46,19 +46,19 @@ public class Patient {
     public static Patient setupPatient(JSONObject jsonObject) {
         Patient patient = new Patient();
 
-        patient.setEmail(jsonObject.get("email").toString());
-        patient.setSsn(jsonObject.get("ssn").toString());
-        patient.setDeviceId(jsonObject.get("id").toString());
-        patient.setName(jsonObject.get("name").toString());
-        patient.setSex(jsonObject.get("sex").toString());
-        patient.setDob(Date.valueOf(jsonObject.get("dob").toString()));
-        patient.setAddress(jsonObject.get("address").toString());
-        patient.setPhone(jsonObject.get("phone").toString());
-        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString());
-        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
-        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
-        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-        patient.setLastVisitDate(Date.valueOf(jsonObject.get("lastVisitDate").toString()));
+        patient.setEmail(jsonObject.get("email").toString().trim());
+        patient.setSsn(jsonObject.get("ssn").toString().trim());
+        patient.setDeviceId(jsonObject.get("id").toString().trim());
+        patient.setName(jsonObject.get("name").toString().trim());
+        patient.setSex(jsonObject.get("sex").toString().trim());
+        patient.setDob(Date.valueOf(jsonObject.get("dob").toString().trim()));
+        patient.setAddress(jsonObject.get("address").toString().trim());
+        patient.setPhone(jsonObject.get("phone").toString().trim());
+        patient.setHospitalVisitReason(jsonObject.get("hospitalVisitReason").toString().trim());
+        patient.setUtiVisitCount(Integer.parseInt(jsonObject.get("utiVisitCount").toString().trim()));
+        patient.setCatheterUsage(Boolean.parseBoolean(jsonObject.get("catheterUsage").toString().trim()));
+        patient.setDiabetic(Boolean.parseBoolean(jsonObject.get("diabetic").toString().trim()));
+        patient.setLastVisitDate(Date.valueOf(jsonObject.get("lastVisitDate").toString().trim()));
 
         return patient;
     }

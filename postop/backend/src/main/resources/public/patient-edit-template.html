@@ -1,16 +1,18 @@
 <script type='text/javascript' src="js/updatePatient.js"></script>
 <div id="patient-edit-template">
-      <label for="Name">Name</label>
-      <input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
-      Email<input type="text" readonly="readonly" class="form-control" id="up-email" placeholder="Email" value={{patientEmail}}>
-      Phone<input type="text" class="form-control" id="up-phone" placeholder="Phone" value={{patientPhone}}>
-      Gender<input type="text" class="form-control" id="up-sex" placeholder="Sex" value={{patientSex}}>
-      Date of Birth<input type="text" class="form-control" id="up-date" placeholder="Date of birth" value={{patientDOB}}>
-      Address<input type="text" class="form-control" id="up-address" placeholder="Address" value={{patientAddress}}>
-      Hospital visit reason<input type="text" class="form-control" id="up-hospital-visit-reason" placeholder="Hospital visit resaon" value={{patientReason}}>
-      Last Visit Date<input type="text" class="form-control" id="up-last-visit-date" placeholder="Last visit date" value={{lastVisitDate}}>
-      UTI Visit count<input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
-      <div class="form-group">
-          <button type="button" id="update-patient-btn" class="btn btn-default updatePatient" onClick="updatePatient()">Update</button>
-      </div>
+    Name<input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
+    Email<input type="text" readonly="readonly" class="form-control" id="up-email" placeholder="Email" value={{patientEmail}}>
+    Device ID<input type="text" readonly="readonly" class="form-control" id="up-deviceId" placeholder="Device ID" value={{deviceId}}>
+    Phone<input type="text" class="form-control" id="up-phone" placeholder="Phone" value={{patientPhone}}>
+    Gender<input type="text" class="form-control" id="up-sex" placeholder="Sex" value={{patientSex}}>
+    Date of Birth<input type="text" class="form-control" id="up-date" placeholder="Date of birth" value={{patientDOB}}>
+    Address<input type="text" class="form-control" id="up-address" placeholder="Address" value={{patientAddress}}>
+    Hospital visit reason<input type="text" class="form-control" id="up-hospital-visit-reason" placeholder="Hospital visit resaon" value={{patientReason}}>
+    Last Visit Date<input type="text" class="form-control" id="up-last-visit-date" placeholder="Last visit date" value={{lastVisitDate}}>
+    UTI Visit count<input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
+    <div class="form-group">
+        <button type="button" id="update-patient-btn" class="btn btn-default updatePatient" onClick="updatePatient()">
+            Update
+        </button>
+    </div>
 </div>

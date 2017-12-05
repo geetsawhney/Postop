@@ -56,13 +56,13 @@ function checkValues()
       finalErrors=finalErrors.concat(errorInit)
     }
 
-    passwordCheck=1
-    if(!$("#up-password").val())
-    {
-      passwordCheck=0
-      errorInit=", Password"
-      finalErrors=finalErrors.concat(errorInit)
-    }
+    // passwordCheck=1
+    // if(!$("#up-password").val())
+    // {
+    //   passwordCheck=0
+    //   errorInit=", Password"
+    //   finalErrors=finalErrors.concat(errorInit)
+    // }
 
     var reName= /^[a-z ,.'-]+$/i
     var nameCheck = reName.test($("#up-name").val())
@@ -87,7 +87,7 @@ function checkValues()
       finalErrors=finalErrors.concat(errorInit)
     }
 
-    if(emailCheck==1 && genderCheck==1 && phoneCheck==1 && dobCheck==1 && lastVisitDateCheck==1 && addressCheck==1 && hospitalVisitReasonCheck==1 && utiVisitCountCheck==1 && passwordCheck==1 && nameCheck==1 )
+    if(emailCheck==1 && genderCheck==1 && phoneCheck==1 && dobCheck==1 && lastVisitDateCheck==1 && addressCheck==1 && hospitalVisitReasonCheck==1 && utiVisitCountCheck==1 && nameCheck==1 )
     {
       return 1;
     }
@@ -106,15 +106,17 @@ function updatePatient() {
             name:$("#up-name").val(),
             email:$("#up-email").val(),
             ssn:"",
-            id:"",
+            id:$("#up-deviceId").val(),
             sex:$("#up-sex").val(),
             dob:$("#up-date").val(),
             address:$("#up-address").val(),
             phone:$("#up-phone").val(),
             hospitalVisitReason:$("#up-hospital-visit-reason").val(),
-            utiVisitCount:5,
-           catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
-           diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
+            utiVisitCount:$("#up-uti-visit-count").val(),
+            // catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
+            catheterUsage: true,
+            // diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
+            diabetic: true,
             lastVisitDate:$("#up-last-visit-date").val()
           }
         console.log(data)
