@@ -1,6 +1,6 @@
 # 2017-group-19
 ## Demo
-The app has been deployed on [Heroku](https://remcare.herokuapp.com) 
+The app has been deployed on [Heroku](https://postop.herokuapp.com) 
 
 ## Setup
 

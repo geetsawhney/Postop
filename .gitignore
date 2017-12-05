@@ -1,8 +1,8 @@
 *.classpath
 *.project
-prototype/android/.gradle
-prototype/android/.idea
-prototype/android/build
-prototype/backend/target
-prototype/backend/.idea
+postop/android/.gradle
+postop/android/.idea
+postop/android/build
+postop/backend/target
+postop/backend/.idea
 *.iml

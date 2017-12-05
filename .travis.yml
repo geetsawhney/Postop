@@ -1,7 +1,32 @@
-language: java
-jdk:
- - oraclejdk8
-before_script:
- - cd prototype/backend
-script:
- - mvn clean verify
+matrix:
+  include:
+  - language: java
+    jdk: oraclejdk8
+    before_script: cd postop/backend
+    script: mvn clean verify
+  - language: android
+    sudo: false
+    jdk: oraclejdk8
+    android:
+      components:
+      - tools
+      - android-26
+      - android-21
+      - build-tools-26.0.2
+      - tools
+      - extra-google-google_play_services
+      - extra-google-m2repository
+      - extra-android-m2repository
+      - addon-google_apis-google-19
+      - sys-img-armeabi-v7a-android-21
+    before_script:
+    - cd postop/android
+    - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+    - emulator -avd test -no-skin -no-audio -no-window &
+    - android-wait-for-emulator
+    - adb shell input keyevent 82 &
+    script: gradle build connectedCheck
+notifications:
+  slack:
+    rooms:
+      secure: klIzO6wYHKU6QwZgvqXVm5QNrYu+V8yure6gUz4mgAO5qAbt5RytjB8ae2CNr51h+pTUtuCrh3R5LtyYVwuSZ2f/5hOF66VKxFejt7/pFhAwdjp9BFi7Ly++VTJoOp21BH7LEgP1BGDHALEeJiZx3KnaDuB6K/+o9jZezyfBU+a9FQ00g0EMHRP4xNB5ldB7s/BgNz6zg0GcY52AnyUZmMW7muI8WG0hWHW6Bs1h/REx7ZePys3szQirHssNPkZpA2TQNDDFktkm4H6cs49tkH6BXwRL8pwU6XV7/JxxVdkMKGSs7ERejgDWJQsHHcwHE+MZ8OutVj7UaE5tPf9OpCc6nd/FOeFsRYWI6mT66qBa5bk66wSZv9M179ShY+hbDc/WYi+pKzpxvr5wWgVoTdJ6eTRi0toSIyLv+RufoooIw6RTWKpsCWQO6l/uq7oHTr3CtrsZxdOYkygODK7ofoiuT/zjbisSkJKXX43up9fEf6gGqDdXhR499uW8lvC9Ki4tOcimlQarVjomwMJyNkqrsI4uSG1dWM4myocsPpOxavSb0KXCjbT5577BVw7fMc+ShQlCxv8TtsyJ+o3rpSgN9LshUkOZdvaBrESYtESiPY311RCNUX5L2vxO7DkuIjaaAr+7suzNW50GDsxvTj9KNKeORgAlcG1tso/Ptik=
