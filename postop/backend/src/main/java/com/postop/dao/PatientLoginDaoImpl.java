@@ -27,7 +27,6 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-
             return resultSet.next();
         } catch (SQLException e) {
             logger.error("SQL Exception");

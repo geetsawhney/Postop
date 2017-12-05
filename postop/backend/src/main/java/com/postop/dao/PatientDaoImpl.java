@@ -93,19 +93,19 @@ public class PatientDaoImpl implements PatientDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, jsonObject.get("email").toString());
-            preparedStatement.setString(2, jsonObject.get("ssn").toString());
-            preparedStatement.setString(3, jsonObject.get("id").toString());
-            preparedStatement.setString(4, jsonObject.get("name").toString());
-            preparedStatement.setString(5, jsonObject.get("sex").toString());
-            preparedStatement.setDate(6, Date.valueOf(jsonObject.get("dob").toString()));
-            preparedStatement.setString(7, jsonObject.get("address").toString());
-            preparedStatement.setString(8, jsonObject.get("phone").toString());
-            preparedStatement.setString(9, jsonObject.get("hospitalVisitReason").toString());
-            preparedStatement.setInt(10, Integer.parseInt(jsonObject.get("utiVisitCount").toString()));
-            preparedStatement.setBoolean(11, Boolean.parseBoolean(jsonObject.get("catheterUsage").toString()));
-            preparedStatement.setBoolean(12, Boolean.parseBoolean(jsonObject.get("diabetic").toString()));
-            preparedStatement.setDate(13, Date.valueOf(jsonObject.get("lastVisitDate").toString()));
+            preparedStatement.setString(1, jsonObject.get("email").toString().trim());
+            preparedStatement.setString(2, jsonObject.get("ssn").toString().trim());
+            preparedStatement.setString(3, jsonObject.get("id").toString().trim());
+            preparedStatement.setString(4, jsonObject.get("name").toString().trim());
+            preparedStatement.setString(5, jsonObject.get("sex").toString().trim());
+            preparedStatement.setDate(6, Date.valueOf(jsonObject.get("dob").toString().trim()));
+            preparedStatement.setString(7, jsonObject.get("address").toString().trim());
+            preparedStatement.setString(8, jsonObject.get("phone").toString().trim());
+            preparedStatement.setString(9, jsonObject.get("hospitalVisitReason").toString().trim());
+            preparedStatement.setInt(10, Integer.parseInt(jsonObject.get("utiVisitCount").toString().trim()));
+            preparedStatement.setBoolean(11, Boolean.parseBoolean(jsonObject.get("catheterUsage").toString().trim()));
+            preparedStatement.setBoolean(12, Boolean.parseBoolean(jsonObject.get("diabetic").toString().trim()));
+            preparedStatement.setDate(13, Date.valueOf(jsonObject.get("lastVisitDate").toString().trim()));
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -135,7 +135,7 @@ public class PatientDaoImpl implements PatientDao {
 //    }
 
 
-    public Patient populateDetails(ResultSet resultSet) throws SQLException {
+    public  Patient populateDetails(ResultSet resultSet) throws SQLException {
         Patient patient = null;
 
         while (resultSet.next()) {

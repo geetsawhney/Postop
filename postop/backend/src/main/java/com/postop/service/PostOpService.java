@@ -15,6 +15,7 @@ import com.postop.helper.NotificationLogic;
 import com.postop.model.FitnessHistory;
 import com.postop.model.Patient;
 import com.postop.model.Push;
+import com.postop.utils.CreatePatientJsonValidation;
 import com.postop.utils.HashGenerator;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -101,6 +102,9 @@ public class PostOpService {
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
+            if(! new CreatePatientJsonValidation(patientJsonObject).validateJson()){
+                throw new IllegalJsonException("invalid values in one of the field");
+            }
             PatientDaoImpl pdi = new PatientDaoImpl();
             pdi.addPatient(patientJsonObject);
 
