@@ -18,24 +18,24 @@
             android:id="@+id/welcomeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Create Callback"
-            android:textAlignment="center"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Create Callback"
+            android:textAlignment="center" />
 
         <TextView
             android:id="@+id/UrineText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Urine Color:"
-            android:textAlignment="center"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Urine Color:"
+            android:textAlignment="center" />
+
         <Spinner
             android:id="@+id/urineDropdown"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-           />
+            android:layout_height="wrap_content" />
 
         <CheckBox
             android:id="@+id/hasNausea"
@@ -67,9 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="SUBMIT"
-            android:onClick="submit"/>
-
+            android:onClick="submit"
+            android:text="SUBMIT" />
 
 
     </LinearLayout>
