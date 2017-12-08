@@ -76,7 +76,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "Test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -177,7 +177,7 @@ public class PostOpControllerTest {
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/login");
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("email", "oosegroup19@gmail.com");
+        jsonObject.put("email", "Oosegroup19@gmail.com");
         jsonObject.put("password", "secret");
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
 
@@ -375,7 +375,7 @@ public class PostOpControllerTest {
     public void updatePatientEndPoint3() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/ooSegroup19@gmail.com");
 
         StringEntity params = new StringEntity("test");
         request.addHeader("content-type", "application/json");
@@ -431,7 +431,7 @@ public class PostOpControllerTest {
     public void getAPatientEndpoint1() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com");
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/Oosegroup19@gmail.com");
 
         request.addHeader("content-type", "application/json");
         HttpResponse response = httpClient.execute(request);
@@ -555,7 +555,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "Test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -603,7 +603,7 @@ public class PostOpControllerTest {
         requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
         jsonObject = new JSONObject();
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "Test1@test.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -667,7 +667,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "Test1@test.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -748,7 +748,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "Test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
@@ -806,7 +806,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void GetCallbackListEndPoint() throws IOException{
+    public void getCallbackListEndPoint() throws IOException{
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients/callbacks");

@@ -28,10 +28,10 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, jsonObject.get("email").toString());
-            preparedStatement.setDate(2, Date.valueOf(jsonObject.get("captureDate").toString()));
-            preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("stepCount").toString()));
-            preparedStatement.setInt(4, Integer.parseInt(jsonObject.get("caloriesExpended").toString()));
+            preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
+            preparedStatement.setDate(2, Date.valueOf(jsonObject.get("captureDate").toString().trim()));
+            preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("stepCount").toString().trim()));
+            preparedStatement.setInt(4, Integer.parseInt(jsonObject.get("caloriesExpended").toString().trim()));
 
             preparedStatement.execute();
         } catch (SQLException e) {
@@ -77,7 +77,7 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
     @Override
     public boolean deleteFitnessData(FitnessHistory fitnessHistory) {
         String sql = "DELETE FROM \"Fitness_History\" WHERE " +
-                "email= \'" + fitnessHistory.getEmail() +
+                "email= \'" + fitnessHistory.getEmail().toLowerCase().trim() +
                 "\' AND capture_date=\'" + fitnessHistory.getCaptureDate() +
                 "\' AND step_count=" + fitnessHistory.getStepCount() +
                 "AND calories_expended=" + fitnessHistory.getCaloriesExpended();

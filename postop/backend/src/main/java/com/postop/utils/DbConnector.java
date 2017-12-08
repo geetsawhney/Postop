@@ -21,13 +21,14 @@ public class DbConnector {
         return connection;
     }
 
-    public static void closeConnection(){
+    public static boolean closeConnection(){
         try {
             if(connection != null)
                 connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return true;
     }
 }
 
