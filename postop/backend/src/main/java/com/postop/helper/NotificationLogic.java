@@ -122,22 +122,22 @@ public class NotificationLogic {
     public int getNumberOfNotifications() {
         ageStatus();
         int notificationCount = 0;
-        if (status == "C") {
+        if (status.equals("C")) {
             notificationCount = 8;
-        } else if (status == "H") {
+        } else if (status.equals("H")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 8;
             } else if (fitnessHistory.getStepCount() < 3000) {
                 notificationCount = 6;
             }
-        } else if (status == "M") {
+        } else if (status.equals("M")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 6;
             } else if (fitnessHistory.getStepCount() < 3000) {
                 notificationCount = 4;
             }
 
-        } else if (status == "L") {
+        } else if (status.equals("L")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 4;
             } else if (fitnessHistory.getStepCount() < 3000) {

@@ -10,6 +10,7 @@ import com.postop.dao.interfaces.FitnessHistoryDao;
 import com.postop.dao.interfaces.PatientDao;
 import com.postop.dao.interfaces.PatientLoginDao;
 import com.postop.model.FitnessHistory;
+import com.postop.utils.DbConnector;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -748,10 +749,10 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "Test1@test.com");
+        jsonObject.put("email", "test1@test.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
-        jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
+        jsonObject.put("id", "");
         jsonObject.put("name", "Test Case");
         jsonObject.put("sex", "M");
         jsonObject.put("dob", "2019-09-09");
@@ -923,6 +924,8 @@ public class PostOpControllerTest {
         request.addHeader("content-type", "application/json");
         request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         HttpResponse response = httpClient.execute(request);
+
+        DbConnector.closeConnection();
         assertEquals(404, response.getStatusLine().getStatusCode());
     }
 
