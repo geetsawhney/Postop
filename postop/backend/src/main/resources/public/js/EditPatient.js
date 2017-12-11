@@ -20,7 +20,34 @@ function EditPatient() {
                 //   returnObj.patientSex=returnObj.sex;
                 //   return returnObj;
                 // })
+                var gender_option_2;
+                if(patients.sex=="M")
+                {
+                  gender_option_2="F";
+                }
+                else {
+                  gender_option_2="M";
+                }
 
+                var checkfor1;
+                if(patients.diabetic==true)
+                {
+                  document.getElementById("up-is-diabetic").checked = true;
+                  console.log("is diabetic");
+                }
+                else {
+
+                }
+
+                var catheterUsage;
+                if(patients.catheterUsage==true)
+                {
+                  document.getElementById("up-uses-catheter").checked = true;
+                  console.log("is catheter user");
+                }
+                else {
+
+                }
                 var data = {
                     patientEmail: patients.email,
                     patientName: patients.name,
@@ -31,7 +58,8 @@ function EditPatient() {
                     patientReason: patients.hospitalVisitReason,
                     lastVisitDate: patients.lastVisitDate,
                     UTIcount: patients.utiVisitCount,
-                    deviceId: patients.deviceId
+                    deviceId: patients.deviceId,
+                    gender_option_2: gender_option_2
 
                 };
                 console.log("Email = " + patients.email);

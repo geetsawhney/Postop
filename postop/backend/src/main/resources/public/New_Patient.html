@@ -43,7 +43,8 @@
 
 
     <div class="col-sm-6">
-        <label for="cb-date">Date of Birth</label><div class="input-group input-append date" id="datePicker">
+        <label for="cb-date">Date of Birth</label>
+        <div class="input-group input-append date" id="datePicker">
 
       <input type="text" class="form-control" id="cb-date" placeholder="YYYY-MM-DD">
       <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
@@ -56,37 +57,9 @@
                        })
                        .on('changeDate', function(e) {
                            // Revalidate the date field
-                           $('#eventForm').formValidation('revalidateField', 'date');
                        });
 
-                   $('#eventForm').formValidation({
-                       framework: 'bootstrap',
-                       icon: {
-                           valid: 'glyphicon glyphicon-ok',
-                           invalid: 'glyphicon glyphicon-remove',
-                           validating: 'glyphicon glyphicon-refresh'
-                       },
-                       fields: {
-                           name: {
-                               validators: {
-                                   notEmpty: {
-                                       message: 'The name is required'
-                                   }
-                               }
-                           },
-                           date: {
-                               validators: {
-                                   notEmpty: {
-                                       message: 'The date is required'
-                                   },
-                                   date: {
-                                       format: 'yyyy-mm-dd',
-                                       message: 'The date is not a valid'
-                                   }
-                               }
-                           }
-                       }
-                   });
+
                });
                </script>
     </div>
@@ -119,7 +92,8 @@
     </div>
 
     <div class="col-sm-6">
-      <label for="cb-last-visit-date">Date of last visit to Hospital</label><div class="input-group input-append date" id="datePicker1">
+      <label for="cb-last-visit-date">Date of last visit to Hospital</label>
+      <div class="input-group input-append date" id="datePicker1">
       <input type="text" class="form-control" id="cb-last-visit-date" placeholder="YYYY-MM-DD">
         <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
       </div>
@@ -131,37 +105,8 @@
           })
           .on('changeDate', function(e) {
               // Revalidate the date field
-              $('#eventForm').formValidation('revalidateField', 'date');
           });
 
-      $('#eventForm').formValidation({
-          framework: 'bootstrap',
-          icon: {
-              valid: 'glyphicon glyphicon-ok',
-              invalid: 'glyphicon glyphicon-remove',
-              validating: 'glyphicon glyphicon-refresh'
-          },
-          fields: {
-              name: {
-                  validators: {
-                      notEmpty: {
-                          message: 'The name is required'
-                      }
-                  }
-              },
-              date: {
-                  validators: {
-                      notEmpty: {
-                          message: 'The date is required'
-                      },
-                      date: {
-                          format: 'yyyy-mm-dd',
-                          message: 'The date is not a valid'
-                      }
-                  }
-              }
-          }
-      });
   });
   </script>
     </div>
