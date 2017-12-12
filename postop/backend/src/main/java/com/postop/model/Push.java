@@ -16,7 +16,7 @@ public class Push {
 
     private static final Logger logger = LoggerFactory.getLogger(Push.class);
 
-    public static void sendPush(Patient patient) {
+    public static boolean sendPush(Patient patient) throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
         HttpPost request = new HttpPost("https://gcm-http.googleapis.com/gcm/send");
@@ -30,23 +30,18 @@ public class Push {
         j1.put("data", j3);
 
         StringEntity params = null;
-        try {
-            params = new StringEntity(j1.toString());
-            request.addHeader("content-type", "application/json");
-            request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
-            request.setEntity(params);
-            HttpResponse response = httpClient.execute(request);
+
+        params = new StringEntity(j1.toString());
+        request.addHeader("content-type", "application/json");
+        request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
 
 //            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
 
-            logger.info("Response Code : " + response.getStatusLine().getStatusCode());
-        } catch (UnsupportedEncodingException e) {
-            logger.error("" + e.getMessage());
-            e.printStackTrace();
-        } catch (IOException e) {
-            logger.error("" + e.getMessage());
-            e.printStackTrace();
-        }
+        logger.info("Response Code : " + response.getStatusLine().getStatusCode());
+
+        return true;
 
     }
 }

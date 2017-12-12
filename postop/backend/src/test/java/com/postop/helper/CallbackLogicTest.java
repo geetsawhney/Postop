@@ -44,4 +44,15 @@ public class CallbackLogicTest {
         jsonObject.put("urineColor", "Cloudy");
         assertEquals(4, new CallbackLogic(jsonObject).getSeverity());
     }
+
+    @Test
+    public void severityCheck4() {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("hasPain", false);
+        jsonObject.put("hasNausea", true);
+        jsonObject.put("hasFever", true);
+        jsonObject.put("hasFatigue", false);
+        jsonObject.put("urineColor", "Dark");
+        assertEquals(5, new CallbackLogic(jsonObject).getSeverity());
+    }
 }

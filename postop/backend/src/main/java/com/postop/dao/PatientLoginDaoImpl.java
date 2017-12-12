@@ -22,7 +22,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
 
     public boolean validatePatient(String email, String password) {
 
-        String sql = "SELECT * FROM \"Patient_Login\" WHERE email = \'" + email
+        String sql = "SELECT * FROM \"Patient_Login\" WHERE email = \'" + email.toLowerCase()
                 +"\' AND password = \'" + password + "\'";
         try {
             Statement statement = connection.createStatement();
@@ -37,7 +37,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
 
     @Override
     public boolean deletePatient(String email) {
-        String sql="DELETE FROM \"Patient_Login\" WHERE email= \'"+ email +"\'";
+        String sql="DELETE FROM \"Patient_Login\" WHERE email= \'"+ email.toLowerCase() +"\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -54,7 +54,7 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         try {
             String password=HashGenerator.generateHash(jsonObject.get("password").toString());
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, jsonObject.get("email").toString());
+            preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
             preparedStatement.setString(2, password);
 
             preparedStatement.execute();

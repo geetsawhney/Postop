@@ -6,7 +6,6 @@ function getBooleanFromCheckValue(val) {
     console.log(dict[val])
     return dict[val]
 }
-
 function checkValues()
 {
     var errorInit
@@ -113,10 +112,10 @@ function updatePatient() {
             phone:$("#up-phone").val(),
             hospitalVisitReason:$("#up-hospital-visit-reason").val(),
             utiVisitCount:$("#up-uti-visit-count").val(),
-            // catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
-            catheterUsage: true,
-            // diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
-            diabetic: true,
+            catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
+            //catheterUsage: true,
+            diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
+            //diabetic: true,
             lastVisitDate:$("#up-last-visit-date").val()
           }
         console.log(data)

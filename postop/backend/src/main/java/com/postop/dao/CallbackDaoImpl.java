@@ -22,7 +22,7 @@ public class CallbackDaoImpl implements CallbackDao {
 
     @Override
     public boolean checkCallbackExists(String email) {
-        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
+        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email.toLowerCase() + "\'";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -49,7 +49,7 @@ public class CallbackDaoImpl implements CallbackDao {
                     "\', has_fatigue =\'" + Boolean.parseBoolean(jsonObject.get("hasFatigue").toString()) +
                     "\', urine_color =\'" + jsonObject.get("urineColor").toString() +
                     "\', is_resolved =\'" + Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
-                    "\' WHERE email = \'" + email + "\'";
+                    "\' WHERE email = \'" + email.toLowerCase() + "\'";
         } else {
             sql = "UPDATE \"Callback\" " +
                     "SET is_resolved =\'" + Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
@@ -73,7 +73,7 @@ public class CallbackDaoImpl implements CallbackDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, email);
+            preparedStatement.setString(1, email.toLowerCase());
             preparedStatement.setDate(2, Date.valueOf(jsonObject.get("callbackDate").toString()));
             preparedStatement.setInt(3, Integer.parseInt(jsonObject.get("severity").toString()));
             preparedStatement.setBoolean(4, Boolean.parseBoolean(jsonObject.get("hasPain").toString()));
@@ -136,7 +136,7 @@ public class CallbackDaoImpl implements CallbackDao {
 
     public Callback getCallback(String email) {
 
-        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email + "\'";
+        String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email.toLowerCase() + "\'";
 
         Callback callback = null;
         try {
@@ -167,7 +167,7 @@ public class CallbackDaoImpl implements CallbackDao {
 
     @Override
     public boolean deleteCallback(String email) {
-        String sql = "DELETE FROM \"Callback\" WHERE email=\'" + email + "\'";
+        String sql = "DELETE FROM \"Callback\" WHERE email=\'" + email.toLowerCase() + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);

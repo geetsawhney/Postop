@@ -46,7 +46,7 @@ public class Patient {
     public static Patient setupPatient(JSONObject jsonObject) {
         Patient patient = new Patient();
 
-        patient.setEmail(jsonObject.get("email").toString().trim());
+        patient.setEmail(jsonObject.get("email").toString().trim().toLowerCase());
         patient.setSsn(jsonObject.get("ssn").toString().trim());
         patient.setDeviceId(jsonObject.get("id").toString().trim());
         patient.setName(jsonObject.get("name").toString().trim());

@@ -1,64 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:plainpie="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/gradient"
     tools:context="com.oose.postop.activities.HomepageActivity">
 
-
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_centerVertical="true"
-    android:orientation="vertical"
-    android:padding="10dp">
-
-    <TextView
-        android:id="@+id/welcomeText"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme">
 
-    <az.plainpie.PieView
-        android:id="@+id/pieView"
-        android:layout_gravity="center"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        plainpie:inner_pie_padding="40"
-        plainpie:percentage="0.1"
-        plainpie:percentage_size="40"
-        plainpie:inner_text_visibility="false"/>
+        <LinearLayout
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/caloriesExpended"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"/>
-
-    <Button
-        android:id="@+id/callback"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="CALLBACK"
-        android:onClick="callback"/>
+            <ImageView
+                android:src="@drawable/mcare3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="LOGOUT"
-        android:onClick="logout"/>
 
-    </LinearLayout>
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/toolbar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <TextView
+                android:id="@+id/welcomeText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:text="TextView"
+                android:textAlignment="center" />
+
+            <az.plainpie.PieView
+                android:id="@+id/pieView"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
+                plainpie:inner_pie_padding="40"
+                plainpie:inner_text_visibility="false"
+                plainpie:percentage="0.1"
+                plainpie:percentage_size="40" />
+
+            <TextView
+                android:id="@+id/caloriesExpended"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center" />
+
+            <Button
+                android:id="@+id/callback"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="callback"
+                android:text="CALLBACK" />
+
+
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="logout"
+                android:text="LOGOUT" />
+
+
+        </LinearLayout>
+    </ScrollView>
 </RelativeLayout>

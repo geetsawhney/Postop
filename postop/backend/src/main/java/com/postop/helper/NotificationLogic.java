@@ -13,11 +13,6 @@ public class NotificationLogic {
     private Patient patient;
     private FitnessHistory fitnessHistory;
 
-
-    public NotificationLogic() {
-        status = "L";
-    }
-
     public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
         this.status = "L";
         this.patient = patient;
@@ -49,8 +44,6 @@ public class NotificationLogic {
                 return stat;
             } else if (numberOfDays <= 0) {
                 stat = "L";
-                return stat;
-            } else {
                 return stat;
             }
         } else if (stat.equals("L")) {
@@ -122,22 +115,22 @@ public class NotificationLogic {
     public int getNumberOfNotifications() {
         ageStatus();
         int notificationCount = 0;
-        if (status == "C") {
+        if (status.equals("C")) {
             notificationCount = 8;
-        } else if (status == "H") {
+        } else if (status.equals("H")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 8;
             } else if (fitnessHistory.getStepCount() < 3000) {
                 notificationCount = 6;
             }
-        } else if (status == "M") {
+        } else if (status.equals("M")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 6;
             } else if (fitnessHistory.getStepCount() < 3000) {
                 notificationCount = 4;
             }
 
-        } else if (status == "L") {
+        } else if (status.equals("L")) {
             if (fitnessHistory.getStepCount() >= 3000) {
                 notificationCount = 4;
             } else if (fitnessHistory.getStepCount() < 3000) {

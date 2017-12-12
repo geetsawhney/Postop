@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
@@ -40,7 +41,7 @@ public class PostOpService {
             String id = jsonObject.get("id").toString();
 
             if (jsonObject.containsKey("email") && jsonObject.containsKey("password")) {
-                String email = jsonObject.get("email").toString();
+                String email = jsonObject.get("email").toString().toLowerCase();
                 String password = jsonObject.get("password").toString();
 
                 PatientLoginDao pldi = new PatientLoginDaoImpl();
@@ -83,7 +84,7 @@ public class PostOpService {
                 throw new IllegalJsonException("invalid values in one of the field");
             }
 
-            if(!email.equals(jsonObject.get("email")))
+            if(!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             PatientDao pdi = new PatientDaoImpl();
@@ -140,7 +141,7 @@ public class PostOpService {
             FitnessHistoryDao fhdi = new FitnessHistoryDaoImpl();
             fhdi.addFitnessData(jsonObject);
 
-            NotificationLogic notificationLogic = new NotificationLogic(patient, fhdi.getFitnessDataByEmail(jsonObject.get("email").toString()));
+            NotificationLogic notificationLogic = new NotificationLogic(patient, fhdi.getFitnessDataByEmail(jsonObject.get("email").toString().toLowerCase()));
 
             JSONObject output = new JSONObject();
             output.put("notificationCount", notificationLogic.getNumberOfNotifications());
@@ -173,7 +174,7 @@ public class PostOpService {
             }
             CallbackDao cd = new CallbackDaoImpl();
 
-            if(!email.equals(jsonObject.get("email")))
+            if(!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             if (new PatientDaoImpl().checkPatientExist(email)) {
@@ -202,7 +203,7 @@ public class PostOpService {
     }
 
 
-    public boolean sendPush(String id) throws PatientNotFoundException {
+    public boolean sendPush(String id) throws PatientNotFoundException, IOException {
         PatientDaoImpl pdi = new PatientDaoImpl();
         Patient patient = pdi.getPatientByDeviceId(id);
         Push.sendPush(patient);

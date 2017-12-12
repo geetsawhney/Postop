@@ -1,18 +1,116 @@
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
 <script type='text/javascript' src="js/updatePatient.js"></script>
 <div id="patient-edit-template">
-    Name<input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
-    Email<input type="text" readonly="readonly" class="form-control" id="up-email" placeholder="Email" value={{patientEmail}}>
-    Device ID<input type="text" readonly="readonly" class="form-control" id="up-deviceId" placeholder="Device ID" value={{deviceId}}>
-    Phone<input type="text" class="form-control" id="up-phone" placeholder="Phone" value={{patientPhone}}>
-    Gender<input type="text" class="form-control" id="up-sex" placeholder="Sex" value={{patientSex}}>
-    Date of Birth<input type="text" class="form-control" id="up-date" placeholder="Date of birth" value={{patientDOB}}>
-    Address<input type="text" class="form-control" id="up-address" placeholder="Address" value={{patientAddress}}>
-    Hospital visit reason<input type="text" class="form-control" id="up-hospital-visit-reason" placeholder="Hospital visit resaon" value={{patientReason}}>
-    Last Visit Date<input type="text" class="form-control" id="up-last-visit-date" placeholder="Last visit date" value={{lastVisitDate}}>
-    UTI Visit count<input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
-    <div class="form-group">
-        <button type="button" id="update-patient-btn" class="btn btn-default updatePatient" onClick="updatePatient()">
-            Update
-        </button>
+  <div class="container">
+
+
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="up-name">Name</label><input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
+      </div>
+      <div class="col-sm-6">
+        <label for="up-email">Email</label><input type="text" readonly="readonly" class="form-control" id="up-email" placeholder="Email" value={{patientEmail}}>
+      </div>
     </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+          <label for="up-sex">Gender</label>
+          <select class="form-control" id="up-sex" placeholder="Sex" value={{patientSex}}>
+            <option>{{patientSex}}</option>
+            <option>{{gender_option_2}}</option>
+          </select>
+      </div>
+      <div class="col-sm-6">
+        <label for="up-phone">Phone</label><input type="text" class="form-control" id="up-phone" placeholder="Phone" value={{patientPhone}}>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+          <label for="up-date">Date of birth</label>
+        <div class="input-group input-append date" id="datePicker">
+
+            <input type="text" class="form-control" id="up-date" placeholder="YYYY-MM-DD" value={{patientDOB}}>
+      <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+           </div>
+                   <script>
+               $(document).ready(function() {
+                   $('#datePicker')
+                       .datepicker({
+                           format: 'yyyy-mm-dd'
+                       })
+                       .on('changeDate', function(e) {
+                           // Revalidate the date field
+
+                       });
+
+
+               });
+               </script>
+             </div>
+      <div class="col-sm-6">
+        <label for="up-address">Address</label><input type="text" class="form-control" id="up-address" placeholder="Address" value={{patientAddress}}>
+      </div>
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="up-hospital-visit-reason">Hospital visit reason</label><input type="text" class="form-control" id="up-hospital-visit-reason" placeholder="Hospital visit resaon" value={{patientReason}}>
+      </div>
+      <div class="col-sm-6">
+        <label for="up-last-visit-date">Date of last visit to Hospital</label>
+        <div class="input-group input-append date" id="datePicker1">
+        <input type="text" class="form-control" id="up-last-visit-date" placeholder="YYYY-MM-DD" value={{lastVisitDate}}>
+          <span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
+        </div>
+        <script>
+    $(document).ready(function() {
+        $('#datePicker1')
+            .datepicker({
+                format: 'yyyy-mm-dd'
+            })
+            .on('changeDate', function(e) {
+                // Revalidate the date field
+
+            });
+
+    });
+    </script>
+      </div>
+
+    </div>
+
+
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="up-uti-visit-count">UTI Visit count</label><input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
+      </div>
+      <div class="col-sm-6">
+        <label for="up-deviceID">Device ID</label><input type="text" readonly="readonly" class="form-control" id="up-deviceId" placeholder="Device ID" value={{deviceId}}>
+      </div>
+    </div>
+
+    <div class=" col-sm-10 checkbox">
+      <label><input type="checkbox" id="up-is-diabetic">Diabetic</label>
+    </div>
+    <div class="col-sm-10 checkbox">
+      <label><input type="checkbox" id="up-uses-catheter">Catheter User</label>
+    </div>
+
+      <div class="row">
+      <div class="form-group">
+        <div class="col-sm-6">
+          <button type="button" id="update-patient-btn" class="btn btn-default updatePatient" onClick="updatePatient()">
+              Update
+          </button>
+        </div>
+    </div>
+  </div>
+  </div>
 </div>

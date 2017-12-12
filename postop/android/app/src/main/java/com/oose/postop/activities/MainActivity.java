@@ -25,7 +25,6 @@ import com.oose.postop.helpers.ConnectionHelper;
 import com.oose.postop.dao.PatientDataDAO;
 import com.oose.postop.receivers.NotificationCountAlarm;
 import com.oose.postop.R;
-import com.oose.postop.receivers.PushNotificationAlarm;
 import com.oose.postop.services.RegistrationIntentService;
 
 import org.json.JSONException;
@@ -218,15 +217,15 @@ public class MainActivity extends AppCompatActivity {
                             localBundle.putString("email", response.get("email").toString());
                             localBundle.putString("address", response.get("address").toString());
                             localBundle.putString("id", deviceId);
-                            //progress.setVisibility(View.INVISIBLE);
+
                             Intent localIntent = new Intent(MainActivity.this, HomepageActivity.class);
                             localIntent.putExtras(localBundle);
                             startActivity(localIntent);
                             if(d.checkIdExists(getApplicationContext(),deviceId) == false) {
                                 d.addIDToDB(deviceId);
-                               // d.updateInterval(1, deviceId);
+
                                  new NotificationCountAlarm().setAlarm(getApplicationContext(),true);
-                                // new PushNotificationAlarm().setAlarm(getApplicationContext());
+
 
 
                             }

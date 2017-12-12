@@ -75,10 +75,10 @@ public class NotificationLogicTest {
 
         Date dob = Date.valueOf("1995-10-15");
         Date visitDate = Date.valueOf("2017-10-09");
-        Date captureDate =Date.valueOf("2017-11-11");
+        Date captureDate = Date.valueOf("2017-11-11");
         Patient patient = new Patient("", "", "", "", "F", dob, "", "", "", 0, true, true, visitDate);
         FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 2000, 1326);
-        assertEquals(6, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+        assertEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
 
     }
 
@@ -90,7 +90,31 @@ public class NotificationLogicTest {
         Date captureDate = Date.valueOf("2017-11-11");
         Patient patient = new Patient("", "", "", "", "F", dob, "", "", "", 3, true, false, visitDate);
         FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 4000, 1326);
-        assertNotEquals(6, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+        assertNotEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+
+    }
+
+    @Test
+    public void notificationCountCheck8()  {
+
+        Date dob = Date.valueOf("1980-10-15");
+        Date visitDate = Date.valueOf("2017-12-11");
+        Date captureDate = Date.valueOf("2017-12-11");
+        Patient patient = new Patient("", "", "", "", "M", dob, "", "", "", 8, true, false, visitDate);
+        FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 4000, 1326);
+        assertNotEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+
+    }
+
+    @Test
+    public void notificationCountCheck9()  {
+
+        Date dob = Date.valueOf("1980-10-15");
+        Date visitDate = Date.valueOf("2017-12-11");
+        Date captureDate = Date.valueOf("2017-12-11");
+        Patient patient = new Patient("", "", "", "", "M", dob, "", "", "", 8, true, false, visitDate);
+        FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 2000, 1326);
+        assertNotEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
 
     }
 

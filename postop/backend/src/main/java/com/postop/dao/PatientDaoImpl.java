@@ -60,7 +60,7 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public Patient getPatientByEmail(String email) throws PatientNotFoundException {
-        String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email + "\'";
+        String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email.toLowerCase() + "\'";
         return getPatient(sql);
     }
 
@@ -73,8 +73,8 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public boolean updatePatientDeviceId(Patient patient) {
 
-        String sql = "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
-                + "\' WHERE email = \'" + patient.getEmail() + "\'";
+        String sql = "UPDATE \"Patient\" SET device_id = \'\' WHERE device_id = \'" + patient.getDeviceId() +"\';" + "UPDATE \"Patient\" SET device_id = \'" + patient.getDeviceId()
+                + "\' WHERE email = \'" + patient.getEmail().toLowerCase() + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -93,7 +93,7 @@ public class PatientDaoImpl implements PatientDao {
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
-            preparedStatement.setString(1, jsonObject.get("email").toString().trim());
+            preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
             preparedStatement.setString(2, jsonObject.get("ssn").toString().trim());
             preparedStatement.setString(3, jsonObject.get("id").toString().trim());
             preparedStatement.setString(4, jsonObject.get("name").toString().trim());
@@ -108,6 +108,8 @@ public class PatientDaoImpl implements PatientDao {
             preparedStatement.setDate(13, Date.valueOf(jsonObject.get("lastVisitDate").toString().trim()));
 
             preparedStatement.execute();
+
+            preparedStatement.close();
         } catch (SQLException e) {
             logger.error("Failed to add the patient");
             throw new IllegalSqlException(e.getMessage());
@@ -118,10 +120,11 @@ public class PatientDaoImpl implements PatientDao {
 
     @Override
     public boolean deletePatient(String email) {
-        String sql = "DELETE FROM \"Patient\" where email = \'" + email + "\'";
+        String sql = "DELETE FROM \"Patient\" where email = \'" + email.toLowerCase() + "\'";
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -157,6 +160,7 @@ public class PatientDaoImpl implements PatientDao {
 
             patient.setLastVisitDate(resultSet.getDate("last_visit_date"));
         }
+
         return patient;
     }
 
@@ -192,10 +196,11 @@ public class PatientDaoImpl implements PatientDao {
                     ",catheter_usage =" + patient.getCatheterUsage() +
                     ", diabetic =" + patient.getDiabetic() +
                     ", last_visit_date = \'" + patient.getLastVisitDate() +
-                    "\' WHERE email = \'" + patient.getEmail() + "\'";
+                    "\' WHERE email = \'" + patient.getEmail().toLowerCase() + "\'";
             try {
                 Statement statement = connection.createStatement();
                 statement.executeUpdate(sql);
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -208,7 +213,7 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public boolean checkPatientExist(String email) {
 
-        String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email
+        String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email.toLowerCase()
                 + "\'";
         try {
             Statement statement = connection.createStatement();

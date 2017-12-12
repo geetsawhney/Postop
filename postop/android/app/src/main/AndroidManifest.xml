@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.oose.postop">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -10,6 +11,7 @@
     <uses-permission android:name="android.c2dm.permission.RECEIVE" />
     <!-- adding internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
 
     <application
@@ -19,48 +21,65 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.HomepageActivity">
+        <activity
+            android:name=".activities.HomepageActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.CallbackActivity">
+        <activity
+            android:name=".activities.CallbackActivity"
+            android:screenOrientation="portrait">
+
             <intent-filter>
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
         <receiver
             android:name="com.oose.postop.receivers.GcmBroadcastReceiver"
             android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.oose.postop" />
             </intent-filter>
         </receiver>
-        <receiver android:process=":remote"
-            android:name="com.oose.postop.receivers.NotificationCountAlarm">
+        <receiver
+            android:name="com.oose.postop.receivers.NotificationCountAlarm"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+
+
         </receiver>
-        <receiver android:process=":remote"
-            android:name="com.oose.postop.receivers.PushNotificationAlarm">
+        <receiver
+            android:name="com.oose.postop.receivers.PushNotificationAlarm"
+            android:process=":remote">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
         </receiver>
+
         <service
             android:name="com.oose.postop.services.RegistrationIntentService"
-            android:exported="false">
-        </service>
+            android:exported="false"></service>
         <service
             android:name="com.oose.postop.services.GoogleFitFetchService"
-            android:label="Google Fit Fetch">
-        </service>
+            android:label="Google Fit Fetch"></service>
 
     </application>
 

@@ -103,10 +103,6 @@ public class Callback {
         this.isResolved = resolved;
     }
 
-    public Logger getLogger() {
-        return logger;
-    }
-
     public void setCallbackDate(Date callbackDate) {
         this.callbackDate = callbackDate;
     }
