@@ -10,18 +10,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme">
 
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:src="@drawable/mcare3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="101dp" />
 
 
 
@@ -43,6 +44,13 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="Create Callback"
+            android:textColor="#60c6c1"
+            android:shadowColor="#a185bc"
+            android:shadowRadius="3"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:textStyle="bold"
+            android:fontFamily="casual"
             android:textAlignment="center" />
 
         <TextView
@@ -52,36 +60,101 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:text="Urine Color:"
-            android:textAlignment="center" />
+            android:textColor="#60c6c1"
+            android:shadowColor="#a185bc"
+            android:shadowRadius="3"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:textStyle="bold"
+            android:fontFamily="casual"
+            android:gravity="left"/>
 
-        <Spinner
-            android:id="@+id/urineDropdown"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="47dp"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/spinnerbackground"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/urineDropdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:spinnerMode="dropdown" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:src="@mipmap/drop" />
+
+        </RelativeLayout>
 
         <CheckBox
             android:id="@+id/hasNausea"
-            android:layout_width="wrap_content"
+            android:layout_width="96dp"
             android:layout_height="wrap_content"
-            android:text="Nausea" />
+            android:text="Nausea"
+            android:button="@drawable/checkboxbackground"
+            android:fontFamily="casual"
+            android:shadowColor="#a185bc"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textColor="#60c6c1"
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/hasPain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pain" />
+            android:text="Pain"
+            android:button="@drawable/checkboxbackground"
+            android:fontFamily="casual"
+            android:shadowColor="#a185bc"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textColor="#60c6c1"
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
         <CheckBox
             android:id="@+id/hasFever"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fever" />
+            android:text="Fever"
+            android:button="@drawable/checkboxbackground"
+            android:fontFamily="casual"
+            android:shadowColor="#a185bc"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textColor="#60c6c1"
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
         <CheckBox
             android:id="@+id/hasFatigue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fatigue" />
+            android:text="Fatigue"
+            android:button="@drawable/checkboxbackground"
+            android:fontFamily="casual"
+            android:shadowColor="#a185bc"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="3"
+            android:textColor="#60c6c1"
+            android:textStyle="bold"
+            android:padding="10dp"/>
 
         <Button
             android:id="@+id/submit"
@@ -90,6 +163,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
             android:onClick="submit"
+            android:background="@drawable/buttonbackground"
             android:text="SUBMIT" />
 
 
