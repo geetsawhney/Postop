@@ -4,8 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Iteration 5
+### Added
+- Calendar for date fields input in nurse Frontend
+- JavaScript field values check before form submission
+
+### Changed
+- Fixed alarms to persist after device restarts
+- Scrollable homepage layout with fixed portrait orientation
+- Removed trivial test cases for getters and setters, fixed issue with code coverage
+- Changed return type of DbConnector.java connectionClose() method to boolean
+- Covered all if else cases in test
+- Removed duplicate classes from android code
+- Case sensitivity fixed in email validations
+
 ## Iteration 4
 ### Added
+- JSON validation classes for POST and PUT requests
+- Edit patient in nurse frontend
+- Heroku deployment at https://postop.herokuapp.com
+- Test cases for endpoints, callback logic and notification logic
+- Javadoc for android code
+- Frontend integration with Spark Java code
 - Layout for patient to create a callback
 - Functionality to allow a nurse to add a patient
 - Nurse frontend to display list of pending callbacks, list of patients
@@ -17,7 +37,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Callback logic
 - Endpoint to fetch a list of pending callbacks
 - Endpoint to update callback
-- Callback model, dao interface and implementation
+- Callback model, Dao interface and implementation
 - Endpoint to fetch a list of all patients
 - Endpoint to fetch a patient
 - Endpoint for updating a patient
@@ -29,10 +49,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Endpoint for adding a patient
 
 ### Changed
+- Updated Travis to build both backend and android
 - Switched from SSN to password login
 - Notification Logic
 - Created CHANGELOG.md
-- Restructured android code and added javadoc
+- Restructured android code and added Javadoc
 - Updated project board for all iterations
 - Added relevant endpoints
 - Updated README to include language versions, technology stack
@@ -80,7 +101,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Patient login layout
 
 ### Changed
-- UI sketches to reflect interation with Google Fit API
+- UI sketches to reflect integration with Google Fit API
 - Added non-CRUD features: Callback flexibility to the patient; Notification calculation in the backend
 
 ## Iteration 1
@@ -90,4 +111,3 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - UI Sketches
 - Architecture
 - Use Cases
-

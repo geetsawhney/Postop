@@ -13,11 +13,6 @@ public class NotificationLogic {
     private Patient patient;
     private FitnessHistory fitnessHistory;
 
-
-    public NotificationLogic() {
-        status = "L";
-    }
-
     public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
         this.status = "L";
         this.patient = patient;
@@ -49,8 +44,6 @@ public class NotificationLogic {
                 return stat;
             } else if (numberOfDays <= 0) {
                 stat = "L";
-                return stat;
-            } else {
                 return stat;
             }
         } else if (stat.equals("L")) {

@@ -94,4 +94,28 @@ public class NotificationLogicTest {
 
     }
 
+    @Test
+    public void notificationCountCheck8()  {
+
+        Date dob = Date.valueOf("1980-10-15");
+        Date visitDate = Date.valueOf("2017-12-11");
+        Date captureDate = Date.valueOf("2017-12-11");
+        Patient patient = new Patient("", "", "", "", "M", dob, "", "", "", 8, true, false, visitDate);
+        FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 4000, 1326);
+        assertNotEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+
+    }
+
+    @Test
+    public void notificationCountCheck9()  {
+
+        Date dob = Date.valueOf("1980-10-15");
+        Date visitDate = Date.valueOf("2017-12-11");
+        Date captureDate = Date.valueOf("2017-12-11");
+        Patient patient = new Patient("", "", "", "", "M", dob, "", "", "", 8, true, false, visitDate);
+        FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 2000, 1326);
+        assertNotEquals(4, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+
+    }
+
 }
