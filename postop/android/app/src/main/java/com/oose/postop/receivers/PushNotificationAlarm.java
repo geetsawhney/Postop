@@ -49,12 +49,10 @@ public class PushNotificationAlarm extends BroadcastReceiver {
         if (test) {
             interval = 1000*30;
         } else {
-            //int interval = new PatientDataDAO(context).retrieveInterval();
+
              interval = 1000 * 60 * mins;
         }
 
-        // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        // prefs.edit().putInt("interval", interval);
         manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
         Toast.makeText(context, "Push Scheduled!", Toast.LENGTH_LONG).show();
     }
@@ -63,22 +61,11 @@ public class PushNotificationAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-        //SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        // int interval = prefs.getInt("interval", 0);
-
-        // PatientDataDAO p = new PatientDataDAO(context);
-        // Toast.makeText(context, interval+" "+1000*60*p.retrieveInterval(), Toast.LENGTH_SHORT).show();
-        // if (interval == 1000*60*p.retrieveInterval()) {
-        // if (interval > (1000 * 60 * 1)) {
         Toast.makeText(context, "Notification Coming in!", Toast.LENGTH_LONG).show();
         PatientDataDAO d = new PatientDataDAO(context);
         String id = d.retrieveID();
         volleyRequest(context, id);
-        //   }
-        //} else {
-        //    StopAlarm(context);
-        //    setAlarm(context);
-        // }
+
     }
 
     public void volleyRequest(final Context context, String id) {

@@ -56,7 +56,6 @@ public class NotificationCountAlarm extends BroadcastReceiver{
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        // GoogleFitFetchService g = new GoogleFitFetchService();
         context.startService(new Intent(context, GoogleFitFetchService.class));
 
 

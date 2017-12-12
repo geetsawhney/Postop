@@ -33,6 +33,7 @@ import az.plainpie.PieView;
 
 /**Activity Class for Homepage
  * Created by Omotola, Rohit on 10/23/2017.
+ * Piechart credit to Android Arsenal: https://android-arsenal.com/details/1/3689
  */
 
 public class HomepageActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
@@ -256,6 +257,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
         Intent localIntent = new Intent(HomepageActivity.this, MainActivity.class);
         startActivity(localIntent);
+        finish();
 
 
     }

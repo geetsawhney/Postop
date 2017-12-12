@@ -17,12 +17,11 @@ public class Database {
     public static class Data implements BaseColumns {
         public static final String TABLE_NAME = "PatientData";
         public static final String ID = "id";
-        public static final String INTERVAL = "notificationInterval";
+
 
         public static final String CREATE_TABLE = "CREATE TABLE IF NOT EXISTS " +
                 TABLE_NAME + " ( " +
-                ID + " TEXT, " +
-                INTERVAL +" NUMBER "+
+                ID + " TEXT"+
                ")";
 
 

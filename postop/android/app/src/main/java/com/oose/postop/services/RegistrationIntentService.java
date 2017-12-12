@@ -14,6 +14,7 @@ import java.io.IOException;
 
 /**Service for Registering device to GCM and receiving token
  * Created by Omotola on 10/18/2017.
+ * Credit to Simplified Coding; https://www.simplifiedcoding.net/android-push-notification-using-gcm-tutorial/#Creating-GCMPushReceiverService
  */
 
 public class RegistrationIntentService extends IntentService {
@@ -34,8 +35,6 @@ public class RegistrationIntentService extends IntentService {
         //Registration complete intent initially null
         Intent registrationComplete = null;
 
-        //Register token is also null
-        //we will get the token on successful registration
         String token = null;
         try {
             //Creating an instanceid
@@ -45,7 +44,7 @@ public class RegistrationIntentService extends IntentService {
             token = instanceID.getToken(getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
 
             //Displaying the token in the log so that we can copy it to send push notification
-            //You can also extend the app by storing the token in to your server
+
             Log.w("GCMRegIntentService", "token:" + token);
 
             //on registration complete creating intent with success

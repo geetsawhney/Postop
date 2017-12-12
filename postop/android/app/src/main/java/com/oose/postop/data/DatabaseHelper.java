@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 /**SqlLiteHelper class for Database
  * Created by Omotola on 10/26/2017.
+ * Credit to Android Authority: https://www.androidauthority.com/google-home-mini-touch-controls-821711/
  */
 
 public class DatabaseHelper  extends SQLiteOpenHelper {
