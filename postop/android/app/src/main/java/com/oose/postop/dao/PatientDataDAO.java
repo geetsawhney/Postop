@@ -96,33 +96,5 @@ public class PatientDataDAO
         return null;
     }
 
-    public void updateInterval(int interval, String id){
-
-        //get the database or create the database if it doesnt exist already
-        SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
-
-        database.execSQL("UPDATE "+ Database.Data.TABLE_NAME +" SET " + Database.Data.INTERVAL + " = "+ interval + " WHERE " + Database.Data.ID + " = '"+ id+"'" );
-    }
-
-    public Integer retrieveInterval(){
-        SQLiteDatabase database = new DatabaseHelper(context).getReadableDatabase();
-
-
-        Cursor c = database.rawQuery("SELECT "+ Database.Data.INTERVAL+" FROM " + Database.Data.TABLE_NAME , new String[]{});
-        if(c.getCount() >0)
-        {
-            c.moveToFirst();
-            Integer interval = c.getInt(c.getColumnIndex(Database.Data.INTERVAL));
-            //Toast.makeText(context, id, Toast.LENGTH_LONG).show();
-            return interval;
-
-
-            // use these strings as you want
-
-        }
-        Toast.makeText(context,"DIDNT WORK!!!", Toast.LENGTH_LONG).show();
-        return null;
-    }
-
 
 }
