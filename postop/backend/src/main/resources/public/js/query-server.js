@@ -18,6 +18,41 @@ var callbacksEndpoint = '/api/v1/patients/callbacks';
           returnObj.stringSeverity = (returnObj.severity>=5) ? 'Critical' : (returnObj.severity>=3 ? 'Medium': 'Low');
           returnObj.callbackBtn = i;
         // returnObj.patientName = returnObj.severity;
+          returnObj.patientPhone=returnObj.phone;
+          returnObj.patientName=returnObj.name;
+          if(returnObj.hasFatigue==false)
+          {
+            returnObj.patientHasFatigue="Yes";
+          }
+          else
+          {
+              returnObj.patientHasFatigue="No";
+          }
+          if(returnObj.hasFever==false)
+          {
+            returnObj.patientHasFever="Yes";
+          }
+          else
+          {
+              returnObj.patientHasFever="No";
+          }
+          if(returnObj.hasPain==false)
+          {
+            returnObj.patientHasPain="Yes";
+          }
+          else
+          {
+              returnObj.patientHasPain="No";
+          }
+          if(returnObj.hasNausea==false)
+          {
+            returnObj.patientHasNausea="Yes";
+          }
+          else
+          {
+              returnObj.patientHasNausea="No";
+          }
+          returnObj.patientUrineColor=returnObj.urineColor;
           returnObj.displayColor = (returnObj.severity>=5) ? 'red' : (returnObj.severity>=3 ? 'orange': 'green');
           i = i+1;
           return returnObj;

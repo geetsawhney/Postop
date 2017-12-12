@@ -3,26 +3,39 @@
 <script id="callback-template" type="text/html">
     <div> <!-- style="background-color: #ccc; border: 2px solid black; margin: 5px">
       <div class="row">-->
+
           <table class ="table table-striped">
         <tr>
           <th>Patient Severity</th>
-        <!--  <th>Patient Name</th>-->
+          <th>Patient Name</th>
           <th>Email</th>
-          <th></th>
-        <!--  <th>Phone</th> -->
+          <th>Phone</th>
+            <th></th>
+            <th></th>
         </tr>
         <tr>
         {{#callbacks}}
         <tr>
-          <td style='color:{{displayColor}}'>{{stringSeverity}}</td>
-      <!--    <td>{{patientName}}</td> -->
-          <td id="id-email">{{patientEmail}}</td>
-      <!--    <td>{{patientPhone}}</td> -->
 
-          <td><button type="submit" id={{callbackBtn}} class="btn btn-default updateFlag" value={{patientEmail}}>X</button> </td>
-          <tr>
+          <td style='color:{{displayColor}}'>{{stringSeverity}}</td>
+          <td>{{patientName}}</td>
+          <td id="id-email">{{patientEmail}}</td>
+          <td>{{patientPhone}}</td>
+          <td></td>
+          <td><button type="submit" id={{callbackBtn}} class="btn btn-default updateFlag" value={{patientEmail}}>Attended</button> </td>
+            <tr>
+
+                <td>Fatigue: {{patientHasFatigue}}</td>
+                <td>Nausea: {{patientHasNausea}}</td>
+                <td>Fever: {{patientHasFever}}</td>
+                <td>Pain: {{patientHasPain}}</td>
+                <td>Urine: {{patientUrineColor}}</td>
+                <td></td>
+
+            </tr>
           {{/callbacks}}
           </table>
+
 
   <!--
       <div class="col-xs-12 col-md-4"><h4>{{Severity}}</h4></div>

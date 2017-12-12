@@ -137,5 +137,5 @@ function updatePatient() {
 
 $(document).ready(function() {
     console.log("here....")
-    //updatePatient()
+  //  updatePatient()
 });
