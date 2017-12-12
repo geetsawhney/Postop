@@ -14,8 +14,8 @@ public class CallbackJsonValidation {
     }
 
     public boolean validateJson() {
-        return validateEmail() && validateCallbackDate() && validateIsResolved() && validateSeverity() &&
-                validateHasFever() && validateHasPain() && validateHasFatigue() && validateUrineColor();
+        return (validateEmail() && validateIsResolved() && Boolean.parseBoolean(jsonObject.get("isResolved").toString())) || (validateEmail() && validateCallbackDate() && validateIsResolved() && validateSeverity() &&
+                validateHasFever() && validateHasPain() && validateHasFatigue() && validateUrineColor());
     }
 
     protected boolean validateEmail() {
