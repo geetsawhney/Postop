@@ -48,13 +48,16 @@ function EditPatient() {
                 else {
 
                 }
+                var addressSplit = patients.address.split('|');
+
                 var data = {
                     patientEmail: patients.email,
                     patientName: patients.name,
                     patientPhone: patients.phone,
                     patientSex: patients.sex,
                     patientDOB: patients.dob,
-                    patientAddress: patients.address,
+                    patientAddress1: addressSplit[0],
+                    patientAddress2:addressSplit[1],
                     patientReason: patients.hospitalVisitReason,
                     lastVisitDate: patients.lastVisitDate,
                     UTIcount: patients.utiVisitCount,

@@ -5,7 +5,7 @@
 <div id="patient-edit-template">
   <div class="container">
 
-
+    <h4>Personal Information</h4>
     <div class="row">
       <div class="col-sm-6">
         <label for="up-name">Name</label><input type="text" class="form-control" id="up-name" placeholder="Name" value={{patientName}}>
@@ -54,11 +54,20 @@
                </script>
              </div>
       <div class="col-sm-6">
-        <label for="up-address">Address</label><input type="text" class="form-control" id="up-address" placeholder="Address" value={{patientAddress}}>
+        <label for="up-address1">Address</label><input type="text" class="form-control" id="up-address1" placeholder="Address" value={{patientAddress1}}>
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="up-address2">Address line 2</label><input type="text" class="form-control" id="up-address2" placeholder="Address2" value={{patientAddress2}}>
+      </div>
+      <div class="col-sm-6">
+        <label for="up-deviceID">Device ID</label><input type="text" readonly="readonly" class="form-control" id="up-deviceId" placeholder="Device ID" value={{deviceId}}>
+      </div>
+    </div>
 
+    <h4>Health Information</h4>
     <div class="row">
       <div class="col-sm-6">
         <label for="up-hospital-visit-reason">Hospital visit reason</label><input type="text" class="form-control" id="up-hospital-visit-reason" placeholder="Hospital visit resaon" value={{patientReason}}>
@@ -83,16 +92,11 @@
     });
     </script>
       </div>
-
     </div>
-
 
     <div class="row">
       <div class="col-sm-6">
         <label for="up-uti-visit-count">UTI Visit count</label><input type="text" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
-      </div>
-      <div class="col-sm-6">
-        <label for="up-deviceID">Device ID</label><input type="text" readonly="readonly" class="form-control" id="up-deviceId" placeholder="Device ID" value={{deviceId}}>
       </div>
     </div>
 

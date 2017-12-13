@@ -98,6 +98,7 @@ function submitPatient() {
 
     $("#submit-patient-btn").click(function() {
       var checkVal = checkValues();
+      var fullAddress = $("#cb-address").val() + "|" + $("#cb-address2").val();
       if(checkVal==1)
       {
         var data = {
@@ -108,7 +109,7 @@ function submitPatient() {
             id:"",
             sex:$("#cb-sex").val(),
             dob:$("#cb-date").val(),
-            address:$("#cb-address").val(),
+            address:fullAddress,
             phone:$("#cb-phone").val(),
             hospitalVisitReason:$("#cb-hospital-visit-reason").val(),
             utiVisitCount:$("#cb-uti-visit-count").val(),
