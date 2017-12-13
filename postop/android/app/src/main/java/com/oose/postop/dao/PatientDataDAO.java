@@ -85,11 +85,11 @@ public class PatientDataDAO
         {
             c.moveToFirst();
                 String id = c.getString(c.getColumnIndex(Database.Data.ID));
-                //Toast.makeText(context, id, Toast.LENGTH_LONG).show();
+
                 return id;
 
 
-                // use these strings as you want
+
 
         }
         Toast.makeText(context,"DIDNT WORK!!!", Toast.LENGTH_LONG).show();

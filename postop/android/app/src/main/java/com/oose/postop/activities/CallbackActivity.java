@@ -156,8 +156,8 @@ ConnectionHelper connectionHelper = new ConnectionHelper();
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText("That didn't work!");
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
+                        Toast.makeText(context, "Unable to Submit Request. Please check Internet Connection and Try again", Toast.LENGTH_LONG).show();
                         error.printStackTrace();
 
 

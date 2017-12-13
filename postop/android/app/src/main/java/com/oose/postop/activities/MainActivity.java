@@ -1,4 +1,5 @@
 package com.oose.postop.activities;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -47,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progress;
     PatientDataDAO d;
 
+
     ConnectionHelper connectionHelper = new ConnectionHelper();
     private BroadcastReceiver mRegistrationBroadcastReceiver;
 
@@ -78,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 if (intent.getAction().equals(RegistrationIntentService.REGISTRATION_SUCCESS)) {
                     //Getting the registration token from the intent
                     String token = intent.getStringExtra("token");
-                    Toast.makeText(getApplicationContext(), "Registration token:" + token, Toast.LENGTH_LONG).show();
+
 
 
                     //check if the id already exists in DB. If it does show homepage, if not show the login page
@@ -86,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     deviceId = token;
                     if(d.checkIdExists(getApplicationContext(),deviceId) == true){
 
-                        Toast.makeText(getApplicationContext(),"ID Exists",Toast.LENGTH_LONG).show();
+
                         Map<String,String> requestList = new HashMap<String,String>();
                         requestList.put("id",deviceId);
                         volleyRequest(requestList);
@@ -99,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 } else if (intent.getAction().equals(RegistrationIntentService.REGISTRATION_ERROR)) {
-                    Toast.makeText(getApplicationContext(), "GCM registration error!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "GCM registration Error", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error occurred", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, "Error Occurred", Toast.LENGTH_LONG).show();
+
                 }
             }
         };
@@ -112,11 +115,12 @@ public class MainActivity extends AppCompatActivity {
         //if play service is not available
         if (ConnectionResult.SUCCESS != resultCode) {
             if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
-                Toast.makeText(getApplicationContext(), "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Google Play Service is not install/enabled in this device!", Toast.LENGTH_LONG).show();
+
                 GooglePlayServicesUtil.showErrorNotification(resultCode, getApplicationContext());
 
             } else {
-                Toast.makeText(getApplicationContext(), "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "This device does not support for Google Play Service!", Toast.LENGTH_LONG).show();
             }
 
             //If play service is available
@@ -162,15 +166,17 @@ public class MainActivity extends AppCompatActivity {
      */
     public void login(View v){
         if (TextUtils.isEmpty(emailField.getText())) {
-            Toast.makeText(getApplicationContext(), "You did not enter a username", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a username").setNeutralButton("Close", null).show();
             return;
         }
         if (TextUtils.isEmpty(passwordField.getText())) {
-            Toast.makeText(getApplicationContext(), "You did not enter a password", Toast.LENGTH_SHORT).show();
+            new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a password").setNeutralButton("Close", null).show();
             return;
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.getText()).matches()) {
-            Toast.makeText(getApplicationContext(), "You did not enter a valid email", Toast.LENGTH_SHORT).show();
+         new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a valid email").setNeutralButton("Close", null).show();
+
+
             return;
         }
         //turn on progress bar
@@ -240,23 +246,19 @@ public class MainActivity extends AppCompatActivity {
                             }
                             finish();
                         }catch(JSONException ex){
-                            //mTextView.setText("Bad Response!");
-                            Toast.makeText(getApplicationContext(), "BAD RESPONSE", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText("That didn't work!");
                         d.deleteID(deviceId);
                         try {
 
                             JSONObject obj = new JSONObject(new String(error.networkResponse.data));
-                            Toast.makeText(getApplicationContext(),obj.getString("error"), Toast.LENGTH_LONG).show();
                             progress.setVisibility(View.INVISIBLE);
                         } catch (Exception e) {
                             progress.setVisibility(View.INVISIBLE);
-                            Toast.makeText(getApplicationContext(),"That Didn't work!", Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
 

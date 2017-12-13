@@ -11,7 +11,6 @@ import java.util.TimeZone;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -37,31 +36,33 @@ public class PushNotificationAlarm extends BroadcastReceiver {
        /* Setting the alarm here */
         Intent alarmIntent = new Intent(context, PushNotificationAlarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
-        Calendar c = Calendar.getInstance();
-        c.set(Calendar.HOUR_OF_DAY, 9);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
+
         AlarmManager manager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         int interval;
 
         if (test) {
             interval = 1000*30;
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         } else {
-
+            Calendar c = Calendar.getInstance();
+            c.set(Calendar.HOUR_OF_DAY, 9);
+            c.set(Calendar.MINUTE, 0);
+            c.set(Calendar.SECOND, 0);
+            c.set(Calendar.MILLISECOND, 0);
+            c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
              interval = 1000 * 60 * mins;
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
         }
 
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
-        Toast.makeText(context, "Push Scheduled!", Toast.LENGTH_LONG).show();
+
+
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
 
-        Toast.makeText(context, "Notification Coming in!", Toast.LENGTH_LONG).show();
+
         PatientDataDAO d = new PatientDataDAO(context);
         String id = d.retrieveID();
         volleyRequest(context, id);
@@ -80,14 +81,13 @@ public class PushNotificationAlarm extends BroadcastReceiver {
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Toast.makeText(context, "Works", Toast.LENGTH_LONG).show();
+
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText("That didn't work!");
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
                         error.printStackTrace();
 
 

@@ -9,8 +9,6 @@ import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -222,13 +220,13 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
         PatientDataDAO d = new PatientDataDAO(this);
          String id = d.retrieveID();
 
-        //g.buildFitnessClient(context);
+
         Calendar c = Calendar.getInstance();
-        //
+
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         String date = df.format(c.getTime());
         java.sql.Date formattedDate =  java.sql.Date.valueOf(date);
-       Toast.makeText(this, formattedDate.toString(), Toast.LENGTH_LONG).show();
+
 
         JSONObject j = new JSONObject();
         try {
@@ -239,7 +237,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //  Toast.makeText(context, g.dailyTotalCount, Toast.LENGTH_LONG).show();
+
         volleyRequest(j, this);
 
     }
@@ -267,10 +265,10 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                         try {
                             ;
                             String n = response.get("notificationCount").toString();
-                            Toast.makeText(context, "Count ="+ n.toString(), Toast.LENGTH_LONG).show();
+
                             calculateInterval(Integer.parseInt(n));
                         } catch (Exception e) {
-                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+
                             e.printStackTrace();
                         }
 
@@ -279,8 +277,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        //mTextView.setText("That didn't work!");
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+
                         error.printStackTrace();
 
 
@@ -299,13 +296,10 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      */
     public void calculateInterval(int notificationCount) {
         int interval = (int) Math.round((24 * 60) / notificationCount);
-       // new PatientDataDAO(this).updateInterval(interval, id);
-
-       // int interval = 1000*30;
 
         //Restart push alarm
         PushNotificationAlarm a = new PushNotificationAlarm();
-       // a.StopAlarm(getApplicationContext());
+        a.StopAlarm(getApplicationContext());
         a.setAlarm(getApplicationContext(), interval, true);
 
     }

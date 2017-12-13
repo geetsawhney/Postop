@@ -5,7 +5,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import android.widget.Toast;
 
 import com.oose.postop.services.GoogleFitFetchService;
 import com.oose.postop.helpers.ConnectionHelper;
@@ -45,7 +44,6 @@ public class NotificationCountAlarm extends BroadcastReceiver{
             manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
 
-        Toast.makeText(context, "Scheduled Count Fetch", Toast.LENGTH_SHORT).show();
 
     }
 
