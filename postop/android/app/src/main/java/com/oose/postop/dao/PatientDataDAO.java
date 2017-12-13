@@ -81,7 +81,7 @@ public class PatientDataDAO
 
 
         Cursor c = database.rawQuery("SELECT "+ Database.Data.ID+" FROM " + Database.Data.TABLE_NAME , new String[]{});
-        if(c != null)
+        if(c.getCount()>0)
         {
             c.moveToFirst();
                 String id = c.getString(c.getColumnIndex(Database.Data.ID));

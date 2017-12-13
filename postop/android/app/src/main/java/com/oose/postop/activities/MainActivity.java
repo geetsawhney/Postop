@@ -6,6 +6,7 @@ import android.content.IntentFilter;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -91,12 +92,8 @@ public class MainActivity extends AppCompatActivity {
                         volleyRequest(requestList);
 
                     }else{
-
-
                         setContentView(R.layout.activity_main);
-
                         // Initialize all fields
-
                         emailField = (EditText) findViewById(R.id.email);
                         passwordField = (EditText) findViewById(R.id.password);
 
@@ -164,6 +161,18 @@ public class MainActivity extends AppCompatActivity {
      * @param v
      */
     public void login(View v){
+        if (TextUtils.isEmpty(emailField.getText())) {
+            Toast.makeText(getApplicationContext(), "You did not enter a username", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (TextUtils.isEmpty(passwordField.getText())) {
+            Toast.makeText(getApplicationContext(), "You did not enter a password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.getText()).matches()) {
+            Toast.makeText(getApplicationContext(), "You did not enter a valid email", Toast.LENGTH_SHORT).show();
+            return;
+        }
         //turn on progress bar
         progress = (ProgressBar) findViewById(R.id.progressBar);
         progress.setIndeterminate(true);
