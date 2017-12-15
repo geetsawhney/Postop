@@ -26,6 +26,7 @@
       <li width="75" height="40"><a href="index.html">Home</a></li>
       <li class="Active"><a href="#">New Patient</a></li>
         <li><a href="listPatients.html">List all Patients</a></li>
+        <li><a href="Notifications.html">Notifications</a></li>
     </ul>
   </div>
 </nav>
@@ -95,8 +96,7 @@
 
       <div class="row form-group">
         <div class="col-sm-6">   <label for="cb-address2">Address line 2</label>
-          <input type="text" class="form-control" id="cb-address2" placeholder="eg:
-          MD, 21210" required minlength=2>
+          <input type="text" class="form-control" id="cb-address2" placeholder="eg: MD, 21210" required minlength=2>
         </div>
         <div class="col-sm-6"> <label for="cb-password">Password</label>
           <input type="password" class="form-control" id="cb-password" name="cb-password" placeholder="eg: Password" required minlength=5>
@@ -125,7 +125,7 @@
   </script>
     </div>
     <div class="col-sm-6"> <label for="cb-uti-visit-count">Past UTI Visit count</label>
-      <input type="number" class="form-control" id="cb-uti-visit-count" placeholder="eg: 5" required>
+   <input type="number" class="form-control" id="cb-uti-visit-count" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2 >
     </div>
 </div>
 

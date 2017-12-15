@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>PostOp</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+
+</head>
+<body>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand">PostOp</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="New_Patient.html">New Patient</a></li>
+      <li><a href="listPatients.html">List all Patients</a></li>
+      <li class="Active"><a href="#">Notifications</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class='container'>
+  <h3>Notifications Data</h3>
+  <form method=get id="notificationForm">
+    <div class="row form-group">
+      <div class="col-sm-6"> <label for="criticalNumber">Critical Notification Count</label>
+        <input type="number" class="form-control" id="criticalNumber" placeholder="eg: 10" required matches="^[0-9]*$." minlength=1 maxlength=2>
+      </div>
+        <div class="col-sm-6"> <label for="criticalEndNumber">Critical End Notification Count</label>
+          <input type="number" class="form-control" id="criticalEndNumber" placeholder="eg: 2" required matches="^[0-9]*$." minlength=1 maxlength=2 value>
+        </div>
+        <div class="col-sm-6"> <label for="criticalInterval">Enter Interval</label>
+          <input type="number" class="form-control" id="criticalEndNumber" placeholder="eg: 2" required matches="^[0-9]*$." minlength=1 maxlength=2 value>
+        </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-6"> <label for="highNumber">High Notification Count</label>
+        <input type="number" class="form-control" id="highNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+      </div>
+        <div class="col-sm-6"> <label for="highEndNumber">High End Notification Count</label>
+          <input type="number" class="form-control" id="highEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+        </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-6"> <label for="mediumNumber">Medium Notification Count</label>
+        <input type="number" class="form-control" id="mediumNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+      </div>
+        <div class="col-sm-6"> <label for="mediumEndNumber">Medium End Notification Count</label>
+          <input type="number" class="form-control" id="mediumEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+        </div>
+    </div>
+
+    <div class="row form-group">
+      <div class="col-sm-6"> <label for="lowNumber">Low Notification Count</label>
+        <input type="number" class="form-control" id="lowNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+      </div>
+
+        <div class="col-sm-6"> <label for="lowEndNumber">Low End Notification Count</label>
+          <input type="number" class="form-control" id="lowEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+        </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-10">
+        <button type="button" id="submit-notification" class="btn btn-default">Submit</button>
+      </div>
+    </div>
+
+  </form>
+</div>
+
+<script>
+$("#notificationForm").validate({
+  invalidHandler: function(event, validator) {
+    // 'this' refers to the form
+    var errors = validator.numberOfInvalids();
+    if (errors) {
+      var message = errors == 1
+        ? 'You missed 1 field. It has been highlighted'
+        : 'You missed ' + errors + ' fields. They have been highlighted';
+      $("div.error span").html(message);
+      $("div.error").show();
+    } else {
+      $("div.error").hide();
+    }
+  }
+});
+</script>
+
+</body>
+</html>
