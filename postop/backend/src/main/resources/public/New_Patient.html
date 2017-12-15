@@ -60,10 +60,13 @@
                        $(document).ready(function() {
                            $('#datePicker')
                                .datepicker({
-                                   format: 'yyyy-mm-dd'
+                                   format: 'yyyy-mm-dd',
+                                   maxDate: '+0'
                                })
-                               .on('changeDate', function(e) {
+                               .on('change', function() {
                                    // Revalidate the date field
+                                   console.log('date changed')
+                                   console.log($(this).val())
                                });
                        });
                 </script>

@@ -30,24 +30,19 @@ function EditPatient() {
                 }
 
                 var checkfor1;
-                if(patients.diabetic==true)
+                if(patients.diabetic)
                 {
-                  document.getElementById("up-is-diabetic").checked = true;
+                  $("#up-is-diabetic").attr('checked', 'checked');
                   console.log("is diabetic");
-                }
-                else {
-
                 }
 
                 var catheterUsage;
-                if(patients.catheterUsage==true)
+                if(patients.catheterUsage)
                 {
-                  document.getElementById("up-uses-catheter").checked = true;
+                  $("#up-uses-catheter").attr('checked', 'checked');
                   console.log("is catheter user");
                 }
-                else {
 
-                }
                 var addressSplit = patients.address.split('|');
 
                 var data = {
@@ -75,6 +70,21 @@ function EditPatient() {
                 $("#patient-edit-template-container").html(patientsHTML);
                 $("#patient-edit-template-container").css('display', 'block');
                 $("#patient-list-container").css('display', 'none');
+
+                console.log(patients.diabetic);
+                if(patients.diabetic)
+                {
+                  $("#up-is-diabetic").attr('checked', 'checked');
+                  console.log("is diabetic");
+                }
+
+                var catheterUsage;
+                if(patients.catheterUsage)
+                {
+                  $("#up-uses-catheter").attr('checked', 'checked');
+                  console.log("is catheter user");
+                }
+
             }
         })
     })
