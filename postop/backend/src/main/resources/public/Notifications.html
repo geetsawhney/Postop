@@ -35,8 +35,13 @@
         <div class="col-sm-6"> <label for="criticalEndNumber">Critical End Notification Count</label>
           <input type="number" class="form-control" id="criticalEndNumber" placeholder="eg: 2" required matches="^[0-9]*$." minlength=1 maxlength=2 value>
         </div>
-        <div class="col-sm-6"> <label for="criticalInterval">Enter Interval</label>
-          <input type="number" class="form-control" id="criticalEndNumber" placeholder="eg: 2" required matches="^[0-9]*$." minlength=1 maxlength=2 value>
+        <div class="col-sm-6"> <label for="criticalInterval">Enter Interval (Number of Days)</label>
+          <select class="form-control" id="criticalInterval">
+            <option>7</option>
+            <option>14</option>
+            <option>21</option>
+            <option>28</option>
+          </select>
         </div>
     </div>
 
@@ -47,6 +52,14 @@
         <div class="col-sm-6"> <label for="highEndNumber">High End Notification Count</label>
           <input type="number" class="form-control" id="highEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
         </div>
+        <div class="col-sm-6"> <label for="highInterval">Enter Interval (Number of Days)</label>
+          <select class="form-control" id="highInterval">
+            <option>7</option>
+            <option>14</option>
+            <option>21</option>
+            <option>28</option>
+          </select>
+        </div>
     </div>
 
     <div class="row form-group">
@@ -56,15 +69,30 @@
         <div class="col-sm-6"> <label for="mediumEndNumber">Medium End Notification Count</label>
           <input type="number" class="form-control" id="mediumEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
         </div>
+        <div class="col-sm-6"> <label for="mediumInterval">Enter Interval (Number of Days)</label>
+          <select class="form-control" id="mediumInterval">
+            <option>7</option>
+            <option>14</option>
+            <option>21</option>
+            <option>28</option>
+          </select>
+        </div>
     </div>
 
     <div class="row form-group">
       <div class="col-sm-6"> <label for="lowNumber">Low Notification Count</label>
         <input type="number" class="form-control" id="lowNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
       </div>
-
         <div class="col-sm-6"> <label for="lowEndNumber">Low End Notification Count</label>
           <input type="number" class="form-control" id="lowEndNumber" placeholder="eg: 5" required matches="^[0-9]*$." minlength=1 maxlength=2>
+        </div>
+        <div class="col-sm-6"> <label for="lowInterval">Enter Interval (Number of Days)</label>
+          <select class="form-control" id="lowInterval">
+            <option>7</option>
+            <option>14</option>
+            <option>21</option>
+            <option>28</option>
+          </select>
         </div>
     </div>
     <div class="form-group">
