@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
@@ -100,11 +101,12 @@ public class PostOpService {
     }
 
 
-    public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException {
+    public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException, UnsupportedEncodingException {
         JSONParser jsonParser = new JSONParser();
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
+
             if(! new CreatePatientJsonValidation(patientJsonObject).validateJson()){
                 throw new IllegalJsonException("invalid values in one of the field");
             }
@@ -113,6 +115,11 @@ public class PostOpService {
 
             PatientLoginDao pldi = new PatientLoginDaoImpl();
             pldi.addPatient(patientJsonObject);
+
+            String email = patientJsonObject.get("email").toString();
+            String password = patientJsonObject.get("password").toString();
+            String name = patientJsonObject.get("name").toString();
+            new MailUtil(email, password, name).sendEmail();
 
         } catch (ParseException e) {
             logger.error("Illegal JSON");

@@ -2,6 +2,7 @@ package com.postop;
 
 import com.postop.controller.PostOpController;
 import com.postop.service.PostOpService;
+import com.postop.utils.MailUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +22,8 @@ public class Bootstrap {
         //Specify the sub-directory from which to serve static resources (like html and css)
         staticFileLocation("/public");
 
+//        MailUtil mailUtil = new MailUtil("raakash1@jhu.edu", "secret", "Rohit");
+//        mailUtil.sendEmail();
         PostOpService model = new PostOpService();
         new PostOpController(model);
 
