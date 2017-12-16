@@ -11,6 +11,9 @@ import com.postop.dao.interfaces.PatientDao;
 import com.postop.dao.interfaces.PatientLoginDao;
 import com.postop.model.FitnessHistory;
 import com.postop.utils.DbConnector;
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -18,7 +21,10 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.junit.*;
 import spark.Spark;
 
@@ -542,9 +548,9 @@ public class PostOpControllerTest {
     }
 
 
-
     /**
      * Update an existing callback --testing 200
+     *
      * @throws IOException
      */
     @Test
@@ -617,7 +623,7 @@ public class PostOpControllerTest {
         params = new StringEntity(jsonObject.toString());
         requestPut.addHeader("content-type", "application/json");
         requestPut.setEntity(params);
-        HttpResponse response=httpClient.execute(requestPut);
+        HttpResponse response = httpClient.execute(requestPut);
 
 
         PatientLoginDao pld = new PatientLoginDaoImpl();
@@ -651,7 +657,6 @@ public class PostOpControllerTest {
 
         assertEquals(400, response.getStatusLine().getStatusCode());
     }
-
 
 
     /**
@@ -693,7 +698,6 @@ public class PostOpControllerTest {
     }
 
 
-
     /**
      * Update a callback -- testing 400 for illegal json when email and
      *
@@ -722,7 +726,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void getCallbackEndPoint1() throws IOException{
+    public void getCallbackEndPoint1() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
@@ -741,7 +745,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void getCallbackEndPoint2() throws IOException{
+    public void getCallbackEndPoint2() throws IOException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -790,7 +794,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void getCallbackEndPoint3() throws IOException{
+    public void getCallbackEndPoint3() throws IOException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -807,7 +811,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void getCallbackListEndPoint() throws IOException{
+    public void getCallbackListEndPoint() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patients/callbacks");
@@ -829,7 +833,7 @@ public class PostOpControllerTest {
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
-        Date date=new Date(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
 
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
         jsonObject.put("captureDate", date.toString());
@@ -841,12 +845,12 @@ public class PostOpControllerTest {
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
-        FitnessHistory fitnessHistory=new FitnessHistory();
+        FitnessHistory fitnessHistory = new FitnessHistory();
         fitnessHistory.setEmail("oosegroup19@gmail.com");
         fitnessHistory.setCaptureDate(Date.valueOf(jsonObject.get("captureDate").toString()));
         fitnessHistory.setStepCount(Integer.parseInt(jsonObject.get("stepCount").toString()));
         fitnessHistory.setCaloriesExpended(Integer.parseInt(jsonObject.get("caloriesExpended").toString()));
-        FitnessHistoryDao fhd=new FitnessHistoryDaoImpl();
+        FitnessHistoryDao fhd = new FitnessHistoryDaoImpl();
         fhd.deleteFitnessData(fitnessHistory);
 
         assertEquals(200, response.getStatusLine().getStatusCode());
@@ -858,12 +862,12 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void addFitnessDataEndPoint2() throws IOException{
+    public void addFitnessDataEndPoint2() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
         JSONObject jsonObject = new JSONObject();
-        Date date=new Date(System.currentTimeMillis());
+        Date date = new Date(System.currentTimeMillis());
 
         jsonObject.put("id", "fBoWR-eAfHQ:RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
         jsonObject.put("captureDate", date.toString());
@@ -885,7 +889,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void addFitnessDataEndPoint3() throws IOException{
+    public void addFitnessDataEndPoint3() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
@@ -901,6 +905,7 @@ public class PostOpControllerTest {
 
     /**
      * Send Push Notification -- testing 200
+     *
      * @throws IOException
      */
     @Test
@@ -915,6 +920,7 @@ public class PostOpControllerTest {
 
     /**
      * Send Push Notification -- testing 404 patient does not exist
+     *
      * @throws IOException
      */
     @Test
@@ -927,6 +933,67 @@ public class PostOpControllerTest {
 
         DbConnector.closeConnection();
         assertEquals(404, response.getStatusLine().getStatusCode());
+    }
+
+    /**
+     * Get Notificatons -- testing 200 as notifications *
+     *
+     * @throws IOException
+     */
+    @Test
+    public void getNotificationsEndpoint1() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification");
+
+        request.addHeader("content-type", "application/json");
+
+        HttpResponse response = httpClient.execute(request);
+
+        assertEquals(200, response.getStatusLine().getStatusCode());
+    }
+
+    /**
+     * Get a Patient -- testing 200 as patient exists
+     *
+     * @throws IOException
+     */
+    @Test
+    public void putANotificationEndpoint1() throws IOException, ParseException {
+
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification")
+                .addHeader("content-type", "application/json")
+                .get()
+                .build();
+
+        Response response = client.newCall(request).execute();
+        JSONArray jsonArray = (JSONArray) new JSONParser().parse(response.body().string());
+
+        JSONObject row = (JSONObject) jsonArray.get(0);
+
+
+        int before = Integer.parseInt(row.get("start").toString());
+        row.put("start", 100);
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpPut requestHttp = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification");
+        StringEntity params = new StringEntity(row.toString());
+        requestHttp.addHeader("content-type", "application/json");
+        requestHttp.setEntity(params);
+        httpClient.execute(requestHttp);
+
+        row.put("start", before);
+
+        requestHttp = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification");
+        params = new StringEntity(row.toString());
+        requestHttp.addHeader("content-type", "application/json");
+        requestHttp.setEntity(params);
+        HttpResponse responseHttp = httpClient.execute(requestHttp);
+
+        assertEquals(200, responseHttp.getStatusLine().getStatusCode());
     }
 
 }
