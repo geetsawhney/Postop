@@ -1,0 +1,27 @@
+<script type='text/javascript' src="js/EditNotification.js"></script>
+<script id="notification-template" type="text/html">
+  <div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Criticality</th>
+          <th>Start Count</th>
+          <th>End Count</th>
+          <th>Interval</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#notifications}}
+        <tr>
+          <td>{{notificationLabel}}</td>
+          <td>{{notificationStart}}</td>
+          <td>{{notificationEnd}}</td>
+          <td>{{notificationInterval}}</td>
+          <td><button type="submit" id="editButton" class="btn btn-default editNotification">Edit</button></td>
+        </tr>
+        {{/notifications}}
+      </tbody>
+    </table>
+  </div>
+</script>
