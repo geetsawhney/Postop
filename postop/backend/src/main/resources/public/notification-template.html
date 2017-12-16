@@ -18,7 +18,7 @@
           <td>{{notificationStart}}</td>
           <td>{{notificationEnd}}</td>
           <td>{{notificationInterval}}</td>
-          <td><button type="submit" id="editButton" class="btn btn-default editNotification">Edit</button></td>
+          <td><button type="submit" id="{{editButton}}" value={{notificationLabel}} class="btn btn-default editNotification" onclick="Editnotification()">Edit</button></td>
         </tr>
         {{/notifications}}
       </tbody>

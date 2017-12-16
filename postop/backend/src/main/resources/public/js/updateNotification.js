@@ -1,9 +1,22 @@
+function checkValues()
+{
+    var startVal=$("#notification-start").val();
+    var endVal=$("#notification-end").val();
+    console.log(startVal);
+    console.log(endVal);
+    if(endVal <= startVal)
+    {
+      return 0;
+    }
+    else {
+      return 1;
+    }
+}
 function updatenotification() {
-    console.log("here!")
-      var checkVal = checkValues();
-        var fullAddress = $("#up-address1").val() + "|" + $("#up-address2").val();
-      if(checkVal==1)
-      {
+    console.log("here!");
+    var checkVal=checkValues();
+    if(checkVal==1)
+    {
       console.log("inside update notification")
         var data = {
             label:$("#notification-label").val(),
@@ -13,7 +26,7 @@ function updatenotification() {
           }
         console.log(data)
 
-        var notificationURL='/api/v1/nurse/notification/'
+        var notificationURL='/api/v1/nurse/notification'
         var postRequest = $.ajax({
             type: 'PUT',
             url: notificationURL,
@@ -24,8 +37,13 @@ function updatenotification() {
               location.reload();
             }
         });
+      }
+      else {
+              alert("end value cannot be greater than start value");
+      }
+
   }  //})
-}
+
 
 $(document).ready(function() {
     console.log("here....")

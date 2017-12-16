@@ -17,16 +17,17 @@
   <h3>Notifications Data</h3>
   <form method=get id="notificationForm">
     <div class="row form-group">
-      <div class="col-sm-6"> <label for="notification-label">Critical Notification Count</label>
+      <div class="col-sm-6"> <label for="notification-label">Criticality</label>
         <input type="text" class="form-control" id="notification-label" value={{notificationLabel}} readonly="readonly">
       </div>
       <div class="col-sm-6"> <label for="notification-start">Notification Start Count</label>
         <input type="number" class="form-control" id="notification-start" placeholder="eg: 10" value={{notificationStart}} required matches="^[0-9]*$." minlength=1 maxlength=2>
       </div>
     </div>
-    <div class="row-form-group">
+
+    <div class="row form-group">
         <div class="col-sm-6"> <label for="notification-end">Notification End Count</label>
-          <input type="number" class="form-control" id="notification-end" placeholder="eg: 2" value={{notificationEnd}} required matches="^[0-9]*$." minlength=1 maxlength=2 value>
+          <input type="number" class="form-control" id="notification-end" placeholder="eg: 2" value={{notificationEnd}} required matches="^[0-9]*$." minlength=1 maxlength=2>
         </div>
         <div class="col-sm-6"> <label for="notification-interval">Enter Interval (Number of Days)</label>
           <select class="form-control" id="notification-interval">
@@ -38,7 +39,13 @@
         </div>
     </div>
 
-
+			<div class="row form-group">
+				<div class="col-sm-6">
+					<button type="button" id="update-notification-btn" class="btn btn-default updatenotification" onClick="updatenotification()">
+					Update
+					</button>
+				</div>
+			</div>
   </form>
 
 <script>
