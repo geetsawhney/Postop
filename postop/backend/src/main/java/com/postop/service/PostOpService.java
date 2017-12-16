@@ -1,20 +1,12 @@
 package com.postop.service;
 
-import com.postop.dao.interfaces.FitnessHistoryDao;
-import com.postop.model.Callback;
-import com.postop.dao.CallbackDaoImpl;
-import com.postop.dao.FitnessHistoryDaoImpl;
-import com.postop.dao.PatientDaoImpl;
-import com.postop.dao.PatientLoginDaoImpl;
-import com.postop.dao.interfaces.CallbackDao;
-import com.postop.dao.interfaces.PatientDao;
-import com.postop.dao.interfaces.PatientLoginDao;
+
+import com.postop.dao.*;
+import com.postop.dao.interfaces.*;
+import com.postop.model.*;
 import com.postop.exceptions.*;
 import com.postop.helper.CallbackLogic;
 import com.postop.helper.NotificationLogic;
-import com.postop.model.FitnessHistory;
-import com.postop.model.Patient;
-import com.postop.model.Push;
 import com.postop.utils.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -106,7 +98,6 @@ public class PostOpService {
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
-
             if(! new CreatePatientJsonValidation(patientJsonObject).validateJson()){
                 throw new IllegalJsonException("invalid values in one of the field");
             }
@@ -228,4 +219,15 @@ public class PostOpService {
         return cd.getCallback(email);
     }
 
+    public List<Notification> getNotifications() throws SQLException {
+        NotificationDao nd=new NotificationDaoImpl();
+        return nd.getNotifications();
+    }
+
+    public boolean updateNotification(String body) throws SQLException, ParseException {
+        JSONParser jsonParser=new JSONParser();
+        JSONObject jsonObject= (JSONObject) jsonParser.parse(body);
+        NotificationDao nd=new NotificationDaoImpl();
+        return nd.updateNotification(jsonObject);
+    }
 }
