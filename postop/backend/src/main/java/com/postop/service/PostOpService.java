@@ -110,7 +110,7 @@ public class PostOpService {
             String email = patientJsonObject.get("email").toString();
             String password = patientJsonObject.get("password").toString();
             String name = patientJsonObject.get("name").toString();
-            if(!email.equals("oosegroup19test@gmail.com"))
+//            if(!email.equals("oosegroup19test@gmail.com"))
                 new MailUtil(email, password, name).sendEmail();
 
         } catch (ParseException e) {

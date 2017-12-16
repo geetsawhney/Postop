@@ -57,6 +57,7 @@ public class MailUtil {
             System.out.println("Mail sent successfully");
 
         } catch (MessagingException e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
