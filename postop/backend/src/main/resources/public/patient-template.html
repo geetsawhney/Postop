@@ -1,26 +1,27 @@
 <script type='text/javascript' src="js/EditPatient.js"></script>
 <script id="patient-template" type="text/html">
-    <div>
-          <table class ="table table-striped">
+  <div>
+    <table class="table table-striped">
+      <thead>
         <tr>
-          <th>Patient Name</th>
+          <th>Name</th>
           <th>Email</th>
           <th>Phone</th>
           <th>Gender</th>
           <th></th>
         </tr>
-        <tr>
+      </thead>
+      <tbody>
         {{#patients}}
         <tr>
           <td>{{patientName}}</td>
           <td>{{patientEmail}}</td>
           <td>{{patientPhone}}</td>
           <td>{{patientSex}}</td>
-
           <td><button type="submit" id={{editButton}} class="btn btn-default editPatient" value={{patientEmail}}>Edit</button></td>
-
-          <tr>
-          {{/patients}}
-          </table>
-    </div>
+        </tr>
+        {{/patients}}
+      </tbody>
+    </table>
+  </div>
 </script>

@@ -17,6 +17,7 @@ var callbacksEndpoint = '/api/v1/patients/callbacks';
           returnObj.patientEmail = returnObj.email;
           returnObj.stringSeverity = (returnObj.severity>=5) ? 'Critical' : (returnObj.severity>=3 ? 'Medium': 'Low');
           returnObj.callbackBtn = i;
+          returnObj.collapseBtn = "collapse"+i;
         // returnObj.patientName = returnObj.severity;
           returnObj.patientPhone=returnObj.phone;
           returnObj.patientName=returnObj.name;
