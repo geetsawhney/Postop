@@ -77,7 +77,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "Test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -203,7 +203,7 @@ public class PostOpControllerTest {
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/login");
         JSONObject jsonObject = new JSONObject();
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "secret");
         jsonObject.put("id", "fBoWR-eAfHQ:APA91bFVF6ex6FMRpLtuQNcIc4QOuaOzQEvco6RKK65xYInlXvWPwhxxeMi6FuVzCGyREfHEqorDYHWTnaDkIodXU8BDzrqjraPZt-EVesLJAQdwZe4aqnG2CA1FjpCgwUDVmzvgYHLI");
 
@@ -275,7 +275,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "8654321110");
         jsonObject.put("id", "");
@@ -297,11 +297,11 @@ public class PostOpControllerTest {
 
         HttpClient httpClient1 = HttpClientBuilder.create().build();
 
-        HttpPut request1 = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com");
+        HttpPut request1 = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com");
         JSONObject jsonObject1 = new JSONObject();
 
 
-        jsonObject1.put("email", "test1@test.com");
+        jsonObject1.put("email", "oosegroup19test@gmail.com");
         jsonObject1.put("password", "secret");
         jsonObject1.put("ssn", "8654321110");
         jsonObject1.put("id", "");
@@ -340,11 +340,11 @@ public class PostOpControllerTest {
     public void updatePatientEndPoint2() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com");
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "secret");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -395,7 +395,7 @@ public class PostOpControllerTest {
     public void updatePatientEndPoint4() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com");
         JSONObject jsonObject = new JSONObject();
 
 
@@ -449,7 +449,7 @@ public class PostOpControllerTest {
     public void getAPatientEndpoint2() throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com");
+        HttpGet request = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com");
 
         request.addHeader("content-type", "application/json");
         HttpResponse response = httpClient.execute(request);
@@ -486,9 +486,9 @@ public class PostOpControllerTest {
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
         JSONObject jsonObject = new JSONObject();
 
-        //adding a new patient test1@test.com
+        //adding a new patient oosegroup19test@gmail.com
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -511,11 +511,11 @@ public class PostOpControllerTest {
 
         httpClient = HttpClientBuilder.create().build();
 
-        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -556,7 +556,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "Test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -579,11 +579,11 @@ public class PostOpControllerTest {
 
         httpClient = HttpClientBuilder.create().build();
 
-        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        HttpPut requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -601,10 +601,10 @@ public class PostOpControllerTest {
 
 
         httpClient = HttpClientBuilder.create().build();
-        requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        requestPut = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         jsonObject = new JSONObject();
 
-        jsonObject.put("email", "Test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -664,11 +664,11 @@ public class PostOpControllerTest {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "Test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("callbackDate", "2017-10-10");
         jsonObject.put("isResolved", "false");
         jsonObject.put("severity", 0);
@@ -705,7 +705,7 @@ public class PostOpControllerTest {
 
         HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19@gmail.com/callback");
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
 
         StringEntity params = new StringEntity("test");
         request.addHeader("content-type", "application/json");
@@ -749,7 +749,7 @@ public class PostOpControllerTest {
         JSONObject jsonObject = new JSONObject();
 
 
-        jsonObject.put("email", "test1@test.com");
+        jsonObject.put("email", "oosegroup19test@gmail.com");
         jsonObject.put("password", "life");
         jsonObject.put("ssn", "865432111");
         jsonObject.put("id", "");
@@ -771,7 +771,7 @@ public class PostOpControllerTest {
 
         httpClient = HttpClientBuilder.create().build();
 
-        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         requestGet.addHeader("content-type", "application/json");
         HttpResponse response = httpClient.execute(requestGet);
 
@@ -794,7 +794,7 @@ public class PostOpControllerTest {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
-        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/test1@test.com/callback");
+        HttpGet requestGet = new HttpGet("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/oosegroup19test@gmail.com/callback");
         requestGet.addHeader("content-type", "application/json");
         HttpResponse response = httpClient.execute(requestGet);
 
