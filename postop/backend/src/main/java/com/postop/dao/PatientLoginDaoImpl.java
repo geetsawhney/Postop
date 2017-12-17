@@ -11,15 +11,27 @@ import org.slf4j.LoggerFactory;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
+/**
+ *
+ */
 public class PatientLoginDaoImpl implements PatientLoginDao {
 
     private final Logger logger = LoggerFactory.getLogger(PatientLoginDaoImpl.class);
     private Connection connection;
 
+    /**
+     *
+     */
     public PatientLoginDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
+    /**
+     * @param email
+     * @param password
+     * @return
+     * @throws SQLException
+     */
     public boolean validatePatient(String email, String password) throws SQLException {
 
         String sql = "SELECT * FROM \"Patient_Login\" WHERE email = \'" + email.toLowerCase()
@@ -32,6 +44,11 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
 
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean deletePatient(String email) throws SQLException {
         String sql = "DELETE FROM \"Patient_Login\" WHERE email= \'" + email.toLowerCase() + "\'";
@@ -42,6 +59,13 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         return true;
     }
 
+    /**
+     * @param jsonObject
+     * @return
+     * @throws IllegalSqlException
+     * @throws SQLException
+     * @throws NoSuchAlgorithmException
+     */
     @Override
     public boolean addPatient(JSONObject jsonObject) throws IllegalSqlException, SQLException, NoSuchAlgorithmException {
         String sql = "INSERT INTO \"Patient_Login\"(email,password) "

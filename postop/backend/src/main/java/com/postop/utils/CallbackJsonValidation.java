@@ -5,19 +5,31 @@ import org.json.simple.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ */
 public class CallbackJsonValidation {
 
     protected JSONObject jsonObject;
 
+    /**
+     * @param jsonObject
+     */
     public CallbackJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * @return
+     */
     public boolean validateJson() {
         return (validateEmail() && validateIsResolved() && Boolean.parseBoolean(jsonObject.get("isResolved").toString())) || (validateEmail() && validateCallbackDate() && validateIsResolved() && validateSeverity() &&
                 validateHasFever() && validateHasPain() && validateHasFatigue() && validateUrineColor());
     }
 
+    /**
+     * @return
+     */
     protected boolean validateEmail() {
         if (!jsonObject.containsKey("email")) return false;
 
@@ -28,6 +40,9 @@ public class CallbackJsonValidation {
         return validateString(regex, email);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateCallbackDate(){
         if (!jsonObject.containsKey("callbackDate")) return false;
 
@@ -38,6 +53,9 @@ public class CallbackJsonValidation {
         return validateString(regex, callbackDate);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateIsResolved() {
         if (!jsonObject.containsKey("isResolved")) return false;
 
@@ -46,6 +64,9 @@ public class CallbackJsonValidation {
         return isResolved.equals("true") || isResolved.equals("false");
     }
 
+    /**
+     * @return
+     */
     protected boolean validateSeverity() {
         if (!jsonObject.containsKey("severity")) return false;
 
@@ -55,6 +76,9 @@ public class CallbackJsonValidation {
         return validateString(regex, severity);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateHasFever() {
         if (!jsonObject.containsKey("hasFever")) return false;
 
@@ -63,6 +87,9 @@ public class CallbackJsonValidation {
         return hasFever.equals("true") || hasFever.equals("false");
     }
 
+    /**
+     * @return
+     */
     protected boolean validateHasPain() {
         if (!jsonObject.containsKey("hasPain")) return false;
 
@@ -71,6 +98,9 @@ public class CallbackJsonValidation {
         return hasPain.equals("true") || hasPain.equals("false");
     }
 
+    /**
+     * @return
+     */
     protected boolean validateHasFatigue() {
         if (!jsonObject.containsKey("hasFatigue")) return false;
 
@@ -79,6 +109,9 @@ public class CallbackJsonValidation {
         return hasFatigue.equals("true") || hasFatigue.equals("false");
     }
 
+    /**
+     * @return
+     */
     protected boolean validateUrineColor() {
         if (!jsonObject.containsKey("urineColor")) return false;
 
@@ -89,6 +122,11 @@ public class CallbackJsonValidation {
         return urineColor.equals("Cloudy") || urineColor.equals("Dark") || urineColor.equals("Normal");
     }
 
+    /**
+     * @param regex
+     * @param str
+     * @return
+     */
     protected boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);

@@ -12,10 +12,18 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * This class represents a push.
+ */
 public class Push {
 
     private static final Logger logger = LoggerFactory.getLogger(Push.class);
 
+    /**
+     * @param patient
+     * @return
+     * @throws IOException
+     */
     public static boolean sendPush(Patient patient) throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 

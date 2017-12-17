@@ -7,6 +7,9 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 
+/**
+ *
+ */
 public interface PatientLoginDao {
     boolean validatePatient(String email, String password) throws SQLException;
     boolean deletePatient(String email) throws SQLException;

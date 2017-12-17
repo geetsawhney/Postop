@@ -3,7 +3,15 @@ package com.postop.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ *
+ */
 public class HashGenerator {
+    /**
+     * @param string
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
     public static String generateHash(String string) throws NoSuchAlgorithmException{
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
         messageDigest.update(string.getBytes());

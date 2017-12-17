@@ -2,6 +2,9 @@ package com.postop.exceptions;
 
 import java.util.HashMap;
 
+/**
+ *
+ */
 public class PatientNotFoundException extends Exception{
 
     HashMap<String, String> response;
@@ -12,6 +15,9 @@ public class PatientNotFoundException extends Exception{
         this.response.put("error", message);
     }
 
+    /**
+     * @return
+     */
     public HashMap<String, String> getHash(){
         return this.response;
     }

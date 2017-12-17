@@ -9,17 +9,29 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
+/**
+ *
+ */
 public class NotificationLogic {
 
 
     private Patient patient;
     private FitnessHistory fitnessHistory;
 
+    /**
+     * @param patient
+     * @param fitnessHistory
+     */
     public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
         this.patient = patient;
         this.fitnessHistory = fitnessHistory;
     }
 
+    /**
+     * @param status
+     * @param numberOfDays
+     * @return
+     */
     private String statusDecrease(String status, long numberOfDays) {
         if (status.equals("C")) {
             numberOfDays = 90 - numberOfDays;
@@ -45,6 +57,9 @@ public class NotificationLogic {
         return status;
     }
 
+    /**
+     * @return
+     */
     public String ageStatus() {
         String status = "";
         if (getAge(patient.getDob()) >= 18 && getAge(patient.getDob()) < 40) {
@@ -60,6 +75,11 @@ public class NotificationLogic {
         return status;
     }
 
+    /**
+     * @param status
+     * @param sexStat
+     * @return
+     */
     private String sexStatus(String status, String sexStat) {
         if (sexStat.equals("F")) {
             status = incrementStatus(status);
@@ -68,6 +88,11 @@ public class NotificationLogic {
         return diabeticStatus(status, patient.getDiabetic());
     }
 
+    /**
+     * @param status
+     * @param diabetic
+     * @return
+     */
     private String diabeticStatus(String status, boolean diabetic) {
         if (diabetic) {
             status = incrementStatus(status);
@@ -76,6 +101,11 @@ public class NotificationLogic {
 
     }
 
+    /**
+     * @param status
+     * @param utiCount
+     * @return
+     */
     private String utiVisitCountStatus(String status, int utiCount) {
         if (utiCount >= 3) {
             status = incrementStatus(status);
@@ -83,6 +113,11 @@ public class NotificationLogic {
         return catheterUsageStatus(status, patient.getCatheterUsage());
     }
 
+    /**
+     * @param status
+     * @param catheterUse
+     * @return
+     */
     private String catheterUsageStatus(String status, boolean catheterUse) {
         if (catheterUse) {
             status = incrementStatus(status);
@@ -90,6 +125,10 @@ public class NotificationLogic {
         return statusDecrease(status, getNoOfDays(patient.getLastVisitDate()));
     }
 
+    /**
+     * @param status
+     * @return
+     */
     private String incrementStatus(String status) {
         if (status.equals("L")) {
             status = "M";
@@ -103,6 +142,10 @@ public class NotificationLogic {
     }
 
 
+    /**
+     * @return
+     * @throws SQLException
+     */
     public int getNumberOfNotifications() throws SQLException {
 
         String status = ageStatus();
@@ -118,12 +161,20 @@ public class NotificationLogic {
         return numberOfNotifications + fitnessHistory.getStepCount() / 3000 + fitnessHistory.getCaloriesExpended() / 1000;
     }
 
+    /**
+     * @param dob
+     * @return
+     */
     public long getAge(Date dob) {
         Date currentDate = new Date(System.currentTimeMillis());
         long patientAge = (currentDate.getTime() - dob.getTime()) / 365;
         return TimeUnit.DAYS.convert(patientAge, TimeUnit.MILLISECONDS);
     }
 
+    /**
+     * @param lastVisitDate
+     * @return
+     */
     public long getNoOfDays(Date lastVisitDate) {
         Date currentDate = new Date(System.currentTimeMillis());
         long noOfDays = currentDate.getTime() - lastVisitDate.getTime();

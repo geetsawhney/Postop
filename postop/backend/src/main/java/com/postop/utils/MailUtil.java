@@ -6,18 +6,30 @@ import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
+/**
+ *
+ */
 public class MailUtil {
 
     private String toEmail;
     private String newPass;
     private String name;
 
+    /**
+     * @param toEmail
+     * @param newPass
+     * @param name
+     */
     public MailUtil(String toEmail, String newPass, String name) {
         this.toEmail = toEmail;
         this.newPass = newPass;
         this.name = name;
     }
 
+    /**
+     * @return
+     * @throws UnsupportedEncodingException
+     */
     public boolean sendEmail() throws UnsupportedEncodingException {
 
         final String username = "oosegroup19@gmail.com";

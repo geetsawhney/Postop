@@ -14,16 +14,25 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 public class PatientDaoImpl implements PatientDao {
 
     Connection connection;
     private final Logger logger = LoggerFactory.getLogger(PatientDaoImpl.class);
 
+    /**
+     *
+     */
     public PatientDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
 
+    /**
+     * @return
+     */
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> allPatients = new ArrayList<>();
@@ -58,18 +67,32 @@ public class PatientDaoImpl implements PatientDao {
         return allPatients;
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws PatientNotFoundException
+     */
     @Override
     public Patient getPatientByEmail(String email) throws PatientNotFoundException {
         String sql = "SELECT * FROM \"Patient\" WHERE email = \'" + email.toLowerCase() + "\'";
         return getPatient(sql);
     }
 
+    /**
+     * @param id
+     * @return
+     * @throws PatientNotFoundException
+     */
     @Override
     public Patient getPatientByDeviceId(String id) throws PatientNotFoundException {
         String sql = "SELECT * FROM \"Patient\" WHERE device_id = \'" + id + "\'";
         return getPatient(sql);
     }
 
+    /**
+     * @param patient
+     * @return
+     */
     @Override
     public boolean updatePatientDeviceId(Patient patient) {
 
@@ -84,6 +107,11 @@ public class PatientDaoImpl implements PatientDao {
         return true;
     }
 
+    /**
+     * @param jsonObject
+     * @return
+     * @throws IllegalSqlException
+     */
     @Override
     public boolean addPatient(JSONObject jsonObject) throws IllegalSqlException {
 
@@ -118,6 +146,10 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public boolean deletePatient(String email) {
         String sql = "DELETE FROM \"Patient\" where email = \'" + email.toLowerCase() + "\'";
@@ -132,6 +164,11 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
+    /**
+     * @param resultSet
+     * @return
+     * @throws SQLException
+     */
     public  Patient populateDetails(ResultSet resultSet) throws SQLException {
         Patient patient = null;
 
@@ -158,6 +195,11 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
+    /**
+     * @param sql
+     * @return
+     * @throws PatientNotFoundException
+     */
     private Patient getPatient(String sql) throws PatientNotFoundException {
         Patient patient = null;
         try {
@@ -174,6 +216,12 @@ public class PatientDaoImpl implements PatientDao {
         return patient;
     }
 
+    /**
+     * @param email
+     * @param patient
+     * @return
+     * @throws PatientNotFoundException
+     */
     public boolean updatePatient(String email, Patient patient) throws PatientNotFoundException {
 
         if (checkPatientExist(email)) {
@@ -204,6 +252,10 @@ public class PatientDaoImpl implements PatientDao {
         return true;
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public boolean checkPatientExist(String email) {
 

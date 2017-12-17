@@ -12,14 +12,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ *
+ */
 public class CallbackDaoImpl implements CallbackDao {
     private Connection connection;
     private final Logger logger = LoggerFactory.getLogger(CallbackDaoImpl.class);
 
+    /**
+     *
+     */
     public CallbackDaoImpl() {
         this.connection = DbConnector.getConnection();
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public boolean checkCallbackExists(String email) {
         String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email.toLowerCase() + "\'";
@@ -35,6 +45,11 @@ public class CallbackDaoImpl implements CallbackDao {
         return true;
     }
 
+    /**
+     * @param email
+     * @param jsonObject
+     * @return
+     */
     @Override
     public boolean updateCallback(String email, JSONObject jsonObject) {
 
@@ -66,6 +81,11 @@ public class CallbackDaoImpl implements CallbackDao {
         return true;
     }
 
+    /**
+     * @param email
+     * @param jsonObject
+     * @return
+     */
     @Override
     public boolean addCallback(String email, JSONObject jsonObject) {
         String sql = "INSERT INTO \"Callback\" (email, callback_date, severity, has_pain, has_nausea, " +
@@ -90,6 +110,9 @@ public class CallbackDaoImpl implements CallbackDao {
         return true;
     }
 
+    /**
+     * @return
+     */
     @Override
     public List<JSONObject> getAllCallbacks() {
         List<JSONObject> allCallbacks = new ArrayList<>();
@@ -134,6 +157,10 @@ public class CallbackDaoImpl implements CallbackDao {
         return allCallbacks;
     }
 
+    /**
+     * @param email
+     * @return
+     */
     public Callback getCallback(String email) {
 
         String sql = "SELECT * FROM \"Callback\" WHERE email = \'" + email.toLowerCase() + "\'";
@@ -165,6 +192,10 @@ public class CallbackDaoImpl implements CallbackDao {
         return callback;
     }
 
+    /**
+     * @param email
+     * @return
+     */
     @Override
     public boolean deleteCallback(String email) {
         String sql = "DELETE FROM \"Callback\" WHERE email=\'" + email.toLowerCase() + "\'";

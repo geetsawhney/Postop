@@ -5,14 +5,23 @@ import org.json.simple.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ */
 public class UpdatePatientJsonValidation {
 
     protected JSONObject jsonObject;
 
+    /**
+     * @param jsonObject
+     */
     public UpdatePatientJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * @return
+     */
     public boolean validateJson() {
 
         return validateAddress() && validateCatheterUsage() && validateDeviceId() && validateEmail() && validateName() &&
@@ -20,6 +29,9 @@ public class UpdatePatientJsonValidation {
                 && validateDob() && validateUtiVisitCount() && validateLastVisitDate();
     }
 
+    /**
+     * @return
+     */
     protected boolean validateName() {
         if (!jsonObject.containsKey("name")) return false;
 
@@ -30,6 +42,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, name);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateEmail() {
         if (!jsonObject.containsKey("email")) return false;
 
@@ -40,6 +55,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, email);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateDeviceId() {
         if (!jsonObject.containsKey("id")) return false;
 
@@ -47,6 +65,9 @@ public class UpdatePatientJsonValidation {
         return (id.length()<=200);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateSex() {
         if (!jsonObject.containsKey("sex")) return false;
 
@@ -57,6 +78,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, sex);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateDob() {
         if (!jsonObject.containsKey("dob")) return false;
 
@@ -67,6 +91,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, dob);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateAddress() {
         if (!jsonObject.containsKey("address"))
             return false;
@@ -75,6 +102,9 @@ public class UpdatePatientJsonValidation {
         return (address.length() > 0 && address.length() <=80);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateHospitalVisitReason() {
         if (!jsonObject.containsKey("hospitalVisitReason"))
             return false;
@@ -83,6 +113,9 @@ public class UpdatePatientJsonValidation {
         return hospitalVisitReason.length() > 0 && hospitalVisitReason.length() <=50;
     }
 
+    /**
+     * @return
+     */
     protected boolean validateLastVisitDate() {
         if (!jsonObject.containsKey("lastVisitDate")) return false;
 
@@ -93,6 +126,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, lastVisitDate);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateUtiVisitCount() {
         if (!jsonObject.containsKey("utiVisitCount")) return false;
 
@@ -101,6 +137,9 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, utiVisitCount);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateDiabetic() {
         if (!jsonObject.containsKey("diabetic")) return false;
 
@@ -109,6 +148,9 @@ public class UpdatePatientJsonValidation {
         return diabetic.equals("true") || diabetic.equals("false");
     }
 
+    /**
+     * @return
+     */
     protected boolean validateCatheterUsage() {
         if (!jsonObject.containsKey("catheterUsage")) return false;
 
@@ -118,6 +160,9 @@ public class UpdatePatientJsonValidation {
     }
 
 
+    /**
+     * @return
+     */
     protected boolean validatePhone() {
         if (!jsonObject.containsKey("phone")) return false;
 
@@ -129,6 +174,11 @@ public class UpdatePatientJsonValidation {
         return validateString(regex, phone);
     }
 
+    /**
+     * @param regex
+     * @param str
+     * @return
+     */
     protected boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);

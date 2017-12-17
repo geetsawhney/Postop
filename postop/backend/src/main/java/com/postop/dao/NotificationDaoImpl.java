@@ -46,6 +46,11 @@ public class NotificationDaoImpl implements NotificationDao {
         return allNotifications;
     }
 
+    /**
+     * @param jsonObject
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean updateNotification(JSONObject jsonObject) throws SQLException {
         String sql = "UPDATE \"Notification\" " +
@@ -59,6 +64,11 @@ public class NotificationDaoImpl implements NotificationDao {
         return true;
     }
 
+    /**
+     * @param label
+     * @return
+     * @throws SQLException
+     */
     @Override
     public Notification getNotification(String label) throws SQLException {
         String sql = "SELECT * FROM \"Notification\" WHERE label = \'" +label +"\'";

@@ -20,17 +20,26 @@ import java.util.List;
 
 import static spark.Spark.*;
 
+/**
+ *  This class consits of all the end points.
+ */
 public class PostOpController {
 
     private static final String API_CONTEXT = "/api/v1";
     private final PostOpService postOpService;
     private final Logger logger = LoggerFactory.getLogger(PostOpController.class);
 
+    /**
+     * @param postOpService
+     */
     public PostOpController(PostOpService postOpService) {
         this.postOpService = postOpService;
         setupEndpoints();
     }
 
+    /**
+     *
+     */
     private void setupEndpoints() {
 
         options("*", (request, response) -> {
@@ -203,6 +212,8 @@ public class PostOpController {
             }
         }, new JsonTransformer());
 
+
+        // Implements getting a list of number of Notification values for each label.
         get(API_CONTEXT + "/nurse/notification", "application/json", (request, response) -> {
             List<Notification> notifications = postOpService.getNotifications();
             response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -213,6 +224,8 @@ public class PostOpController {
 
         }, new JsonTransformer());
 
+
+        //Implements updating the value of number of Notification values by the nurse
         put(API_CONTEXT + "/nurse/notification", "application/json", (request, response) -> {
             postOpService.updateNotification(request.body());
             response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");

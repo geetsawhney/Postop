@@ -5,20 +5,32 @@ import org.json.simple.JSONObject;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ *
+ */
 public class FitnessDataJsonValidation {
 
     protected JSONObject jsonObject;
 
+    /**
+     * @param jsonObject
+     */
     public FitnessDataJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
+    /**
+     * @return
+     */
     public boolean validateJson() {
 
         return validateDeviceId() && validateCaptureDate() &&
                 validateStepCount() && validateCaloriesExpended();
     }
 
+    /**
+     * @return
+     */
     protected boolean validateDeviceId() {
         if (!jsonObject.containsKey("id")) return false;
 
@@ -26,6 +38,9 @@ public class FitnessDataJsonValidation {
         return (id.length() > 0 && id.length()<=200);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateCaptureDate() {
         if (!jsonObject.containsKey("captureDate")) return false;
 
@@ -36,6 +51,9 @@ public class FitnessDataJsonValidation {
         return validateString(regex, lastVisitDate);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateStepCount() {
         if (!jsonObject.containsKey("stepCount")) return false;
 
@@ -45,6 +63,9 @@ public class FitnessDataJsonValidation {
         return validateString(regex, utiVisitCount);
     }
 
+    /**
+     * @return
+     */
     protected boolean validateCaloriesExpended() {
         if (!jsonObject.containsKey("caloriesExpended")) return false;
 
@@ -54,6 +75,11 @@ public class FitnessDataJsonValidation {
         return validateString(regex, utiVisitCount);
     }
 
+    /**
+     * @param regex
+     * @param str
+     * @return
+     */
     protected boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);

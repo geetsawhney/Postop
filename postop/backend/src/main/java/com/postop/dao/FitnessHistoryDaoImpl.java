@@ -10,15 +10,26 @@ import org.slf4j.LoggerFactory;
 import java.sql.*;
 import java.util.Calendar;
 
+/**
+ *
+ */
 public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
 
     private Connection connection;
     private final Logger logger = LoggerFactory.getLogger(FitnessHistoryDaoImpl.class);
 
+    /**
+     *
+     */
     public FitnessHistoryDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
+    /**
+     * @param jsonObject
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean addFitnessData(JSONObject jsonObject) throws SQLException {
 
@@ -38,6 +49,11 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
         return true;
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws SQLException
+     */
     @Override
     public FitnessHistory getFitnessDataByEmail(String email) throws SQLException {
         Calendar calendar = Calendar.getInstance();
@@ -68,6 +84,11 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
         return fitnessHistory;
     }
 
+    /**
+     * @param fitnessHistory
+     * @return
+     * @throws SQLException
+     */
     @Override
     public boolean deleteFitnessData(FitnessHistory fitnessHistory) throws SQLException {
         String sql = "DELETE FROM \"Fitness_History\" WHERE " +

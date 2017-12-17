@@ -2,6 +2,9 @@ package com.postop.helper;
 
 import org.json.simple.JSONObject;
 
+/**
+ *
+ */
 public class CallbackLogic {
 
     private JSONObject callback;
@@ -11,6 +14,10 @@ public class CallbackLogic {
     }
 
 
+    /**
+     * @param severity
+     * @return
+     */
     public int checkPain(int severity) {
         if (Boolean.parseBoolean(callback.get("hasPain").toString())) {
             severity++;
@@ -19,6 +26,10 @@ public class CallbackLogic {
         return checkNausea(severity);
     }
 
+    /**
+     * @param severity
+     * @return
+     */
     public int checkNausea(int severity) {
         if (Boolean.parseBoolean(callback.get("hasNausea").toString())) {
             severity++;
@@ -27,6 +38,10 @@ public class CallbackLogic {
         return checkFever(severity);
     }
 
+    /**
+     * @param severity
+     * @return
+     */
     public int checkFever(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFever").toString())) {
             severity++;
@@ -35,6 +50,10 @@ public class CallbackLogic {
         return checkFatigue(severity);
     }
 
+    /**
+     * @param severity
+     * @return
+     */
     public int checkFatigue(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFatigue").toString())) {
             severity++;
@@ -43,6 +62,10 @@ public class CallbackLogic {
         return checkUrineColor(severity);
     }
 
+    /**
+     * @param severity
+     * @return
+     */
     public int checkUrineColor(int severity) {
 
         String urineColor = callback.get("urineColor").toString();
@@ -54,6 +77,9 @@ public class CallbackLogic {
         return severity;
     }
 
+    /**
+     * @return
+     */
     public int getSeverity() {
         return checkPain(0);
     }

@@ -12,6 +12,9 @@ public class IllegalJsonException extends Exception{
         this.response.put("error", message);
     }
 
+    /**
+     * @return
+     */
     public HashMap<String, String> getHash(){
         return this.response;
     }

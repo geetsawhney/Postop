@@ -4,9 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+/**
+ *
+ */
 public class DbConnector {
     private static Connection connection = null;
 
+    /**
+     * @return
+     */
     public static Connection getConnection() {
         try {
             Class.forName("org.postgresql.Driver");
@@ -19,6 +25,9 @@ public class DbConnector {
         return connection;
     }
 
+    /**
+     * @return
+     */
     public static boolean closeConnection() {
         try {
             if (connection != null) {

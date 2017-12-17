@@ -2,6 +2,9 @@ package com.postop.exceptions;
 
 import java.util.HashMap;
 
+/**
+ *
+ */
 public class IllegalSqlException extends Exception {
     HashMap<String, String> response;
 
@@ -11,6 +14,9 @@ public class IllegalSqlException extends Exception {
         this.response.put("error", message);
     }
 
+    /**
+     * @return
+     */
     public HashMap<String, String> getHash(){
         return this.response;
     }

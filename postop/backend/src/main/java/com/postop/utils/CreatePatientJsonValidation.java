@@ -2,12 +2,22 @@ package com.postop.utils;
 
 import org.json.simple.JSONObject;
 
+/**
+ *
+ */
 public class CreatePatientJsonValidation extends UpdatePatientJsonValidation {
 
+    /**
+     * @param jsonObject
+     */
     public CreatePatientJsonValidation(JSONObject jsonObject) {
         super(jsonObject);
     }
 
+    /**
+     * @return
+     */
+    @Override
     public boolean validateJson() {
 
         return validateAddress() && validateCatheterUsage() && validateDeviceId() && validateEmail() && validateName()
@@ -15,6 +25,9 @@ public class CreatePatientJsonValidation extends UpdatePatientJsonValidation {
                 && validateDob() && validateUtiVisitCount() && validateLastVisitDate() && validatePassword();
     }
 
+    /**
+     * @return
+     */
     private boolean validatePassword() {
         if (!jsonObject.containsKey("password"))
             return false;
@@ -23,6 +36,9 @@ public class CreatePatientJsonValidation extends UpdatePatientJsonValidation {
         return address.length() > 0 && address.length()<=32;
     }
 
+    /**
+     * @return
+     */
     protected boolean validateDeviceId() {
         if (!jsonObject.containsKey("id")) return false;
 
