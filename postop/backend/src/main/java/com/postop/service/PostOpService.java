@@ -3,10 +3,13 @@ package com.postop.service;
 
 import com.postop.dao.*;
 import com.postop.dao.interfaces.*;
-import com.postop.model.*;
-import com.postop.exceptions.*;
+import com.postop.exceptions.CallbackNotFoundException;
+import com.postop.exceptions.IllegalJsonException;
+import com.postop.exceptions.IllegalSqlException;
+import com.postop.exceptions.PatientNotFoundException;
 import com.postop.helper.CallbackLogic;
 import com.postop.helper.NotificationLogic;
+import com.postop.model.*;
 import com.postop.utils.*;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -20,10 +23,20 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ */
 public class PostOpService {
 
     private final Logger logger = LoggerFactory.getLogger(PostOpService.class);
 
+    /**
+     * @param body
+     * @return
+     * @throws IllegalJsonException
+     * @throws PatientNotFoundException
+     * @throws SQLException
+     */
     public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException, SQLException {
         JSONParser jsonParser = new JSONParser();
         Patient patient = null;
@@ -69,15 +82,22 @@ public class PostOpService {
         return patient;
     }
 
+    /**
+     * @param email
+     * @param body
+     * @return
+     * @throws IllegalJsonException
+     * @throws PatientNotFoundException
+     */
     public boolean updatePatient(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
-            if(! new UpdatePatientJsonValidation(jsonObject).validateJson()){
+            if (!new UpdatePatientJsonValidation(jsonObject).validateJson()) {
                 throw new IllegalJsonException("invalid values in one of the field");
             }
 
-            if(!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
+            if (!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             PatientDao pdi = new PatientDaoImpl();
@@ -93,12 +113,21 @@ public class PostOpService {
     }
 
 
+    /**
+     * @param body
+     * @return
+     * @throws IllegalJsonException
+     * @throws IllegalSqlException
+     * @throws UnsupportedEncodingException
+     * @throws SQLException
+     * @throws NoSuchAlgorithmException
+     */
     public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException, UnsupportedEncodingException, SQLException, NoSuchAlgorithmException {
         JSONParser jsonParser = new JSONParser();
 
         try {
             JSONObject patientJsonObject = (JSONObject) jsonParser.parse(body);
-            if(! new CreatePatientJsonValidation(patientJsonObject).validateJson()){
+            if (!new CreatePatientJsonValidation(patientJsonObject).validateJson()) {
                 throw new IllegalJsonException("invalid values in one of the field");
             }
             PatientDaoImpl pdi = new PatientDaoImpl();
@@ -110,7 +139,7 @@ public class PostOpService {
             String email = patientJsonObject.get("email").toString();
             String password = patientJsonObject.get("password").toString();
             String name = patientJsonObject.get("name").toString();
-            if(!email.equals("oosegroup19test@gmail.com"))
+            if (!email.equals("oosegroup19test@gmail.com"))
                 new MailUtil(email, password, name).sendEmail();
 
         } catch (ParseException e) {
@@ -121,13 +150,20 @@ public class PostOpService {
     }
 
 
+    /**
+     * @param body
+     * @return
+     * @throws IllegalJsonException
+     * @throws PatientNotFoundException
+     * @throws SQLException
+     */
     public JSONObject addFitnessData(String body) throws IllegalJsonException, PatientNotFoundException, SQLException {
         body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
-            if(! new FitnessDataJsonValidation(jsonObject).validateJson()){
+            if (!new FitnessDataJsonValidation(jsonObject).validateJson()) {
                 throw new IllegalJsonException("invalid values in one of the field");
             }
 
@@ -153,31 +189,46 @@ public class PostOpService {
         }
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws PatientNotFoundException
+     */
     public Patient getPatient(String email) throws PatientNotFoundException {
         PatientDao pdi = new PatientDaoImpl();
         return pdi.getPatientByEmail(email);
     }
 
+    /**
+     * @return
+     */
     public List<Patient> getAllPatients() {
         PatientDao pdi = new PatientDaoImpl();
         return pdi.getAllPatients();
     }
 
 
+    /**
+     * @param email
+     * @param body
+     * @return
+     * @throws IllegalJsonException
+     * @throws PatientNotFoundException
+     */
     public boolean updateCallback(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
         try {
             JSONObject jsonObject = (JSONObject) jsonParser.parse(body);
-            if(! new CallbackJsonValidation(jsonObject).validateJson()){
+            if (!new CallbackJsonValidation(jsonObject).validateJson()) {
                 throw new IllegalJsonException("invalid values in one of the field");
             }
             CallbackDao cd = new CallbackDaoImpl();
 
-            if(!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
+            if (!email.toLowerCase().equals(jsonObject.get("email").toString().toLowerCase()))
                 throw new IllegalJsonException("email in parameter and body does not match");
 
             if (new PatientDaoImpl().checkPatientExist(email)) {
-                if(jsonObject.containsKey("hasPain")){
+                if (jsonObject.containsKey("hasPain")) {
                     jsonObject.put("severity", new CallbackLogic(jsonObject).getSeverity());
                 }
                 if (cd.checkCallbackExists(email)) {
@@ -193,15 +244,24 @@ public class PostOpService {
         } catch (ParseException e) {
             throw new IllegalJsonException("Illegal JSON found");
         }
-        return  true;
+        return true;
     }
 
-    public List<JSONObject> getAllCallbacks()  {
+    /**
+     * @return
+     */
+    public List<JSONObject> getAllCallbacks() {
         CallbackDao cd = new CallbackDaoImpl();
         return cd.getAllCallbacks();
     }
 
 
+    /**
+     * @param id
+     * @return
+     * @throws PatientNotFoundException
+     * @throws IOException
+     */
     public boolean sendPush(String id) throws PatientNotFoundException, IOException {
         PatientDaoImpl pdi = new PatientDaoImpl();
         Patient patient = pdi.getPatientByDeviceId(id);
@@ -209,26 +269,54 @@ public class PostOpService {
         return true;
     }
 
+    /**
+     * @param email
+     * @return
+     * @throws PatientNotFoundException
+     * @throws CallbackNotFoundException
+     * @throws SQLException
+     */
     public Callback getCallback(String email) throws PatientNotFoundException, CallbackNotFoundException, SQLException {
-        CallbackDao cd=new CallbackDaoImpl();
-        PatientDao pdi=new PatientDaoImpl();
-        if(!pdi.checkPatientExist(email)){
+        CallbackDao cd = new CallbackDaoImpl();
+        PatientDao pdi = new PatientDaoImpl();
+        if (!pdi.checkPatientExist(email)) {
             throw new PatientNotFoundException("Patient does not exist");
         }
         if (!cd.checkCallbackExists(email))
-            throw  new CallbackNotFoundException("Callback for patient does not exist");
+            throw new CallbackNotFoundException("Callback for patient does not exist");
         return cd.getCallback(email);
     }
 
+    /**
+     * @return
+     * @throws SQLException
+     */
     public List<Notification> getNotifications() throws SQLException {
-        NotificationDao nd=new NotificationDaoImpl();
+        NotificationDao nd = new NotificationDaoImpl();
         return nd.getNotifications();
     }
 
-    public boolean updateNotification(String body) throws SQLException, ParseException {
-        JSONParser jsonParser=new JSONParser();
-        JSONObject jsonObject= (JSONObject) jsonParser.parse(body);
-        NotificationDao nd=new NotificationDaoImpl();
+    /**
+     * @param body
+     * @return
+     * @throws SQLException
+     * @throws IllegalJsonException
+     */
+    public boolean updateNotification(String body) throws SQLException, IllegalJsonException {
+
+        JSONParser jsonParser = new JSONParser();
+        JSONObject jsonObject;
+        try {
+            jsonObject = (JSONObject) jsonParser.parse(body);
+
+            if (!new NotificationJsonValidation(jsonObject).validateJson()) {
+                throw new IllegalJsonException("invalid method in one of the fields");
+            }
+        } catch (ParseException e) {
+            throw new IllegalJsonException(e.getMessage());
+        }
+
+        NotificationDao nd = new NotificationDaoImpl();
         return nd.updateNotification(jsonObject);
     }
 }

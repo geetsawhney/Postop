@@ -997,4 +997,34 @@ public class PostOpControllerTest {
         assertEquals(200, responseHttp.getStatusLine().getStatusCode());
     }
 
+
+    @Test
+    public void putANotificationEndpoint2() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification");
+
+        StringEntity params = new StringEntity("test");
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
+
+        assertEquals(400, response.getStatusLine().getStatusCode());
+
+    }
+
+    @Test
+    public void putANotificationEndpoint3() throws IOException {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpPut request = new HttpPut("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/nurse/notification");
+
+        StringEntity params = new StringEntity(new JSONObject().toString());
+        request.addHeader("content-type", "application/json");
+        request.setEntity(params);
+        HttpResponse response = httpClient.execute(request);
+
+        assertEquals(400, response.getStatusLine().getStatusCode());
+
+    }
 }

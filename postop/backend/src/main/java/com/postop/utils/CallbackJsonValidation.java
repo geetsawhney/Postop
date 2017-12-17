@@ -118,7 +118,6 @@ public class CallbackJsonValidation {
         String urineColor = jsonObject.get("urineColor").toString().trim();
         if (urineColor.length() == 0) return false;
 
-        String regex = "[MF]";
         return urineColor.equals("Cloudy") || urineColor.equals("Dark") || urineColor.equals("Normal");
     }
 

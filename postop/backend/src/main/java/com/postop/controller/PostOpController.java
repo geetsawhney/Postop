@@ -21,7 +21,7 @@ import java.util.List;
 import static spark.Spark.*;
 
 /**
- *  This class consits of all the end points.
+ * This class consits of all the end points.
  */
 public class PostOpController {
 
@@ -227,14 +227,19 @@ public class PostOpController {
 
         //Implements updating the value of number of Notification values by the nurse
         put(API_CONTEXT + "/nurse/notification", "application/json", (request, response) -> {
-            postOpService.updateNotification(request.body());
-            response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-            response.header("Access-Control-Allow-Origin", "*");
-            response.type("application/json");
-            response.status(200);
-            HashMap<String, String> output = new HashMap<>();
-            output.put("message", "SUCCESS");
-            return output;
+            try {
+                postOpService.updateNotification(request.body());
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
+                response.status(200);
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
+                return output;
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            }
         }, new JsonTransformer());
 
 
