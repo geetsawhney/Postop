@@ -23,7 +23,7 @@ public class FitnessDataJsonValidation {
         if (!jsonObject.containsKey("id")) return false;
 
         String id = jsonObject.get("id").toString().trim();
-        return (id.length() > 0);
+        return (id.length() > 0 && id.length()<=200);
     }
 
     protected boolean validateCaptureDate() {

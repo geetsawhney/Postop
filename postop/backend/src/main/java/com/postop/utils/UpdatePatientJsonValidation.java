@@ -24,7 +24,7 @@ public class UpdatePatientJsonValidation {
         if (!jsonObject.containsKey("name")) return false;
 
         String name = jsonObject.get("name").toString().trim();
-        if (name.length() == 0) return false;
+        if (name.length() == 0 || name.length()>50) return false;
 
         String regex = "^[A-Za-z ,'-.]++$";
         return validateString(regex, name);
@@ -34,7 +34,7 @@ public class UpdatePatientJsonValidation {
         if (!jsonObject.containsKey("email")) return false;
 
         String email = jsonObject.get("email").toString().trim().toLowerCase();
-        if (email.length() == 0) return false;
+        if (email.length() == 0 || email.length()>50) return false;
 
         String regex = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
         return validateString(regex, email);
@@ -44,7 +44,7 @@ public class UpdatePatientJsonValidation {
         if (!jsonObject.containsKey("id")) return false;
 
         String id = jsonObject.get("id").toString().trim();
-        return (id.length() >= 0);
+        return (id.length()<=200);
     }
 
     protected boolean validateSex() {
@@ -72,7 +72,7 @@ public class UpdatePatientJsonValidation {
             return false;
 
         String address = jsonObject.get("address").toString().trim();
-        return address.length() > 0;
+        return (address.length() > 0 && address.length() <=80);
     }
 
     protected boolean validateHospitalVisitReason() {
@@ -80,7 +80,7 @@ public class UpdatePatientJsonValidation {
             return false;
 
         String hospitalVisitReason = jsonObject.get("hospitalVisitReason").toString().trim();
-        return hospitalVisitReason.length() > 0;
+        return hospitalVisitReason.length() > 0 && hospitalVisitReason.length() <=50;
     }
 
     protected boolean validateLastVisitDate() {
@@ -97,7 +97,6 @@ public class UpdatePatientJsonValidation {
         if (!jsonObject.containsKey("utiVisitCount")) return false;
 
         String utiVisitCount = jsonObject.get("utiVisitCount").toString().trim();
-
         String regex = "[0-9]+";
         return validateString(regex, utiVisitCount);
     }
@@ -136,25 +135,4 @@ public class UpdatePatientJsonValidation {
 
         return regexMatcher.matches();
     }
-
-
-//    public static void main(String[] args) {
-//        JSONObject jsonObject = new JSONObject();
-//        jsonObject.put("name", "Rohit Aakash");
-//        jsonObject.put("email", "rohit@gmail");
-//        jsonObject.put("id", "");
-//        jsonObject.put("sex", "MF");
-//        jsonObject.put("lastVisitDate", "2017-10-12");
-//        jsonObject.put("dob", "2017-15-12");
-//        jsonObject.put("address", "3333 N charles");
-//        jsonObject.put("phone", "9988776655");
-//        jsonObject.put("utiVisitCount", "133");
-//        jsonObject.put("diabetic", true);
-//        CreatePatientJsonValidation createPatientJsonValidation = new CreatePatientJsonValidation(jsonObject);
-////        System.out.println(createPatientJsonValidation.validateName());
-////        System.out.println(createPatientJsonValidation.validateEmail());
-////        System.out.println(createPatientJsonValidation.validateDeviceId());
-////        System.out.println(createPatientJsonValidation.validateSex());
-//        System.out.println(createPatientJsonValidation.validateUtiVisitCount());
-//    }
 }

@@ -13,9 +13,7 @@ public class DbConnector {
             if (connection == null) {
                 connection = DriverManager.getConnection("jdbc:postgresql://stampy.db.elephantsql.com:5432/vudpsbvv", "vudpsbvv", "AhyUgFaUYXYm1byR97ZJn4Gd9Foej16Y");
             }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
+        } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
         return connection;
@@ -33,4 +31,3 @@ public class DbConnector {
         return true;
     }
 }
-

@@ -20,7 +20,7 @@ public class CreatePatientJsonValidation extends UpdatePatientJsonValidation {
             return false;
 
         String address = jsonObject.get("password").toString().trim();
-        return address.length() > 0;
+        return address.length() > 0 && address.length()<=32;
     }
 
     protected boolean validateDeviceId() {
