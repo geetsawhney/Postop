@@ -11,4 +11,5 @@ public interface NotificationDao {
 
     List<Notification> getNotifications() throws SQLException;
     boolean updateNotification(JSONObject jsonObject) throws SQLException;
+    Notification getNotification(String label) throws SQLException;
 }

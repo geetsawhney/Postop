@@ -4,8 +4,10 @@ import com.postop.exceptions.IllegalSqlException;
 import com.postop.model.FitnessHistory;
 import org.json.simple.JSONObject;
 
+import java.sql.SQLException;
+
 public interface FitnessHistoryDao {
-    boolean addFitnessData(JSONObject fitnessData);
-    FitnessHistory getFitnessDataByEmail(String email) ;
-    boolean deleteFitnessData(FitnessHistory fitnessHistory);
+    boolean addFitnessData(JSONObject fitnessData) throws SQLException;
+    FitnessHistory getFitnessDataByEmail(String email) throws SQLException;
+    boolean deleteFitnessData(FitnessHistory fitnessHistory) throws SQLException;
 }

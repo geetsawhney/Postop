@@ -18,7 +18,7 @@ public class MailUtil {
         this.name = name;
     }
 
-    public void sendEmail() throws UnsupportedEncodingException {
+    public boolean sendEmail() throws UnsupportedEncodingException {
 
         final String username = "oosegroup19@gmail.com";
         final String password = "oose2017group19";
@@ -59,5 +59,6 @@ public class MailUtil {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+        return true;
     }
 }

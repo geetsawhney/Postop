@@ -1,153 +1,131 @@
 package com.postop.helper;
 
+import com.postop.dao.NotificationDaoImpl;
 import com.postop.model.FitnessHistory;
+import com.postop.model.Notification;
 import com.postop.model.Patient;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 public class NotificationLogic {
 
 
-    private String status;
     private Patient patient;
     private FitnessHistory fitnessHistory;
 
     public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
-        this.status = "L";
         this.patient = patient;
         this.fitnessHistory = fitnessHistory;
     }
 
-    static String statusDecrease(String stat, long numberOfDays) {
-        long extraDays = 0;
-        if (stat.equals("C")) {
-            extraDays = 90 - numberOfDays;
-            if (extraDays <= 0) {
-                stat = "H";
-                extraDays = extraDays * -1;
-                numberOfDays = extraDays;
-            }
-        }
-        if (stat.equals("H")) {
-            extraDays = 60 - numberOfDays;
-            numberOfDays = extraDays;
+    private String statusDecrease(String status, long numberOfDays) {
+        if (status.equals("C")) {
+            numberOfDays = 90 - numberOfDays;
             if (numberOfDays <= 0) {
-                stat = "M";
-                numberOfDays = numberOfDays * -1;
+                status = "H";
+                numberOfDays *= -1;
             }
         }
-        if (stat.equals("M")) {
-            extraDays = 30 - numberOfDays;
-            numberOfDays = extraDays;
-            if (numberOfDays >= 0) {
-                return stat;
-            } else if (numberOfDays <= 0) {
-                stat = "L";
-                return stat;
+        if (status.equals("H")) {
+            numberOfDays = 60 - numberOfDays;
+            if (numberOfDays <= 0) {
+                status = "M";
+                numberOfDays *= -1;
             }
-        } else if (stat.equals("L")) {
-            stat = "L";
-            return stat;
         }
-        return stat;
-    }
-
-    public String ageStatus() {
-        //18-40
-        if (getAge(patient.getDob()) >= 18 && getAge(patient.getDob()) < 40) {
-            status = "L";
-            diabeticStatus(status, patient.getDiabetic());
-        } else if (getAge(patient.getDob()) >= 40 && getAge(patient.getDob()) < 60) {
-            status = "L";
-            sexStatus(status, patient.getSex());
-        } else if (getAge(patient.getDob()) >= 60) {
-            status = "M";
-            sexStatus(status, patient.getSex());
+        if (status.equals("M")) {
+            numberOfDays = 30 - numberOfDays;
+            if (numberOfDays <= 0) {
+                status = "L";
+            }
         }
 
         return status;
-
     }
 
-    private void sexStatus(String stat, String sexStat) {
+    public String ageStatus() {
+        String status = "";
+        if (getAge(patient.getDob()) >= 18 && getAge(patient.getDob()) < 40) {
+            status = "L";
+            status = diabeticStatus(status, patient.getDiabetic());
+        } else if (getAge(patient.getDob()) >= 40 && getAge(patient.getDob()) < 60) {
+            status = "L";
+            status = sexStatus(status, patient.getSex());
+        } else if (getAge(patient.getDob()) >= 60) {
+            status = "M";
+            status = sexStatus(status, patient.getSex());
+        }
+        return status;
+    }
+
+    private String sexStatus(String status, String sexStat) {
         if (sexStat.equals("F")) {
-            status = incrementStatus(stat);
+            status = incrementStatus(status);
         }
 
-        diabeticStatus(status, patient.getDiabetic());
+        return diabeticStatus(status, patient.getDiabetic());
     }
 
-    private void diabeticStatus(String stat, boolean diabetic) {
+    private String diabeticStatus(String status, boolean diabetic) {
         if (diabetic) {
-            status = incrementStatus(stat);
+            status = incrementStatus(status);
         }
-        utiVisitCountStatus(status, patient.getUtiVisitCount());
+        return utiVisitCountStatus(status, patient.getUtiVisitCount());
 
     }
 
-    public void utiVisitCountStatus(String stat, int utiCount) {
+    private String utiVisitCountStatus(String status, int utiCount) {
         if (utiCount >= 3) {
-            status = incrementStatus(stat);
+            status = incrementStatus(status);
         }
-        catheterUsageStatus(status, patient.getCatheterUsage());
+        return catheterUsageStatus(status, patient.getCatheterUsage());
     }
 
-    public void catheterUsageStatus(String stat, boolean catheterUse) {
+    private String catheterUsageStatus(String status, boolean catheterUse) {
         if (catheterUse) {
-            status = incrementStatus(stat);
+            status = incrementStatus(status);
         }
-        status = statusDecrease(status, getNoOfDays(patient.getLastVisitDate()));
+        return statusDecrease(status, getNoOfDays(patient.getLastVisitDate()));
     }
 
-    public String incrementStatus(String stat) {
-        if (stat.equals("L")) {
-            stat = "M";
-        } else if (stat.equals("M")) {
-            stat = "H";
-        } else if (stat.equals("H")) {
-            stat = "C";
-        }
-
-        return stat;
-    }
-
-    public int getNumberOfNotifications() {
-        ageStatus();
-        int notificationCount = 0;
-        if (status.equals("C")) {
-            notificationCount = 8;
-        } else if (status.equals("H")) {
-            if (fitnessHistory.getStepCount() >= 3000) {
-                notificationCount = 8;
-            } else if (fitnessHistory.getStepCount() < 3000) {
-                notificationCount = 6;
-            }
+    private String incrementStatus(String status) {
+        if (status.equals("L")) {
+            status = "M";
         } else if (status.equals("M")) {
-            if (fitnessHistory.getStepCount() >= 3000) {
-                notificationCount = 6;
-            } else if (fitnessHistory.getStepCount() < 3000) {
-                notificationCount = 4;
-            }
-
-        } else if (status.equals("L")) {
-            if (fitnessHistory.getStepCount() >= 3000) {
-                notificationCount = 4;
-            } else if (fitnessHistory.getStepCount() < 3000) {
-                notificationCount = 2;
-            }
+            status = "H";
+        } else if (status.equals("H")) {
+            status = "C";
         }
-        return notificationCount;
+
+        return status;
+    }
+
+
+    public int getNumberOfNotifications() throws SQLException {
+
+        String status = ageStatus();
+        int noOfDays = (int) getNoOfDays(patient.getLastVisitDate());
+        Notification notification = new NotificationDaoImpl().getNotification(status);
+
+        int numberOfNotifications = notification.getStart();
+        if ((status.equals("C") && noOfDays > 28) || (status.equals("H") && noOfDays > 21)
+                || (status.equals("M") && noOfDays > 14) || (status.equals("L") && noOfDays > 7)) {
+            numberOfNotifications = Math.max(notification.getStart() - noOfDays / notification.getInterval(), notification.getEnd());
+        }
+
+        return numberOfNotifications + fitnessHistory.getStepCount() / 3000 + fitnessHistory.getCaloriesExpended() / 1000;
     }
 
     public long getAge(Date dob) {
-        Date currentDate=new Date(System.currentTimeMillis());
+        Date currentDate = new Date(System.currentTimeMillis());
         long patientAge = (currentDate.getTime() - dob.getTime()) / 365;
         return TimeUnit.DAYS.convert(patientAge, TimeUnit.MILLISECONDS);
     }
 
     public long getNoOfDays(Date lastVisitDate) {
-        Date currentDate=new Date(System.currentTimeMillis());
+        Date currentDate = new Date(System.currentTimeMillis());
         long noOfDays = currentDate.getTime() - lastVisitDate.getTime();
         return TimeUnit.DAYS.convert(noOfDays, TimeUnit.MILLISECONDS);
     }

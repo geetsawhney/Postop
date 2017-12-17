@@ -132,12 +132,6 @@ public class PatientDaoImpl implements PatientDao {
     }
 
 
-//    @Override
-//    public List<Patient> getPatientByName(String s) {
-//        return null;
-//    }
-
-
     public  Patient populateDetails(ResultSet resultSet) throws SQLException {
         Patient patient = null;
 

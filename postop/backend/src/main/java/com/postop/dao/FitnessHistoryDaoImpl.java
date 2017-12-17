@@ -20,12 +20,12 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
     }
 
     @Override
-    public boolean addFitnessData(JSONObject jsonObject) {
+    public boolean addFitnessData(JSONObject jsonObject) throws SQLException {
 
         String sql = "INSERT INTO \"Fitness_History\" (email, capture_date, step_count, calories_expended) "
                 + "VALUES (?,?,?,?)";
 
-        try {
+
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
 
             preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
@@ -34,15 +34,12 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
             preparedStatement.setInt(4, Integer.parseInt(jsonObject.get("caloriesExpended").toString().trim()));
 
             preparedStatement.execute();
-        } catch (SQLException e) {
-            logger.error("Failed to add fitness data");
-            e.printStackTrace();
-        }
+
         return true;
     }
 
     @Override
-    public FitnessHistory getFitnessDataByEmail(String email) {
+    public FitnessHistory getFitnessDataByEmail(String email) throws SQLException {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, -7);
         Date lastWeekDate = new Date(calendar.getTimeInMillis());
@@ -55,7 +52,7 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
 
 
         FitnessHistory fitnessHistory = null;
-        try {
+
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
             fitnessHistory = new FitnessHistory();
@@ -67,27 +64,22 @@ public class FitnessHistoryDaoImpl implements FitnessHistoryDao {
                 fitnessHistory.setStepCount(resultSet.getInt("step_count"));
                 fitnessHistory.setCaloriesExpended(resultSet.getInt("calories_expended"));
             }
-        } catch (SQLException e) {
-            logger.error("Failed to add fitness data");
-            e.printStackTrace();
-        }
+
         return fitnessHistory;
     }
 
     @Override
-    public boolean deleteFitnessData(FitnessHistory fitnessHistory) {
+    public boolean deleteFitnessData(FitnessHistory fitnessHistory) throws SQLException {
         String sql = "DELETE FROM \"Fitness_History\" WHERE " +
                 "email= \'" + fitnessHistory.getEmail().toLowerCase().trim() +
                 "\' AND capture_date=\'" + fitnessHistory.getCaptureDate() +
                 "\' AND step_count=" + fitnessHistory.getStepCount() +
                 "AND calories_expended=" + fitnessHistory.getCaloriesExpended();
 
-        try {
+
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
         return true;
     }
 }

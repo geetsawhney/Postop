@@ -54,9 +54,26 @@ public class NotificationDaoImpl implements NotificationDao {
                 ", \"end\"= " + Integer.parseInt(jsonObject.get("end").toString()) +
                 " WHERE label = \'" + jsonObject.get("label").toString() + "\'";
 
-        Statement statement;
-        statement = connection.createStatement();
+        Statement statement = connection.createStatement();
         statement.executeUpdate(sql);
         return true;
+    }
+
+    @Override
+    public Notification getNotification(String label) throws SQLException {
+        String sql = "SELECT * FROM \"Notification\" WHERE label = \'" +label +"\'";
+
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+
+        Notification notification = null;
+        while(resultSet.next()){
+            notification = new Notification();
+            notification.setLabel(resultSet.getString("label"));
+            notification.setStart(Integer.parseInt(resultSet.getString("start")));
+            notification.setEnd(Integer.parseInt(resultSet.getString("end")));
+            notification.setInterval(Integer.parseInt(resultSet.getString("interval")));
+        }
+        return notification;
     }
 }

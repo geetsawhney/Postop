@@ -38,10 +38,6 @@ public class FitnessHistory {
         this.email = email;
     }
 
-//    public void setCaptureDate(String captureDate) {
-//        this.captureDate = Date.valueOf(captureDate);
-//    }
-
     public int getStepCount() {
         return stepCount;
     }

@@ -13,59 +13,47 @@ import java.sql.*;
 
 public class PatientLoginDaoImpl implements PatientLoginDao {
 
-    private Connection connection;
     private final Logger logger = LoggerFactory.getLogger(PatientLoginDaoImpl.class);
+    private Connection connection;
 
     public PatientLoginDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
-    public boolean validatePatient(String email, String password) {
+    public boolean validatePatient(String email, String password) throws SQLException {
 
         String sql = "SELECT * FROM \"Patient_Login\" WHERE email = \'" + email.toLowerCase()
-                +"\' AND password = \'" + password + "\'";
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            return resultSet.next();
-        } catch (SQLException e) {
-            logger.error("SQL Exception");
-            e.printStackTrace();
-        }
-        return false;
+                + "\' AND password = \'" + password + "\'";
+
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(sql);
+        return resultSet.next();
+
+
     }
 
     @Override
-    public boolean deletePatient(String email) {
-        String sql="DELETE FROM \"Patient_Login\" WHERE email= \'"+ email.toLowerCase() +"\'";
-        try {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public boolean deletePatient(String email) throws SQLException {
+        String sql = "DELETE FROM \"Patient_Login\" WHERE email= \'" + email.toLowerCase() + "\'";
+
+        Statement statement = connection.createStatement();
+        statement.executeUpdate(sql);
+
         return true;
     }
 
     @Override
-    public boolean addPatient(JSONObject jsonObject) throws  IllegalSqlException {
+    public boolean addPatient(JSONObject jsonObject) throws IllegalSqlException, SQLException, NoSuchAlgorithmException {
         String sql = "INSERT INTO \"Patient_Login\"(email,password) "
-                 + "VALUES (?,?)";
-        try {
-            String password=HashGenerator.generateHash(jsonObject.get("password").toString());
-            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
-            preparedStatement.setString(2, password);
+                + "VALUES (?,?)";
 
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            logger.error("Failed to add the patient");
-            throw new IllegalSqlException(e.getMessage());
-        }
-        catch (NoSuchAlgorithmException e){
-            logger.error("Wrong Algorithm in Hashing");
-            e.printStackTrace();
-        }
+        String password = HashGenerator.generateHash(jsonObject.get("password").toString());
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        preparedStatement.setString(1, jsonObject.get("email").toString().toLowerCase().trim());
+        preparedStatement.setString(2, password);
+
+        preparedStatement.execute();
+
         return true;
     }
 }

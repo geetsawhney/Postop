@@ -79,13 +79,6 @@ public class Patient {
         return lastVisitDate;
     }
 
-//    public void setLastVisitDate(String lastVisitDate) {
-//        this.lastVisitDate= Date.valueOf(lastVisitDate);
-//    }
-
-//    public String getLastVisitDateString() {
-//        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
-//    }
 
     public int getUtiVisitCount() {
         return utiVisitCount;
@@ -102,14 +95,6 @@ public class Patient {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-
-//    public Patient(String email, String name, String sex, String ssn) {
-//        this.email = email;
-//        this.name = name;
-//        this.sex = sex;
-//        this.ssn = ssn;
-//    }
 
     public void setDob(Date dob) {
         this.dob = dob;
@@ -158,14 +143,6 @@ public class Patient {
     public Date getDob() {
         return dob;
     }
-
-//    public void setDob(String dob) {
-//        this.dob=Date.valueOf(dob);
-//    }
-
-//    public String getDobString() {
-//        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
-//    }
 
     public String getSex() {
         return sex;

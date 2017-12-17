@@ -24,7 +24,7 @@ public class PostOpService {
 
     private final Logger logger = LoggerFactory.getLogger(PostOpService.class);
 
-    public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException {
+    public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException, SQLException {
         JSONParser jsonParser = new JSONParser();
         Patient patient = null;
         body = body.replaceAll("^\"|\"$", "");
@@ -93,7 +93,7 @@ public class PostOpService {
     }
 
 
-    public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException, UnsupportedEncodingException {
+    public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException, UnsupportedEncodingException, SQLException, NoSuchAlgorithmException {
         JSONParser jsonParser = new JSONParser();
 
         try {
@@ -121,7 +121,7 @@ public class PostOpService {
     }
 
 
-    public JSONObject addFitnessData(String body) throws IllegalJsonException, PatientNotFoundException {
+    public JSONObject addFitnessData(String body) throws IllegalJsonException, PatientNotFoundException, SQLException {
         body = body.replaceAll("^\"|\"$", "");
         JSONParser jsonParser = new JSONParser();
 

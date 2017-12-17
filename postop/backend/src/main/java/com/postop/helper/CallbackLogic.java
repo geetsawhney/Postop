@@ -4,48 +4,46 @@ import org.json.simple.JSONObject;
 
 public class CallbackLogic {
 
-    private int severity;
     private JSONObject callback;
 
     public CallbackLogic(JSONObject callback) {
-        this.severity = 0;
         this.callback = callback;
     }
 
 
-    public void checkPain() {
+    public int checkPain(int severity) {
         if (Boolean.parseBoolean(callback.get("hasPain").toString())) {
             severity++;
         }
 
-        checkNausea();
+        return checkNausea(severity);
     }
 
-    public void checkNausea() {
+    public int checkNausea(int severity) {
         if (Boolean.parseBoolean(callback.get("hasNausea").toString())) {
             severity++;
         }
 
-        checkFever();
+        return checkFever(severity);
     }
 
-    public void checkFever() {
+    public int checkFever(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFever").toString())) {
             severity++;
         }
 
-        checkFatigue();
+        return checkFatigue(severity);
     }
 
-    public void checkFatigue() {
+    public int checkFatigue(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFatigue").toString())) {
             severity++;
         }
 
-        checkUrineColor();
+        return checkUrineColor(severity);
     }
 
-    public void checkUrineColor() {
+    public int checkUrineColor(int severity) {
 
         String urineColor = callback.get("urineColor").toString();
         if (urineColor.equals("Dark")) {
@@ -53,10 +51,10 @@ public class CallbackLogic {
         } else if (urineColor.equals("Cloudy")) {
             severity = severity + 2;
         }
+        return severity;
     }
 
     public int getSeverity() {
-        checkPain();
-        return severity;
+        return checkPain(0);
     }
 }

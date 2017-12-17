@@ -37,8 +37,6 @@ public class Push {
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
 
-//            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
-
         logger.info("Response Code : " + response.getStatusLine().getStatusCode());
 
         return true;

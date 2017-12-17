@@ -30,6 +30,7 @@ import spark.Spark;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -76,7 +77,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void createPatientEndPoint1() throws IOException {
+    public void createPatientEndPoint1() throws IOException, SQLException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient");
@@ -273,7 +274,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void updatePatientEndPoint1() throws IOException {
+    public void updatePatientEndPoint1() throws IOException, SQLException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -485,7 +486,7 @@ public class PostOpControllerTest {
      * @throws IOException
      **/
     @Test
-    public void updateCallbackEndPoint1() throws IOException {
+    public void updateCallbackEndPoint1() throws IOException, SQLException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -554,7 +555,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void updateCallbackEndPoint2() throws IOException {
+    public void updateCallbackEndPoint2() throws IOException, SQLException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -665,7 +666,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void updateCallbackEndPoint4() throws IOException {
+    public void updateCallbackEndPoint4() throws IOException, SQLException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -745,7 +746,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void getCallbackEndPoint2() throws IOException {
+    public void getCallbackEndPoint2() throws IOException, SQLException {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
 
@@ -828,7 +829,7 @@ public class PostOpControllerTest {
      * @throws IOException
      */
     @Test
-    public void addFitnessDataEndPoint1() throws IOException {
+    public void addFitnessDataEndPoint1() throws IOException, SQLException {
         HttpClient httpClient = HttpClientBuilder.create().build();
 
         HttpPost request = new HttpPost("http://" + Bootstrap.IP_ADDRESS + ":" + Bootstrap.PORT + "/api/v1/patient/gfit");
