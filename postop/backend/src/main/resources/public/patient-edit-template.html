@@ -2,13 +2,11 @@
 <html lang="en">
 	<head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
-    <!--<link rel="stylesheet" href="css/style.css"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <!-- <script src="js/form-Validation.js"></script> -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
     <script type='text/javascript' src="js/updatePatient.js"></script>
 	</head>
@@ -46,14 +44,17 @@
 							</div>
 							<script>
 								$(document).ready(function() {
-								    $('#datePicker')
-								        .datepicker({
-								            format: 'yyyy-mm-dd'
-								        })
-								        .on('changeDate', function(e) {
-								            // Revalidate the date field
-
-								        });
+                                    $('#datePicker')
+                                        .datepicker({
+                                            format: 'yyyy-mm-dd',
+                                            endDate: '+0d'
+                                        })
+                                        .on('changeDate', function(e) {
+                                            // Revalidate the date field
+                                            var minDate = new Date(e.date.valueOf() + 1000*60*60*24);
+                                            $("#datePicker1").datepicker('setStartDate', minDate);
+                                            $(this).datepicker('hide');
+                                        });
 								});
 							</script>
 						</div>
@@ -82,15 +83,16 @@
 							</div>
 							<script>
 								$(document).ready(function() {
-								    $('#datePicker1')
-								        .datepicker({
-								            format: 'yyyy-mm-dd'
-								        })
-								        .on('changeDate', function(e) {
-								            // Revalidate the date field
-
-								        });
-
+                                    $('#datePicker1')
+                                        .datepicker({
+                                            format: 'yyyy-mm-dd',
+                                            endDate: '+0d'
+                                        })
+                                        .on('changeDate', function (e) {
+                                            var maxDate = new Date(e.date.valueOf() - 1000*60*60*24);
+                                            $("#datePicker").datepicker('setEndDate', maxDate);
+                                            $(this).datepicker('hide');
+                                        });
 								});
 							</script>
 						</div>
@@ -119,24 +121,26 @@
 					</div>
 				</div>
 			</form>
-      <script>
-  			$("#patientedit").validate({
-  			  invalidHandler: function(event, validator) {
-  			    // 'this' refers to the form
-  			    var errors = validator.numberOfInvalids();
-  			    if (errors) {
-  			      var message = errors == 1
-  			        ? 'You missed 1 field. It has been highlighted'
-  			        : 'You missed ' + errors + ' fields. They have been highlighted';
-  			      $("div.error span").html(message);
-  			      $("div.error").show();
-  			    } else {
-  			      $("div.error").hide();
-  			    }
-  			  }
-  			});
-  		</script>
+
 		</div>
 
 	</body>
+
+	<script>
+        $("#patientedit").validate({
+            invalidHandler: function(event, validator) {
+                // 'this' refers to the form
+                var errors = validator.numberOfInvalids();
+                if (errors) {
+                    var message = errors == 1
+                        ? 'You missed 1 field. It has been highlighted'
+                        : 'You missed ' + errors + ' fields. They have been highlighted';
+                    $("div.error span").html(message);
+                    $("div.error").show();
+                } else {
+                    $("div.error").hide();
+                }
+            }
+        });
+	</script>
 </html>

@@ -122,7 +122,7 @@ public class CallbackDaoImpl implements CallbackDao {
         List<JSONObject> allCallbacks = new ArrayList<>();
         String sql = "SELECT c.email, c.callback_date, c.severity, c.has_pain, c.has_fever, c.has_nausea, c.has_fatigue, c.urine_color , c.is_resolved, " +
                 "p.name, p.phone, p.catheter_usage,p.last_visit_date,p.sex,p.diabetic, p.hospital_visit_reason, p.uti_visit_count " +
-                "FROM \"Callback\" c, \"Patient\" p WHERE c.is_resolved = false AND c.email=p.email";
+                "FROM \"Callback\" c, \"Patient\" p WHERE c.is_resolved = false AND c.email=p.email ORDER BY c.severity DESC";
 
         JSONObject jsonObject;
 

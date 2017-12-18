@@ -39,7 +39,7 @@ public class PatientDaoImpl implements PatientDao {
     @Override
     public List<Patient> getAllPatients() {
         List<Patient> allPatients = new ArrayList<>();
-        String sql = "SELECT * FROM \"Patient\"";
+        String sql = "SELECT * FROM \"Patient\" ORDER BY name";
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
