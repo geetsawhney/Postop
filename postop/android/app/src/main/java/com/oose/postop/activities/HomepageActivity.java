@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.util.concurrent.TimeUnit;
 
 import az.plainpie.PieView;
+import az.plainpie.animation.PieAngleAnimation;
 
 /**Activity Class for Homepage
  * Created by Omotola, Rohit on 10/23/2017.
@@ -224,6 +225,10 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         PieView pieView = (PieView) findViewById(R.id.pieView);
         pieView.setInnerText(dailyTotalCount + "\n Steps");
         pieView.setPieAngle(angle);
+
+        PieAngleAnimation animation = new PieAngleAnimation(pieView);
+        animation.setDuration(1000); //This is the duration of the animation in millis
+        pieView.startAnimation(animation);
         pieView.setInnerTextVisibility(1);
         TextView caloriesExpended = (TextView) findViewById(R.id.caloriesExpended);
         caloriesExpended.setText("You have burnt " + dailyCaloriesExpended + " calories!");

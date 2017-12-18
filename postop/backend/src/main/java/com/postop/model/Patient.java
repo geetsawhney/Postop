@@ -5,6 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.sql.Date;
 
+/**
+ * This class represents a patients model.
+ * @author Geet Sawhney, Rohit Aakash
+ */
 public class Patient {
     private final Logger logger = LoggerFactory.getLogger(Patient.class);
     private String email;
@@ -22,7 +26,22 @@ public class Patient {
     private Date lastVisitDate;
 
 
-
+    /**
+     * Parameterized constructor
+     * @param email : email of patient
+     * @param ssn :ssn of patient
+     * @param deviceId : device id of patient
+     * @param name : name of patient
+     * @param sex : sex
+     * @param dob :dob
+     * @param address : address
+     * @param phone : phone
+     * @param hospitalVisitReason : hospitalVisitReason
+     * @param utiVisitCount : utiVisitCount
+     * @param catheterUsage : catheterUsage
+     * @param diabetic : if diabetic
+     * @param lastVisitDate : lastVisitDate
+     */
     public Patient(String email, String ssn, String deviceId, String name, String sex, Date dob, String address, String phone, String hospitalVisitReason, int utiVisitCount, boolean catheterUsage, boolean diabetic, Date lastVisitDate) {
         this.email = email;
         this.ssn = ssn;
@@ -39,10 +58,18 @@ public class Patient {
         this.lastVisitDate = lastVisitDate;
     }
 
+    /**
+     * Default constructor
+     */
     public Patient() {
 
     }
 
+    /**
+     * setup patient object from a json object
+     * @param jsonObject : holds the patients data
+     * @return Patient object
+     */
     public static Patient setupPatient(JSONObject jsonObject) {
         Patient patient = new Patient();
 
@@ -79,13 +106,6 @@ public class Patient {
         return lastVisitDate;
     }
 
-//    public void setLastVisitDate(String lastVisitDate) {
-//        this.lastVisitDate= Date.valueOf(lastVisitDate);
-//    }
-
-//    public String getLastVisitDateString() {
-//        return new SimpleDateFormat("yyyy-MM-dd").format(lastVisitDate);
-//    }
 
     public int getUtiVisitCount() {
         return utiVisitCount;
@@ -103,14 +123,6 @@ public class Patient {
         this.phone = phone;
     }
 
-
-//    public Patient(String email, String name, String sex, String ssn) {
-//        this.email = email;
-//        this.name = name;
-//        this.sex = sex;
-//        this.ssn = ssn;
-//    }
-
     public void setDob(Date dob) {
         this.dob = dob;
     }
@@ -119,17 +131,21 @@ public class Patient {
         return deviceId;
     }
 
+
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
+
 
     public String getName() {
         return name;
     }
 
+
     public void setName(String name) {
         this.name = name;
     }
+
 
     public String getEmail() {
         return email;
@@ -158,14 +174,6 @@ public class Patient {
     public Date getDob() {
         return dob;
     }
-
-//    public void setDob(String dob) {
-//        this.dob=Date.valueOf(dob);
-//    }
-
-//    public String getDobString() {
-//        return new SimpleDateFormat("yyyy-MM-dd").format(dob);
-//    }
 
     public String getSex() {
         return sex;

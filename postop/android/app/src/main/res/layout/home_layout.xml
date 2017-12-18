@@ -12,18 +12,19 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme">
 
         <LinearLayout
             android:gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
 
             <ImageView
                 android:src="@drawable/mcare3"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_width="384dp"
+                android:layout_height="99dp" />
 
 
 
@@ -53,6 +54,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:textColor="#60c6c1"
+                android:shadowColor="#a185bc"
+                android:shadowRadius="3"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:textStyle="bold"
+                android:fontFamily="casual"
                 android:text="TextView"
                 android:textAlignment="center" />
 
@@ -64,7 +72,8 @@
                 plainpie:inner_pie_padding="40"
                 plainpie:inner_text_visibility="false"
                 plainpie:percentage="0.1"
-                plainpie:percentage_size="40" />
+                plainpie:percentage_size="40"
+                />
 
             <TextView
                 android:id="@+id/caloriesExpended"
@@ -72,7 +81,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
-                android:textAlignment="center" />
+                android:textAlignment="center"
+                android:textColor="#60c6c1"
+                android:shadowColor="#a185bc"
+                android:shadowRadius="3"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:textStyle="bold"
+                android:fontFamily="casual"/>
 
             <Button
                 android:id="@+id/callback"
@@ -81,6 +97,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:onClick="callback"
+                android:background="@drawable/buttonbackground"
                 android:text="CALLBACK" />
 
 
@@ -91,6 +108,7 @@
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
                 android:onClick="logout"
+                android:background="@drawable/buttonbackground"
                 android:text="LOGOUT" />
 
 

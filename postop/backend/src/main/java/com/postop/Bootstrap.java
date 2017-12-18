@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
 
+/**
+ * This class acts as the entry point of the program as it contains the main method.
+ * @author Geet Sawhney, Rohit Aakash
+ */
 public class Bootstrap {
     public static final String IP_ADDRESS = "localhost";
     private static final Logger logger = LoggerFactory.getLogger(Bootstrap.class);
@@ -26,6 +30,10 @@ public class Bootstrap {
 
     }
 
+    /**
+     * to get a heroku port if there exists one or get default 4567
+     * @return
+     */
     static int getHerokuAssignedPort() {
         ProcessBuilder processBuilder = new ProcessBuilder();
         if (processBuilder.environment().get("PORT") != null) {

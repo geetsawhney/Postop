@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <title>PostOp</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" href="img/favicon.ico" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous"> -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
   <script type='text/javascript' src="js/query-server.js"></script>
 
 </head>
+
 <body>
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand">PostOp</a>
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <!--<a class="navbar-brand">PostOp</a>-->
+        <a href="#" class="navbar-left"><img src="img/logo.png"></a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="New_Patient.html">New Patient</a></li>
+        <li><a href="listPatients.html">List all Patients</a></li>
+        <li><a href="listNotifications.html">Notifications</a></li>
+      </ul>
     </div>
-    <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="New_Patient.html">New Patient</a></li>
-      <li><a href="listPatients.html">List all Patients</a></li>
+  </nav>
+
+  <div id='callback-template-container'></div>
+  <div id='nurse-template-container'></div>
+
+  <div class='container'>
+    <h3> Requested Callbacks </h3>
+    <ul id='callbacks-list'>
     </ul>
   </div>
-</nav>
-
-<div id='callback-template-container'></div>
-<div id='nurse-template-container'></div>
-
-<div class='container'>
-  <h3> Requested Callbacks </h3>
-  <ul id='callbacks-list'>
-  </ul>
-</div>
 </body>
+
 </html>

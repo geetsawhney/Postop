@@ -1,4 +1,5 @@
 function getBooleanFromCheckValue(val) {
+  console.log("the check was done");
     var dict = {
         "on": true,
         "off": false
@@ -40,13 +41,12 @@ function checkValues()
       finalErrors=finalErrors.concat(errorInit)
     }
     addressCheck=1
-    if(!$("#up-address").val())
+    if(!$("#up-address1").val())
     {
       addressCheck=0
       errorInit=", Address"
       finalErrors=finalErrors.concat(errorInit)
     }
-
     hospitalVisitReasonCheck=1
     if(!$("#up-hospital-visit-reason").val())
     {
@@ -98,9 +98,11 @@ function checkValues()
 function updatePatient() {
     console.log("here!")
       var checkVal = checkValues();
+        var fullAddress = $("#up-address1").val() + "|" + $("#up-address2").val();
       if(checkVal==1)
       {
       console.log("inside update patient")
+      console.log(getBooleanFromCheckValue($("#up-uses-catheter").val()))
         var data = {
             name:$("#up-name").val(),
             email:$("#up-email").val(),
@@ -108,13 +110,16 @@ function updatePatient() {
             id:$("#up-deviceId").val(),
             sex:$("#up-sex").val(),
             dob:$("#up-date").val(),
-            address:$("#up-address").val(),
+            address:fullAddress,
             phone:$("#up-phone").val(),
             hospitalVisitReason:$("#up-hospital-visit-reason").val(),
             utiVisitCount:$("#up-uti-visit-count").val(),
-            catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
+          //  catheterUsage:getBooleanFromCheckValue($("#up-uses-catheter").val()),
             //catheterUsage: true,
-            diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
+            //diabetic:getBooleanFromCheckValue($("#up-is-diabetic").val()),
+            catheterUsage: document.getElementById("up-uses-catheter").checked,
+          // diabetic: getBooleanFromCheckValue($("#cb-is-diabetic").val()),
+            diabetic: document.getElementById("up-is-diabetic").checked,
             //diabetic: true,
             lastVisitDate:$("#up-last-visit-date").val()
           }
@@ -137,5 +142,5 @@ function updatePatient() {
 
 $(document).ready(function() {
     console.log("here....")
-    //updatePatient()
+  //  updatePatient()
 });

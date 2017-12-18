@@ -6,6 +6,7 @@ import com.postop.exceptions.IllegalJsonException;
 import com.postop.exceptions.IllegalSqlException;
 import com.postop.exceptions.PatientNotFoundException;
 import com.postop.model.Callback;
+import com.postop.model.Notification;
 import com.postop.model.Patient;
 import com.postop.service.PostOpService;
 import com.postop.utils.JsonTransformer;
@@ -19,17 +20,27 @@ import java.util.List;
 
 import static spark.Spark.*;
 
+/**
+ * Routes and handles RESTful requests from clients
+ */
 public class PostOpController {
 
     private static final String API_CONTEXT = "/api/v1";
     private final PostOpService postOpService;
     private final Logger logger = LoggerFactory.getLogger(PostOpController.class);
 
+    /**
+     * Parametrized constructor for instantiating postOpService
+     * @param postOpService: an instance of PostOpService class
+     */
     public PostOpController(PostOpService postOpService) {
         this.postOpService = postOpService;
         setupEndpoints();
     }
 
+    /**
+     * Defines the routes for various endpoints
+     */
     private void setupEndpoints() {
 
         options("*", (request, response) -> {
@@ -145,7 +156,7 @@ public class PostOpController {
         }, new JsonTransformer());
 
 
-         /*Implements get a callback*/
+        /*Implements get a callback*/
         get(API_CONTEXT + "/patient/:email/callback", "application/json", (request, response) -> {
             try {
                 String email = request.params(":email");
@@ -201,5 +212,37 @@ public class PostOpController {
                 return ex.getHash();
             }
         }, new JsonTransformer());
+
+
+        // Implements getting a list of number of Notification values for each label.
+        get(API_CONTEXT + "/nurse/notification", "application/json", (request, response) -> {
+            List<Notification> notifications = postOpService.getNotifications();
+            response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+            response.header("Access-Control-Allow-Origin", "*");
+            response.type("application/json");
+            response.status(200);
+            return notifications;
+
+        }, new JsonTransformer());
+
+
+        //Implements updating the value of number of Notification values by the nurse
+        put(API_CONTEXT + "/nurse/notification", "application/json", (request, response) -> {
+            try {
+                postOpService.updateNotification(request.body());
+                response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+                response.header("Access-Control-Allow-Origin", "*");
+                response.type("application/json");
+                response.status(200);
+                HashMap<String, String> output = new HashMap<>();
+                output.put("message", "SUCCESS");
+                return output;
+            } catch (IllegalJsonException ex) {
+                response.status(400);
+                return ex.getHash();
+            }
+        }, new JsonTransformer());
+
+
     }
 }

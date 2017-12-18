@@ -12,10 +12,20 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
+/**
+ * This class represents a push notification.
+ * @author Geet Sawhney, Rohit Aakash
+ */
 public class Push {
 
     private static final Logger logger = LoggerFactory.getLogger(Push.class);
 
+    /**
+     * sends a push notification
+     * @param patient
+     * @return true if successful
+     * @throws IOException
+     */
     public static boolean sendPush(Patient patient) throws IOException {
         HttpClient httpClient = HttpClientBuilder.create().build(); //Use this instead
 
@@ -36,8 +46,6 @@ public class Push {
         request.addHeader("Authorization", "key=AAAAtLQfbo8:APA91bEao5KXye_2NcyguzndrjY6NSKhXix0WVH06dOcez09VwV3kM2aHPufqoRrz-ro1Eo0Zh3OjU-w-LJ0WbA_BS9rXU95FPdkUs--Kk7MSsZHcISwRnym3d8_y3KxYMYP-ceLZPfc");
         request.setEntity(params);
         HttpResponse response = httpClient.execute(request);
-
-//            System.out.println("Response Code : " + response.getStatusLine().getStatusCode());
 
         logger.info("Response Code : " + response.getStatusLine().getStatusCode());
 

@@ -7,6 +7,9 @@ import org.json.simple.JSONObject;
 
 import java.util.List;
 
+/**
+ *
+ */
 public interface PatientDao {
     List<Patient> getAllPatients();
     Patient getPatientByEmail(String email) throws  PatientNotFoundException;

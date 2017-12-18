@@ -1,0 +1,56 @@
+<script type='text/javascript' src="js/callbackflagpost.js">
+</script>
+<script id="callback-template" type="text/html">
+  <div>
+    <!-- style="background-color: #ccc; border: 2px solid black; margin: 5px">
+      <div class="row">-->
+
+    <table class="table table-striped">
+      <tr>
+        <th>Patient Severity</th>
+        <th>Patient Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th></th>
+        <th></th>
+      </tr>
+      <tr>
+        {{#callbacks}}
+        
+        <tr>
+
+          <td style='color:{{displayColor}}'>{{stringSeverity}}</td>
+          <td>{{patientName}}</td>
+          <td id="id-email">{{patientEmail}}</td>
+          <td>{{patientPhone}}</td>
+          <td></td>
+          <td><button type="submit" id={{callbackBtn}} class="btn btn-default updateFlag" value={{patientEmail}}>Attended</button> </td>
+          <tr>
+
+            <td>Fatigue: {{patientHasFatigue}}</td>
+            <td>Nausea: {{patientHasNausea}}</td>
+            <td>Fever: {{patientHasFever}}</td>
+            <td>Pain: {{patientHasPain}}</td>
+            <td>Urine: {{patientUrineColor}}</td>
+            <td></td>
+
+          </tr>
+          {{/callbacks}}
+        </tr>
+      </tr>
+    </table>
+
+
+    <!--
+      <div class="col-xs-12 col-md-4"><h4>{{Severity}}</h4></div>
+      <div class="col-xs-12 col-md-4"></div>
+      <div class="col-xs-12 col-md-4"></div>
+      <div class="col-xs-12 col-md-4"><button type="button" class="btn btn-default">X</button></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-6 col-md-4">{{patientName}}</div>
+      <div class="col-xs-6 col-md-4">{{patientEmail}}</div>
+      <div class="col-xs-6 col-md-4">{{patientPhone}}</div>
+    </div> -->
+  </div>
+</script>

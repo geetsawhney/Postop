@@ -1,10 +1,11 @@
 package com.postop.model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.sql.Date;
 
+/**
+ * Callback class to represent a callback for a patient
+ * @author Geet Sawhney, Rohit Aakash
+ */
 public class Callback {
 
     private String email;
@@ -17,9 +18,6 @@ public class Callback {
     private String urineColor;
     private boolean isResolved;
 
-
-    private final Logger logger = LoggerFactory.getLogger(Callback.class);
-
     public String getEmail() {
         return email;
     }
@@ -31,21 +29,6 @@ public class Callback {
     public Date getCallbackDate() {
         return callbackDate;
     }
-
-//    public String getDateString(){
-//        return new SimpleDateFormat("yyyy-MM-dd").format(callbackDate);
-//    }
-
-//    public void setCallbackDate(String callbackDate) {
-//        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-//        Date d = null;
-//        try {
-//            d = df.parse(callbackDate);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        this.callbackDate = d;
-//    }
 
     public int getSeverity() {
         return severity;
@@ -102,6 +85,7 @@ public class Callback {
     public void setIsResolved(boolean resolved) {
         this.isResolved = resolved;
     }
+
 
     public void setCallbackDate(Date callbackDate) {
         this.callbackDate = callbackDate;

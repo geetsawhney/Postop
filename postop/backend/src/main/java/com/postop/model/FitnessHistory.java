@@ -2,15 +2,29 @@ package com.postop.model;
 
 import java.sql.Date;
 
+/**
+ *  FitnessHistory class to represent
+ *  @author Geet Sawhney, Rohit Aakash
+ */
 public class FitnessHistory {
     private String email;
     private Date captureDate;
     private int stepCount;
     private int caloriesExpended;
 
+    /**
+     *  Default constructor
+     */
     public FitnessHistory() {
     }
 
+    /**
+     * Parameterized constructor
+     * @param email : email
+     * @param captureDate : capture date
+     * @param stepCount : step count
+     * @param caloriesExpended : calories expended
+     */
     public FitnessHistory(String email, Date captureDate, int stepCount, int caloriesExpended) {
         this.email = email;
         this.captureDate = captureDate;
@@ -37,10 +51,6 @@ public class FitnessHistory {
     public void setEmail(String email) {
         this.email = email;
     }
-
-//    public void setCaptureDate(String captureDate) {
-//        this.captureDate = Date.valueOf(captureDate);
-//    }
 
     public int getStepCount() {
         return stepCount;

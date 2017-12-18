@@ -2,50 +2,77 @@ package com.postop.helper;
 
 import org.json.simple.JSONObject;
 
+/**
+ * Computes callback severity
+ * @author Rohit Aakash, Geet Sawhney
+ */
 public class CallbackLogic {
 
-    private int severity;
     private JSONObject callback;
 
     public CallbackLogic(JSONObject callback) {
-        this.severity = 0;
         this.callback = callback;
     }
 
 
-    public void checkPain() {
+    /**
+     * Increments the severity by 1 if patient has body pain
+     * @param severity: current severity
+     * @return updated severity
+     */
+    public int checkPain(int severity) {
         if (Boolean.parseBoolean(callback.get("hasPain").toString())) {
             severity++;
         }
 
-        checkNausea();
+        return checkNausea(severity);
     }
 
-    public void checkNausea() {
+    /**
+     * Increments the severity by 1 if patient has nausea
+     * @param severity: current severity
+     * @return updated severity
+     */
+    public int checkNausea(int severity) {
         if (Boolean.parseBoolean(callback.get("hasNausea").toString())) {
             severity++;
         }
 
-        checkFever();
+        return checkFever(severity);
     }
 
-    public void checkFever() {
+    /**
+     * Increments the severity by 1 if patient has fever
+     * @param severity: current severity
+     * @return updated severity
+     */
+    public int checkFever(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFever").toString())) {
             severity++;
         }
 
-        checkFatigue();
+        return checkFatigue(severity);
     }
 
-    public void checkFatigue() {
+    /**
+     * Increments the severity by 1 if patient has fatigue
+     * @param severity: current severity
+     * @return updated severity
+     */
+    public int checkFatigue(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFatigue").toString())) {
             severity++;
         }
 
-        checkUrineColor();
+        return checkUrineColor(severity);
     }
 
-    public void checkUrineColor() {
+    /**
+     * Increments the severity according to the urine color
+     * @param severity: current severity
+     * @return updated severity
+     */
+    public int checkUrineColor(int severity) {
 
         String urineColor = callback.get("urineColor").toString();
         if (urineColor.equals("Dark")) {
@@ -53,10 +80,14 @@ public class CallbackLogic {
         } else if (urineColor.equals("Cloudy")) {
             severity = severity + 2;
         }
+        return severity;
     }
 
+    /**
+     * Makes calls to intermediate methods to return the final severity of a callback
+     * @return severity of a callback
+     */
     public int getSeverity() {
-        checkPain();
-        return severity;
+        return checkPain(0);
     }
 }

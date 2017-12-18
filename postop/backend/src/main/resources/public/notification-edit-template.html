@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker.min.css" />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/css/datepicker3.min.css" />
+    <!--<link rel="stylesheet" href="css/style.css"/>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- <script src="js/form-Validation.js"></script> -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.3.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
+    <script type='text/javascript' src="js/updateNotification.js"></script>
+	</head>
+	<body>
+<div id='notification-edit-template' class='container'>
+  <h3>Notifications Data</h3>
+  <form method=get id="notificationForm">
+    <div class="row form-group">
+      <div class="col-sm-6"> <label for="notification-label">Criticality</label>
+        <input type="text" class="form-control" id="notification-label" value={{notificationLabel}} readonly="readonly">
+      </div>
+      <div class="col-sm-6"> <label for="notification-start">Notification Start Count</label>
+        <input type="number" class="form-control" id="notification-start" min=0 placeholder="eg: 10" value={{notificationStart}} required matches="^[0-9]*$." minlength=1 maxlength=2>
+      </div>
+    </div>
+
+    <div class="row form-group">
+        <div class="col-sm-6"> <label for="notification-end">Notification End Count</label>
+          <input type="number" class="form-control" id="notification-end" placeholder="eg: 2" value={{notificationEnd}} required matches="^[0-9]*$." minlength=1 maxlength=2>
+        </div>
+        <div class="col-sm-6"> <label for="notification-interval">Enter Interval (Number of Days)</label>
+          <select class="form-control" id="notification-interval">
+            <option>{{notificationInterval}}</option>
+            <option>{{notificationInterval_2}}</option>
+            <option>{{notificationInterval_3}}</option>
+            <option>{{notificationInterval_4}}</option>
+          </select>
+        </div>
+    </div>
+
+			<div class="row form-group">
+				<div class="col-sm-6">
+					<button type="button" id="update-notification-btn" class="btn btn-default updatenotification" onClick="updatenotification()">
+					Update
+					</button>
+				</div>
+			</div>
+  </form>
+
+<script>
+$("#notificationForm").validate({
+  invalidHandler: function(event, validator) {
+    // 'this' refers to the form
+    var errors = validator.numberOfInvalids();
+    if (errors) {
+      var message = errors == 1
+        ? 'You missed 1 field. It has been highlighted'
+        : 'You missed ' + errors + ' fields. They have been highlighted';
+      $("div.error span").html(message);
+      $("div.error").show();
+    } else {
+      $("div.error").hide();
+    }
+  }
+});
+</script>
+</div>
+</body>
+</html>
