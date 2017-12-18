@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient"
     tools:context="com.oose.postop.activities.CallbackActivity">
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -13,17 +14,16 @@
         app:popupTheme="@style/AppTheme">
 
         <LinearLayout
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true">
+            android:layout_alignParentStart="true"
+            android:gravity="center">
 
             <ImageView
-                android:src="@drawable/mcare3"
                 android:layout_width="match_parent"
-                android:layout_height="101dp" />
-
+                android:layout_height="101dp"
+                android:src="@drawable/mcare3" />
 
 
         </LinearLayout>
@@ -31,27 +31,13 @@
     </android.support.v7.widget.Toolbar>
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:orientation="vertical"
-        android:padding="10dp">
-
-        <TextView
-            android:id="@+id/welcomeText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Create Callback"
-            android:textColor="#60c6c1"
-            android:shadowColor="#a185bc"
-            android:shadowRadius="3"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:textStyle="bold"
-            android:fontFamily="casual"
-            android:textAlignment="center" />
+        android:padding="10dp"
+        android:weightSum="1">
 
         <TextView
             android:id="@+id/UrineText"
@@ -59,15 +45,15 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="8dp"
-            android:text="Urine Color:"
-            android:textColor="#60c6c1"
+            android:fontFamily="casual"
+            android:gravity="left"
             android:shadowColor="#a185bc"
-            android:shadowRadius="3"
             android:shadowDx="2"
             android:shadowDy="2"
-            android:textStyle="bold"
-            android:fontFamily="casual"
-            android:gravity="left"/>
+            android:shadowRadius="3"
+            android:text="Urine Color:"
+            android:textColor="#60c6c1"
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -82,9 +68,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_gravity="center"
+                android:layout_marginLeft="5dp"
                 android:background="@android:color/transparent"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
                 android:spinnerMode="dropdown" />
 
             <ImageView
@@ -99,15 +85,16 @@
 
         <CheckBox
             android:id="@+id/hasNausea"
-            android:layout_width="96dp"
+            android:layout_width="121dp"
             android:layout_height="wrap_content"
-            android:text="Nausea"
             android:button="@drawable/checkboxbackground"
             android:fontFamily="casual"
+            android:layout_marginTop="20dp"
             android:shadowColor="#a185bc"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="  Nausea"
             android:textColor="#60c6c1"
             android:textStyle="bold" />
 
@@ -115,57 +102,75 @@
             android:id="@+id/hasPain"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Pain"
             android:button="@drawable/checkboxbackground"
             android:fontFamily="casual"
+            android:padding="10dp"
             android:shadowColor="#a185bc"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="Pain"
             android:textColor="#60c6c1"
-            android:textStyle="bold"
-            android:padding="10dp"/>
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/hasFever"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fever"
             android:button="@drawable/checkboxbackground"
             android:fontFamily="casual"
+            android:padding="10dp"
             android:shadowColor="#a185bc"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="Fever"
             android:textColor="#60c6c1"
-            android:textStyle="bold"
-            android:padding="10dp"/>
+            android:textStyle="bold" />
 
         <CheckBox
             android:id="@+id/hasFatigue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fatigue"
             android:button="@drawable/checkboxbackground"
             android:fontFamily="casual"
+            android:padding="10dp"
             android:shadowColor="#a185bc"
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="3"
+            android:text="Fatigue"
             android:textColor="#60c6c1"
-            android:textStyle="bold"
-            android:padding="10dp"/>
-
-        <Button
-            android:id="@+id/submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
-            android:onClick="submit"
-            android:background="@drawable/buttonbackground"
-            android:text="SUBMIT" />
+            android:textStyle="bold" />
 
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/welcomeText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_weight="0.35"
+        android:fontFamily="casual"
+        android:shadowColor="#a185bc"
+        android:shadowDx="2"
+        android:shadowDy="2"
+        android:shadowRadius="3"
+        android:text="Create Callback"
+        android:textAlignment="center"
+        android:textColor="#60c6c1"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/linearLayout"
+        android:background="@drawable/buttonbackground"
+        android:onClick="submit"
+        android:text="SUBMIT" />
 </RelativeLayout>

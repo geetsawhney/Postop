@@ -36,7 +36,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         }else{
             Calendar c = Calendar.getInstance();
-            c.set(Calendar.HOUR_OF_DAY,9);
+            c.set(Calendar.HOUR_OF_DAY,22);
             c.set(Calendar.MINUTE,0);
             c.set(Calendar.SECOND,0);
             c.set(Calendar.MILLISECOND,0);

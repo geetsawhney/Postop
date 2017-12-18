@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
      */
     public void login(View v){
         if (TextUtils.isEmpty(emailField.getText())) {
-            new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a username").setNeutralButton("Close", null).show();
+            new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a email").setNeutralButton("Close", null).show();
             return;
         }
         if (TextUtils.isEmpty(passwordField.getText())) {
@@ -246,7 +246,7 @@ public class MainActivity extends AppCompatActivity {
                             }
                             finish();
                         }catch(JSONException ex){
-
+                            Toast.makeText(getApplicationContext(), "BAD RESPONSE", Toast.LENGTH_LONG).show();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -256,10 +256,14 @@ public class MainActivity extends AppCompatActivity {
                         try {
 
                             JSONObject obj = new JSONObject(new String(error.networkResponse.data));
+                            Toast.makeText(getApplicationContext(),obj.getString("error"), Toast.LENGTH_LONG).show();
                             progress.setVisibility(View.INVISIBLE);
                         } catch (Exception e) {
                             progress.setVisibility(View.INVISIBLE);
+                            Toast.makeText(getApplicationContext(),"That Didn't work!", Toast.LENGTH_LONG).show();
                             e.printStackTrace();
+
+
                         }
 
                     }
