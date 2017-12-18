@@ -12,7 +12,9 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 
 /**
- *
+ * Implements PatientLoginDao and defines method for
+ * validating, adding anf deleting a patient login information
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class PatientLoginDaoImpl implements PatientLoginDao {
 
@@ -20,16 +22,17 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
     private Connection connection;
 
     /**
-     *
+     * Initializes a database connection
      */
     public PatientLoginDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
     /**
-     * @param email
-     * @param password
-     * @return
+     * Checks if the login information for a patient exists
+     * @param email: email id of the patient
+     * @param password: account password of the patient
+     * @return true if the patient login information exists else false
      * @throws SQLException
      */
     public boolean validatePatient(String email, String password) throws SQLException {
@@ -40,13 +43,12 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery(sql);
         return resultSet.next();
-
-
     }
 
     /**
-     * @param email
-     * @return
+     * Deletes the login information of a patient
+     * @param email: email id of the patient
+     * @return true if the delete was successful else false
      * @throws SQLException
      */
     @Override
@@ -60,8 +62,9 @@ public class PatientLoginDaoImpl implements PatientLoginDao {
     }
 
     /**
-     * @param jsonObject
-     * @return
+     * Adds a new login information for a patient
+     * @param jsonObject: JSON containing valid key value pairs for login
+     * @return true if the insert was successful else false
      * @throws IllegalSqlException
      * @throws SQLException
      * @throws NoSuchAlgorithmException

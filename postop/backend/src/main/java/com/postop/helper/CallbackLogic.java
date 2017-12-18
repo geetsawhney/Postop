@@ -3,7 +3,8 @@ package com.postop.helper;
 import org.json.simple.JSONObject;
 
 /**
- *
+ * Computes callback severity
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class CallbackLogic {
 
@@ -15,8 +16,9 @@ public class CallbackLogic {
 
 
     /**
-     * @param severity
-     * @return
+     * Increments the severity by 1 if patient has body pain
+     * @param severity: current severity
+     * @return updated severity
      */
     public int checkPain(int severity) {
         if (Boolean.parseBoolean(callback.get("hasPain").toString())) {
@@ -27,8 +29,9 @@ public class CallbackLogic {
     }
 
     /**
-     * @param severity
-     * @return
+     * Increments the severity by 1 if patient has nausea
+     * @param severity: current severity
+     * @return updated severity
      */
     public int checkNausea(int severity) {
         if (Boolean.parseBoolean(callback.get("hasNausea").toString())) {
@@ -39,8 +42,9 @@ public class CallbackLogic {
     }
 
     /**
-     * @param severity
-     * @return
+     * Increments the severity by 1 if patient has fever
+     * @param severity: current severity
+     * @return updated severity
      */
     public int checkFever(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFever").toString())) {
@@ -51,8 +55,9 @@ public class CallbackLogic {
     }
 
     /**
-     * @param severity
-     * @return
+     * Increments the severity by 1 if patient has fatigue
+     * @param severity: current severity
+     * @return updated severity
      */
     public int checkFatigue(int severity) {
         if (Boolean.parseBoolean(callback.get("hasFatigue").toString())) {
@@ -63,8 +68,9 @@ public class CallbackLogic {
     }
 
     /**
-     * @param severity
-     * @return
+     * Increments the severity according to the urine color
+     * @param severity: current severity
+     * @return updated severity
      */
     public int checkUrineColor(int severity) {
 
@@ -78,7 +84,8 @@ public class CallbackLogic {
     }
 
     /**
-     * @return
+     * Makes calls to intermediate methods to return the final severity of a callback
+     * @return severity of a callback
      */
     public int getSeverity() {
         return checkPain(0);

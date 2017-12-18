@@ -13,13 +13,28 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Implements NotificationDao and defines methods for
+ * fetching a list of Notification counts for each label
+ * @author: Rohit Aakash, Geet Sawhney
+ */
 public class NotificationDaoImpl implements NotificationDao {
-    Connection connection;
+    private Connection connection;
 
+
+    /**
+     * Initializes a database connection
+     */
     public NotificationDaoImpl() {
         connection = DbConnector.getConnection();
     }
 
+
+    /**
+     * Fetches a list of notification count for each label
+     * @return List<Notification>
+     * @throws SQLException
+     */
     @Override
     public List<Notification> getNotifications() throws SQLException {
         List<Notification> allNotifications = new ArrayList<>();
@@ -47,8 +62,9 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     /**
-     * @param jsonObject
-     * @return
+     * Updates the start, end and interval for a criticality label
+     * @param jsonObject: JSON containing key value pairs for notification count
+     * @return true if update was successful else false
      * @throws SQLException
      */
     @Override
@@ -65,8 +81,9 @@ public class NotificationDaoImpl implements NotificationDao {
     }
 
     /**
-     * @param label
-     * @return
+     * Retrieves notification count parameters from the table for a particular label
+     * @param label: criticality label for which the start, end and interval values are to be fetched
+     * @return a Notification instance
      * @throws SQLException
      */
     @Override

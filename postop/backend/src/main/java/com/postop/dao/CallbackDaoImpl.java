@@ -13,22 +13,25 @@ import java.util.List;
 
 
 /**
- *
+ * Implements CallbackDao and defines methods for
+ * adding, updating, fetching and deleting a callback/callbacks
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class CallbackDaoImpl implements CallbackDao {
     private Connection connection;
     private final Logger logger = LoggerFactory.getLogger(CallbackDaoImpl.class);
 
     /**
-     *
+     * Initializes the database connection
      */
     public CallbackDaoImpl() {
         this.connection = DbConnector.getConnection();
     }
 
     /**
-     * @param email
-     * @return
+     * Checks if a callback already exists
+     * @param email: email id of the patient
+     * @return true if exists else false
      */
     @Override
     public boolean checkCallbackExists(String email) {
@@ -46,9 +49,10 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     /**
-     * @param email
-     * @param jsonObject
-     * @return
+     * Updates an existing callback with the new values
+     * @param email: email id of the patient
+     * @param jsonObject: JSON containing the key value pairs for a callback
+     * @return true if update was successful else false
      */
     @Override
     public boolean updateCallback(String email, JSONObject jsonObject) {
@@ -70,8 +74,6 @@ public class CallbackDaoImpl implements CallbackDao {
                     "SET is_resolved =\'" + Boolean.parseBoolean(jsonObject.get("isResolved").toString()) +
                     "\' WHERE email = \'" + email + "\'";
         }
-
-
         try {
             Statement statement = connection.createStatement();
             statement.executeUpdate(sql);
@@ -82,9 +84,10 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     /**
-     * @param email
-     * @param jsonObject
-     * @return
+     * Adds a callback if one does not exist
+     * @param email: email id of the patient
+     * @param jsonObject: JSON containing the key value pairs for a callback
+     * @return true if insert was successful else false
      */
     @Override
     public boolean addCallback(String email, JSONObject jsonObject) {
@@ -111,7 +114,8 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     /**
-     * @return
+     * Returns a list of all callbacks in the database
+     * @return List<Callback>
      */
     @Override
     public List<JSONObject> getAllCallbacks() {
@@ -158,8 +162,9 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     /**
-     * @param email
-     * @return
+     * Retrieves a callback for the given input email
+     * @param email: email id of the patient
+     * @return Callback
      */
     public Callback getCallback(String email) {
 
@@ -193,8 +198,9 @@ public class CallbackDaoImpl implements CallbackDao {
     }
 
     /**
-     * @param email
-     * @return
+     * Deletes a callback based on the email
+     * @param email: email id of the patient
+     * @return true if delete was successful else false
      */
     @Override
     public boolean deleteCallback(String email) {

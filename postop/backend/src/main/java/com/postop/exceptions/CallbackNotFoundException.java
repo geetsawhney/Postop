@@ -3,13 +3,15 @@ package com.postop.exceptions;
 import java.util.HashMap;
 
 /**
- *
+ * Handles exceptions in cases where a callback does not exist
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class CallbackNotFoundException extends Throwable {
     HashMap<String, String> response;
 
     /**
-     * @param message
+     * Initializes a new response object and adds the message passed
+     * @param message: the message to be displayed
      */
     public CallbackNotFoundException (String message) {
         super(message);
@@ -18,6 +20,7 @@ public class CallbackNotFoundException extends Throwable {
     }
 
     /**
+     * Returns a HashMap fo the response on finding the exception
      * @return
      */
     public HashMap<String, String> getHash(){

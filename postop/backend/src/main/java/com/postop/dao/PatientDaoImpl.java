@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Implements PatientDao and defines methods for
+ * fetching, adding, updating and deleting a patient
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class PatientDaoImpl implements PatientDao {
 
@@ -23,7 +25,7 @@ public class PatientDaoImpl implements PatientDao {
     private final Logger logger = LoggerFactory.getLogger(PatientDaoImpl.class);
 
     /**
-     *
+     * Initialized a database connection
      */
     public PatientDaoImpl() {
         connection = DbConnector.getConnection();
@@ -31,7 +33,8 @@ public class PatientDaoImpl implements PatientDao {
 
 
     /**
-     * @return
+     * Fetehces a list of all patients from the database
+     * @return list of patients
      */
     @Override
     public List<Patient> getAllPatients() {
@@ -68,8 +71,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param email
-     * @return
+     * Retrieves a patient by an email id
+     * @param email: email id of the patient
+     * @return a Patient instance
      * @throws PatientNotFoundException
      */
     @Override
@@ -79,8 +83,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param id
-     * @return
+     * Retrieves a patient based on the device id
+     * @param id: device id of the patient
+     * @return a Patient instance
      * @throws PatientNotFoundException
      */
     @Override
@@ -90,8 +95,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param patient
-     * @return
+     * Updates a patient entry based on the email id
+     * @param patient: email id of the patient
+     * @return true if the update was successful else false
      */
     @Override
     public boolean updatePatientDeviceId(Patient patient) {
@@ -108,8 +114,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param jsonObject
-     * @return
+     * Adds a new patient to the database
+     * @param jsonObject: JSON containing valid key value pairs for a Patient
+     * @return true if the insert was successful else false
      * @throws IllegalSqlException
      */
     @Override
@@ -147,8 +154,9 @@ public class PatientDaoImpl implements PatientDao {
 
 
     /**
-     * @param email
-     * @return
+     * Deletes a patient based on the email id
+     * @param email: email id of the patient
+     * @return true if the delete was successful else false
      */
     @Override
     public boolean deletePatient(String email) {
@@ -165,8 +173,9 @@ public class PatientDaoImpl implements PatientDao {
 
 
     /**
-     * @param resultSet
-     * @return
+     * Creates and assigns values to the member variables of a Patient instance
+     * @param resultSet: Result obtained from the sql query execution
+     * @return a Patient instance
      * @throws SQLException
      */
     public  Patient populateDetails(ResultSet resultSet) throws SQLException {
@@ -196,8 +205,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param sql
-     * @return
+     * Fetches a patient by passing resultSet to populateDetails method
+     * @param sql: the sql string to be executed
+     * @return a Patient instance
      * @throws PatientNotFoundException
      */
     private Patient getPatient(String sql) throws PatientNotFoundException {
@@ -217,9 +227,10 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param email
-     * @param patient
-     * @return
+     * Checks if a patient exists and then updates an existing patient based on the email
+     * @param email: email id of the patient
+     * @param patient: a Patient instance
+     * @return true if the update was successful else false
      * @throws PatientNotFoundException
      */
     public boolean updatePatient(String email, Patient patient) throws PatientNotFoundException {
@@ -253,8 +264,9 @@ public class PatientDaoImpl implements PatientDao {
     }
 
     /**
-     * @param email
-     * @return
+     * Checks if a patient exists based on the email id
+     * @param email: email id of the patient
+     * @return true if the patient exists else false
      */
     @Override
     public boolean checkPatientExist(String email) {

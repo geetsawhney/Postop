@@ -10,17 +10,19 @@ import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 /**
- *
+ * Computes the number of notifications to be sent out to a patient\
+ * based on the medical conditions and fitness activity
+ * @author Rohit Aakash, Geet Sawhney
  */
 public class NotificationLogic {
-
 
     private Patient patient;
     private FitnessHistory fitnessHistory;
 
     /**
-     * @param patient
-     * @param fitnessHistory
+     * Parameterized constructor for initializing Patient and FitnessHistory instances
+     * @param patient: an instance of Patient
+     * @param fitnessHistory: fitness data of the patient
      */
     public NotificationLogic(Patient patient, FitnessHistory fitnessHistory) {
         this.patient = patient;
@@ -28,9 +30,10 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @param numberOfDays
-     * @return
+     * Decreases the criticality status based on the number of days
+     * @param status: current status of patient criticality
+     * @param numberOfDays: number of days since the last hospital visit
+     * @return updated status string
      */
     private String statusDecrease(String status, long numberOfDays) {
         if (status.equals("C")) {
@@ -58,7 +61,8 @@ public class NotificationLogic {
     }
 
     /**
-     * @return
+     * Computes and returns status based on the age of the patient
+     * @return updated status string
      */
     public String ageStatus() {
         String status = "";
@@ -76,9 +80,10 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @param sexStat
-     * @return
+     * Computes and returns the status based on the gender of the patient
+     * @param status: current status of the patient
+     * @param sexStat: gender of the patient
+     * @return updated status string
      */
     private String sexStatus(String status, String sexStat) {
         if (sexStat.equals("F")) {
@@ -89,9 +94,10 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @param diabetic
-     * @return
+     * Computes and returns updated status based on if the patient is diabetic
+     * @param status: current status
+     * @param diabetic: whether the patient is diabetic
+     * @return updated status string
      */
     private String diabeticStatus(String status, boolean diabetic) {
         if (diabetic) {
@@ -102,9 +108,10 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @param utiCount
-     * @return
+     * Computes and returns the updated status based on the number of times
+     * @param status: current status
+     * @param utiCount: number of times the patient has had UTI
+     * @return updated status string
      */
     private String utiVisitCountStatus(String status, int utiCount) {
         if (utiCount >= 3) {
@@ -114,9 +121,10 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @param catheterUse
-     * @return
+     * Computes and returns the updated status string based on catheter usage
+     * @param status: current status
+     * @param catheterUse: whether the patient uses catheter
+     * @return updated status string
      */
     private String catheterUsageStatus(String status, boolean catheterUse) {
         if (catheterUse) {
@@ -126,8 +134,9 @@ public class NotificationLogic {
     }
 
     /**
-     * @param status
-     * @return
+     * Increases the criticality status to a higher level
+     * @param status: current status
+     * @return updated status string
      */
     private String incrementStatus(String status) {
         if (status.equals("L")) {
@@ -143,7 +152,8 @@ public class NotificationLogic {
 
 
     /**
-     * @return
+     * Computes and returns the number of notifications to be sent out based on the criticality status
+     * @return number of notifications
      * @throws SQLException
      */
     public int getNumberOfNotifications() throws SQLException {
@@ -162,8 +172,9 @@ public class NotificationLogic {
     }
 
     /**
-     * @param dob
-     * @return
+     * Computes age of the patient
+     * @param dob: date of birth for the patient
+     * @return age
      */
     public long getAge(Date dob) {
         Date currentDate = new Date(System.currentTimeMillis());
@@ -172,8 +183,9 @@ public class NotificationLogic {
     }
 
     /**
-     * @param lastVisitDate
-     * @return
+     * Computes the number of days since the last hospital visit
+     * @param lastVisitDate: date when patient last visited the hospital
+     * @return number of days
      */
     public long getNoOfDays(Date lastVisitDate) {
         Date currentDate = new Date(System.currentTimeMillis());

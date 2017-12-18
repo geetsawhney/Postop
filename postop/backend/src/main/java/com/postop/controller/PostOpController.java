@@ -21,7 +21,7 @@ import java.util.List;
 import static spark.Spark.*;
 
 /**
- * This class consits of all the end points.
+ * Routes and handles RESTful requests from clients
  */
 public class PostOpController {
 
@@ -30,7 +30,8 @@ public class PostOpController {
     private final Logger logger = LoggerFactory.getLogger(PostOpController.class);
 
     /**
-     * @param postOpService
+     * Parametrized constructor for instantiating postOpService
+     * @param postOpService: an instance of PostOpService class
      */
     public PostOpController(PostOpService postOpService) {
         this.postOpService = postOpService;
@@ -38,7 +39,7 @@ public class PostOpController {
     }
 
     /**
-     *
+     * Defines the routes for various endpoints
      */
     private void setupEndpoints() {
 
