@@ -13,15 +13,17 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 /**
- * This class represents a push.
+ * This class represents a push notification.
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class Push {
 
     private static final Logger logger = LoggerFactory.getLogger(Push.class);
 
     /**
+     * sends a push notification
      * @param patient
-     * @return
+     * @return true if successful
      * @throws IOException
      */
     public static boolean sendPush(Patient patient) throws IOException {

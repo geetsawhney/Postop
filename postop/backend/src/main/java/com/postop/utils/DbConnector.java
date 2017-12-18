@@ -5,13 +5,15 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ *Class to create and close connections  to database
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class DbConnector {
     private static Connection connection = null;
 
     /**
-     * @return
+     * To open a connection if it is not open
+     * @return connection to the database
      */
     public static Connection getConnection() {
         try {
@@ -26,7 +28,8 @@ public class DbConnector {
     }
 
     /**
-     * @return
+     * Close an open connection
+     * @return true if successfully closes connection
      */
     public static boolean closeConnection() {
         try {

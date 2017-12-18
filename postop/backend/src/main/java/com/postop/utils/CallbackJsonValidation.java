@@ -6,21 +6,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Validates all the fields of the JSON received for callbacks using regex and length checks
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class CallbackJsonValidation {
 
     protected JSONObject jsonObject;
 
     /**
-     * @param jsonObject
+     * @param jsonObject : json to be validated
      */
     public CallbackJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
     /**
-     * @return
+     * checks all the fields of the json
+     * @return  boolean
      */
     public boolean validateJson() {
         return (validateEmail() && validateIsResolved() && Boolean.parseBoolean(jsonObject.get("isResolved").toString())) || (validateEmail() && validateCallbackDate() && validateIsResolved() && validateSeverity() &&
@@ -28,9 +30,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates the email
+     * @return  true if present and valid format
      */
-    protected boolean validateEmail() {
+    private boolean validateEmail() {
         if (!jsonObject.containsKey("email")) return false;
 
         String email = jsonObject.get("email").toString().trim().toLowerCase();
@@ -41,9 +44,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates the callback date field
+     * @return  true if present and valid format
      */
-    protected boolean validateCallbackDate(){
+    private boolean validateCallbackDate(){
         if (!jsonObject.containsKey("callbackDate")) return false;
 
         String callbackDate = jsonObject.get("callbackDate").toString().trim();
@@ -54,9 +58,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates the isResolved field of JSON
+     * @return  true if present and valid format
      */
-    protected boolean validateIsResolved() {
+    private boolean validateIsResolved() {
         if (!jsonObject.containsKey("isResolved")) return false;
 
         String isResolved = jsonObject.get("isResolved").toString().trim();
@@ -65,9 +70,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validate the severity field
+     * @return   true if present and valid format
      */
-    protected boolean validateSeverity() {
+    private boolean validateSeverity() {
         if (!jsonObject.containsKey("severity")) return false;
 
         String severity = jsonObject.get("severity").toString().trim();
@@ -77,9 +83,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates has fever field
+     * @return   true if present and valid format
      */
-    protected boolean validateHasFever() {
+    private boolean validateHasFever() {
         if (!jsonObject.containsKey("hasFever")) return false;
 
         String hasFever = jsonObject.get("hasFever").toString().trim();
@@ -88,9 +95,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates has pain field.
+     * @return  true if present and valid format
      */
-    protected boolean validateHasPain() {
+    private boolean validateHasPain() {
         if (!jsonObject.containsKey("hasPain")) return false;
 
         String hasPain = jsonObject.get("hasPain").toString().trim();
@@ -99,9 +107,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validate has Fatigue field
+     * @return  true if present and valid format
      */
-    protected boolean validateHasFatigue() {
+    private boolean validateHasFatigue() {
         if (!jsonObject.containsKey("hasFatigue")) return false;
 
         String hasFatigue = jsonObject.get("hasFatigue").toString().trim();
@@ -110,9 +119,10 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @return
+     * validates the urine color field
+     * @return true if present and valid format
      */
-    protected boolean validateUrineColor() {
+    private boolean validateUrineColor() {
         if (!jsonObject.containsKey("urineColor")) return false;
 
         String urineColor = jsonObject.get("urineColor").toString().trim();
@@ -122,11 +132,11 @@ public class CallbackJsonValidation {
     }
 
     /**
-     * @param regex
-     * @param str
-     * @return
+     * @param regex - regular expression against which a string has to be checked
+     * @param str - string to be checked
+     * @return  true if pattern matches
      */
-    protected boolean validateString(String regex, String str) {
+    private boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);
 

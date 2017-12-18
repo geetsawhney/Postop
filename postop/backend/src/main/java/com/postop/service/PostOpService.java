@@ -24,18 +24,20 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * This class services the calls from the controller.
+ *@author Geet Sawhney, Rohit Aakash
  */
 public class PostOpService {
 
     private final Logger logger = LoggerFactory.getLogger(PostOpService.class);
 
     /**
-     * @param body
-     * @return
-     * @throws IllegalJsonException
-     * @throws PatientNotFoundException
-     * @throws SQLException
+     * to facilitate the patient login into the app
+     * @param body : json of patient in string format
+     * @return patient on valid login
+     * @throws IllegalJsonException json in invalid format
+     * @throws PatientNotFoundException patient does not exists
+     * @throws SQLException: Sql exception
      */
     public Patient patientLogin(String body) throws IllegalJsonException, PatientNotFoundException, SQLException {
         JSONParser jsonParser = new JSONParser();
@@ -83,11 +85,12 @@ public class PostOpService {
     }
 
     /**
-     * @param email
-     * @param body
-     * @return
-     * @throws IllegalJsonException
-     * @throws PatientNotFoundException
+     * Provides service to update a patient
+     * @param email : email of the patient
+     * @param body : json body of the patient in string format
+     * @return true if updated successfully
+     * @throws IllegalJsonException :
+     * @throws PatientNotFoundException :
      */
     public boolean updatePatient(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
@@ -114,13 +117,14 @@ public class PostOpService {
 
 
     /**
-     * @param body
-     * @return
-     * @throws IllegalJsonException
-     * @throws IllegalSqlException
-     * @throws UnsupportedEncodingException
-     * @throws SQLException
-     * @throws NoSuchAlgorithmException
+     * Add a patient
+     * @param body : json of a patient as string
+     * @return true if successful
+     * @throws IllegalJsonException :
+     * @throws IllegalSqlException :
+     * @throws UnsupportedEncodingException :
+     * @throws SQLException  :
+     * @throws NoSuchAlgorithmException :
      */
     public boolean addPatient(String body) throws IllegalJsonException, IllegalSqlException, UnsupportedEncodingException, SQLException, NoSuchAlgorithmException {
         JSONParser jsonParser = new JSONParser();
@@ -151,8 +155,9 @@ public class PostOpService {
 
 
     /**
-     * @param body
-     * @return
+     * add fitness data
+     * @param body :json body of the patient in string format
+     * @return JSON object of the fitness data
      * @throws IllegalJsonException
      * @throws PatientNotFoundException
      * @throws SQLException
@@ -190,9 +195,10 @@ public class PostOpService {
     }
 
     /**
-     * @param email
-     * @return
-     * @throws PatientNotFoundException
+     * To get specific patient
+     * @param email : email of the patient
+     * @return Patient object requested
+     * @throws PatientNotFoundException :
      */
     public Patient getPatient(String email) throws PatientNotFoundException {
         PatientDao pdi = new PatientDaoImpl();
@@ -200,7 +206,8 @@ public class PostOpService {
     }
 
     /**
-     * @return
+     * Returns a list of all patient
+     * @return  list of all patient
      */
     public List<Patient> getAllPatients() {
         PatientDao pdi = new PatientDaoImpl();
@@ -209,11 +216,12 @@ public class PostOpService {
 
 
     /**
-     * @param email
-     * @param body
-     * @return
-     * @throws IllegalJsonException
-     * @throws PatientNotFoundException
+     *
+     * @param email : email of patient
+     * @param body : json body of the patient in string format
+     * @return true if updates callback successfully
+     * @throws IllegalJsonException :
+     * @throws PatientNotFoundException :
      */
     public boolean updateCallback(String email, String body) throws IllegalJsonException, PatientNotFoundException {
         JSONParser jsonParser = new JSONParser();
@@ -248,7 +256,8 @@ public class PostOpService {
     }
 
     /**
-     * @return
+     * Get list of all callbacks not resolved
+     * @return list of all callbacks not resolved
      */
     public List<JSONObject> getAllCallbacks() {
         CallbackDao cd = new CallbackDaoImpl();
@@ -257,10 +266,10 @@ public class PostOpService {
 
 
     /**
-     * @param id
-     * @return
-     * @throws PatientNotFoundException
-     * @throws IOException
+     * @param id : device id of patient's device
+     * @return true if successful
+     * @throws PatientNotFoundException :
+     * @throws IOException :
      */
     public boolean sendPush(String id) throws PatientNotFoundException, IOException {
         PatientDaoImpl pdi = new PatientDaoImpl();
@@ -270,11 +279,12 @@ public class PostOpService {
     }
 
     /**
-     * @param email
-     * @return
-     * @throws PatientNotFoundException
-     * @throws CallbackNotFoundException
-     * @throws SQLException
+     * Get a specific callback using email of a patient
+     * @param email: email of a patient
+     * @return get a specific callback
+     * @throws PatientNotFoundException :
+     * @throws CallbackNotFoundException :
+     * @throws SQLException :
      */
     public Callback getCallback(String email) throws PatientNotFoundException, CallbackNotFoundException, SQLException {
         CallbackDao cd = new CallbackDaoImpl();
@@ -288,8 +298,9 @@ public class PostOpService {
     }
 
     /**
-     * @return
-     * @throws SQLException
+     * Get all notification labels and their values
+     * @return liest of all notification count
+     * @throws SQLException :
      */
     public List<Notification> getNotifications() throws SQLException {
         NotificationDao nd = new NotificationDaoImpl();
@@ -297,10 +308,11 @@ public class PostOpService {
     }
 
     /**
-     * @param body
-     * @return
-     * @throws SQLException
-     * @throws IllegalJsonException
+     * update a specific notification
+     * @param body : json body of the notification in string format
+     * @return true if successful
+     * @throws SQLException :
+     * @throws IllegalJsonException :
      */
     public boolean updateNotification(String body) throws SQLException, IllegalJsonException {
 

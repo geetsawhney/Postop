@@ -9,7 +9,8 @@ import static spark.Spark.port;
 import static spark.Spark.staticFileLocation;
 
 /**
- *
+ * This class acts as the entry point of the program as it contains the main method.
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class Bootstrap {
     public static final String IP_ADDRESS = "localhost";

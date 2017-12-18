@@ -4,6 +4,7 @@ import java.sql.Date;
 
 /**
  *  FitnessHistory class to represent
+ *  @author Geet Sawhney, Rohit Aakash
  */
 public class FitnessHistory {
     private String email;
@@ -19,10 +20,10 @@ public class FitnessHistory {
 
     /**
      * Parameterized constructor
-     * @param email
-     * @param captureDate
-     * @param stepCount
-     * @param caloriesExpended
+     * @param email : email
+     * @param captureDate : capture date
+     * @param stepCount : step count
+     * @param caloriesExpended : calories expended
      */
     public FitnessHistory(String email, Date captureDate, int stepCount, int caloriesExpended) {
         this.email = email;
@@ -31,58 +32,34 @@ public class FitnessHistory {
         this.caloriesExpended = caloriesExpended;
     }
 
-    /**
-     * @return
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * @return
-     */
     public Date getCaptureDate() {
         return captureDate;
     }
 
-    /**
-     * @param captureDate
-     */
     public void setCaptureDate(Date captureDate) {
         this.captureDate = captureDate;
     }
 
-    /**
-     * @return
-     */
     public int getCaloriesExpended() {
         return caloriesExpended;
     }
 
-    /**
-     * @param email
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * @return
-     */
     public int getStepCount() {
         return stepCount;
     }
 
-    /**
-     * @param stepCount
-     */
     public void setStepCount(int stepCount) {
         this.stepCount = stepCount;
     }
 
-    /**
-     * @param caloriesExpended
-     */
     public void setCaloriesExpended(int caloriesExpended) {
         this.caloriesExpended = caloriesExpended;
     }

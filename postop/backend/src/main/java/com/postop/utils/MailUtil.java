@@ -7,7 +7,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 /**
- *
+ * Class to send an email with sign in credential to the patient on creation of account
+ * code based on: https://www.mkyong.com/java/javamail-api-sending-email-via-gmail-smtp-example/
  */
 public class MailUtil {
 
@@ -16,9 +17,9 @@ public class MailUtil {
     private String name;
 
     /**
-     * @param toEmail
-     * @param newPass
-     * @param name
+     * @param toEmail : recipient's email
+     * @param newPass: new password
+     * @param name :name of the patient
      */
     public MailUtil(String toEmail, String newPass, String name) {
         this.toEmail = toEmail;
@@ -27,8 +28,8 @@ public class MailUtil {
     }
 
     /**
-     * @return
-     * @throws UnsupportedEncodingException
+     * @return true if mail sent
+     * @throws UnsupportedEncodingException if unsupported exception
      */
     public boolean sendEmail() throws UnsupportedEncodingException {
 

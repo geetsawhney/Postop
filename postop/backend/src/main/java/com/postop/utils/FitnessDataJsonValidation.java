@@ -6,21 +6,23 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * Class to validate the JSON containing fitness data using regex and field lengths.
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class FitnessDataJsonValidation {
 
     protected JSONObject jsonObject;
 
     /**
-     * @param jsonObject
+     * @param jsonObject - json object to be validated
      */
     public FitnessDataJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
     /**
-     * @return
+     * validate all the fields and returns true if all are valid
+     * @return true if all valid
      */
     public boolean validateJson() {
 
@@ -29,9 +31,10 @@ public class FitnessDataJsonValidation {
     }
 
     /**
-     * @return
+     * Validate the device id field
+     * @return true if present and valid format
      */
-    protected boolean validateDeviceId() {
+    private boolean validateDeviceId() {
         if (!jsonObject.containsKey("id")) return false;
 
         String id = jsonObject.get("id").toString().trim();
@@ -39,9 +42,10 @@ public class FitnessDataJsonValidation {
     }
 
     /**
-     * @return
+     * validate the capture date
+     * @return true if present and valid format
      */
-    protected boolean validateCaptureDate() {
+    private boolean validateCaptureDate() {
         if (!jsonObject.containsKey("captureDate")) return false;
 
         String lastVisitDate = jsonObject.get("captureDate").toString().trim();
@@ -52,9 +56,10 @@ public class FitnessDataJsonValidation {
     }
 
     /**
-     * @return
+     * validate the step count
+     * @return true if present and valid format
      */
-    protected boolean validateStepCount() {
+    private boolean validateStepCount() {
         if (!jsonObject.containsKey("stepCount")) return false;
 
         String utiVisitCount = jsonObject.get("stepCount").toString().trim();
@@ -64,9 +69,10 @@ public class FitnessDataJsonValidation {
     }
 
     /**
-     * @return
+     * validate the calories expended field
+     * @return true if present and valid format
      */
-    protected boolean validateCaloriesExpended() {
+    private boolean validateCaloriesExpended() {
         if (!jsonObject.containsKey("caloriesExpended")) return false;
 
         String utiVisitCount = jsonObject.get("caloriesExpended").toString().trim();
@@ -76,11 +82,12 @@ public class FitnessDataJsonValidation {
     }
 
     /**
-     * @param regex
-     * @param str
-     * @return
+     * @param regex - regular expression against which a string has to be checked
+     * @param str - string to be checked
+     * @return  true if pattern matches
+     *
      */
-    protected boolean validateString(String regex, String str) {
+    private boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);
 

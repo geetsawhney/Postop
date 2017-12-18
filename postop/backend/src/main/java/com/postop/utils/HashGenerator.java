@@ -4,13 +4,14 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- *
+ * To generate a hash value from string
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class HashGenerator {
     /**
-     * @param string
-     * @return
-     * @throws NoSuchAlgorithmException
+     * @param string - to be hashed
+     * @return hashed string
+     * @throws NoSuchAlgorithmException invalid algorithm used
      */
     public static String generateHash(String string) throws NoSuchAlgorithmException{
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");

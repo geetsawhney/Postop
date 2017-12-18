@@ -6,21 +6,25 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- *
+ * This class is used to validate the JSON received to update a patient. Validation is done to ensure that all fields
+ * are present and hold values with valid format.
+ * @author Geet Sawhney, Rohit Aakash
  */
 public class UpdatePatientJsonValidation {
 
     protected JSONObject jsonObject;
 
     /**
-     * @param jsonObject
+     * Constructor
+     * @param jsonObject - jsonObject to be validated
      */
     public UpdatePatientJsonValidation(JSONObject jsonObject) {
         this.jsonObject = jsonObject;
     }
 
     /**
-     * @return
+     * This method validates all the fields sequentially and returns a boolean value depicting whether a json is valid.
+     * @return  true if all valid
      */
     public boolean validateJson() {
 
@@ -30,7 +34,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * Method to validate name field
+     * @return true if present and valid format
      */
     protected boolean validateName() {
         if (!jsonObject.containsKey("name")) return false;
@@ -43,7 +48,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate email
+     * @return true if present and valid format
      */
     protected boolean validateEmail() {
         if (!jsonObject.containsKey("email")) return false;
@@ -56,7 +62,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate deviceId
+     * @return true if present and valid format
      */
     protected boolean validateDeviceId() {
         if (!jsonObject.containsKey("id")) return false;
@@ -66,7 +73,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate the sex field in the JSON
+     * @return true if present and valid format
      */
     protected boolean validateSex() {
         if (!jsonObject.containsKey("sex")) return false;
@@ -79,7 +87,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate the dob field in the JSON
+     * @return true if present and valid format
      */
     protected boolean validateDob() {
         if (!jsonObject.containsKey("dob")) return false;
@@ -92,7 +101,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * Method to validate Address
+     * @return true if present and valid format
      */
     protected boolean validateAddress() {
         if (!jsonObject.containsKey("address"))
@@ -103,7 +113,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate HospitalVisitReason format
+     * @return true if present and valid format
      */
     protected boolean validateHospitalVisitReason() {
         if (!jsonObject.containsKey("hospitalVisitReason"))
@@ -114,7 +125,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate last visit date
+     * @return true if present and valid format
      */
     protected boolean validateLastVisitDate() {
         if (!jsonObject.containsKey("lastVisitDate")) return false;
@@ -127,7 +139,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate uti visit count in json
+     * @return true if present and valid format
      */
     protected boolean validateUtiVisitCount() {
         if (!jsonObject.containsKey("utiVisitCount")) return false;
@@ -138,7 +151,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method validate the diabetic field
+     * @return true if present and valid format
      */
     protected boolean validateDiabetic() {
         if (!jsonObject.containsKey("diabetic")) return false;
@@ -149,7 +163,8 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @return
+     * method to validate catheter usage
+     * @return true if present and valid format
      */
     protected boolean validateCatheterUsage() {
         if (!jsonObject.containsKey("catheterUsage")) return false;
@@ -161,7 +176,8 @@ public class UpdatePatientJsonValidation {
 
 
     /**
-     * @return
+     * method to validate phone number
+     * @return true if present and valid format
      */
     protected boolean validatePhone() {
         if (!jsonObject.containsKey("phone")) return false;
@@ -175,11 +191,11 @@ public class UpdatePatientJsonValidation {
     }
 
     /**
-     * @param regex
-     * @param str
-     * @return
+     * @param regex - regular expression against which a string has to be checked
+     * @param str - string to be checked
+     * @return true if present and valid format
      */
-    protected boolean validateString(String regex, String str) {
+    private boolean validateString(String regex, String str) {
         Pattern checkRegex = Pattern.compile(regex);
         Matcher regexMatcher = checkRegex.matcher(str);
 
