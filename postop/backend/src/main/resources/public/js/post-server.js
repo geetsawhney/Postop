@@ -128,8 +128,13 @@ function submitPatient() {
             data: JSON.stringify(data),
             contentType: 'application/json',
             success: function(data) {
-                alert('Post success')
+                alert('Post success');
                 location.reload();
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                // alert(xhr.responseText);
+                // alert(thrownError);
+                alert(thrownError + ": Patient already exists");
             }
         });
         // postRequest.error(function() {

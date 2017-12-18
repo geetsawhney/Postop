@@ -21,7 +21,7 @@
         <input type="text" class="form-control" id="notification-label" value={{notificationLabel}} readonly="readonly">
       </div>
       <div class="col-sm-6"> <label for="notification-start">Notification Start Count</label>
-        <input type="number" class="form-control" id="notification-start" placeholder="eg: 10" value={{notificationStart}} required matches="^[0-9]*$." minlength=1 maxlength=2>
+        <input type="number" class="form-control" id="notification-start" min=0 placeholder="eg: 10" value={{notificationStart}} required matches="^[0-9]*$." minlength=1 maxlength=2>
       </div>
     </div>
 

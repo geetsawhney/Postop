@@ -39,7 +39,7 @@
 						<div class="col-sm-6">
 							<label for="up-date">Date of birth</label>
 							<div class="input-group input-append date" id="datePicker">
-								<input type="date" class="form-control" id="up-date" placeholder="YYYY-MM-DD" value={{patientDOB}} required>
+								<input class="form-control" id="up-date" placeholder="YYYY-MM-DD" value={{patientDOB}} required>
 								<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<script>
@@ -78,7 +78,7 @@
 						<div class="col-sm-6">
 							<label for="up-last-visit-date">Hospital Discharge rate</label>
 							<div class="input-group input-append date" id="datePicker1">
-								<input type="date" class="form-control" id="up-last-visit-date" placeholder="YYYY-MM-DD" value={{lastVisitDate}} required>
+								<input class="form-control" id="up-last-visit-date" placeholder="YYYY-MM-DD" value={{lastVisitDate}} required>
 								<span class="input-group-addon add-on"><span class="glyphicon glyphicon-calendar"></span></span>
 							</div>
 							<script>
@@ -99,7 +99,7 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-6">
-							<label for="up-uti-visit-count">UTI Visit count</label><input type="number" class="form-control" id="up-uti-visit-count" placeholder="UTI visit count" value={{UTIcount}}>
+							<label for="up-uti-visit-count">UTI Visit count</label><input type="number" class="form-control" id="up-uti-visit-count" min=0  minlength=1 maxlength=2 placeholder="UTI visit count" value={{UTIcount}}>
 						</div>
 					</div>
 
