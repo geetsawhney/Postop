@@ -143,8 +143,8 @@ public class PostOpService {
             String email = patientJsonObject.get("email").toString();
             String password = patientJsonObject.get("password").toString();
             String name = patientJsonObject.get("name").toString();
-            if (!email.equals("oosegroup19test@gmail.com"))
-                new MailUtil(email, password, name).sendEmail();
+
+            new MailUtil(email, password, name).sendEmail();
 
         } catch (ParseException e) {
             logger.error("Illegal JSON");
