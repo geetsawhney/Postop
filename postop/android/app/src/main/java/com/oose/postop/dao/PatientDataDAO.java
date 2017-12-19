@@ -33,7 +33,7 @@ public class PatientDataDAO
      *  Add Id to Database
      */
 
-    public void addIDToDB(String id){
+    public boolean addIDToDB(String id){
 
         //get the database or create the database if it doesnt exist already
         SQLiteDatabase database = new DatabaseHelper(context).getWritableDatabase();
@@ -42,6 +42,7 @@ public class PatientDataDAO
         values.put(Database.Data.ID,id);
 
         database.insert(Database.Data.TABLE_NAME, null, values);
+        return  true;
     }
 
 
@@ -66,9 +67,10 @@ public class PatientDataDAO
      * Delete Id From DB
      */
 
-    public void deleteID(String id){
+    public boolean deleteID(String id){
         SQLiteDatabase d = new DatabaseHelper(context).getWritableDatabase();
         d.execSQL("DELETE FROM "+ Database.Data.TABLE_NAME +" WHERE " + Database.Data.ID + " = '"+ id+"'" );
+        return true;
     }
 
 

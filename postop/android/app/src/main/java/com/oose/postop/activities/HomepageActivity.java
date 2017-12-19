@@ -32,7 +32,8 @@ import java.util.concurrent.TimeUnit;
 import az.plainpie.PieView;
 import az.plainpie.animation.PieAngleAnimation;
 
-/**Activity Class for Homepage
+/**
+ * Activity Class for Homepage
  * Created by Omotola, Rohit on 10/23/2017.
  * Piechart credit to Android Arsenal: https://android-arsenal.com/details/1/3689
  */
@@ -51,7 +52,8 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     String email;
 
     /**
-     *initialize activity
+     * initialize activity
+     *
      * @param savedInstanceState
      */
     @Override
@@ -76,7 +78,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     /**
-     *Invoked after resume
+     * Invoked after resume
      */
     @Override
     protected void onPostResume() {
@@ -84,7 +86,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     }
 
     /**
-     *Invoked on restart
+     * Invoked on restart
      */
     @Override
     protected void onRestart() {
@@ -95,17 +97,22 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     /**
      * Initializes google api client
      */
-    private void buildFitnessClient() {
+    private boolean buildFitnessClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Fitness.HISTORY_API)
                 .addScope(new Scope(Scopes.FITNESS_ACTIVITY_READ))
                 .addConnectionCallbacks(this)
                 .enableAutoManage(this, 0, this)
                 .build();
+        if (googleApiClient == null) {
+            return false;
+        }
+        return true;
     }
 
     /**
      * Invoked once connected to the client
+     *
      * @param bundle
      */
     @Override
@@ -121,6 +128,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
         /**
          * Invoked in background once this class is started
+         *
          * @param params
          * @return
          */
@@ -131,31 +139,32 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
         /**
          * Invoked after the background tasks is finishes
+         *
          * @param aVoid
          */
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            displayChart(fetchFitData(dailyTotalCount,10000));
+            displayChart(fetchFitData(dailyTotalCount, 10000));
         }
     }
 
     /**
      * retrieves the raw fitness data
      */
-    public void getFitnessDataForToday(){
+    public boolean getFitnessDataForToday() {
         DailyTotalResult resultSteps = Fitness.HistoryApi.
                 readDailyTotal(googleApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(1, TimeUnit.MINUTES);
         DataSet dataSet = resultSteps.getTotal();
 
         DateFormat dateFormat = DateFormat.getDateTimeInstance();
 
-        for(DataPoint dp: dataSet.getDataPoints()){
+        for (DataPoint dp : dataSet.getDataPoints()) {
             Log.i(TAG, "Data point:");
             Log.i(TAG, "\tType: " + dp.getDataType().getName());
             Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for(Field field: dp.getDataType().getFields()){
+            for (Field field : dp.getDataType().getFields()) {
                 Log.i(TAG, "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
                 dailyTotalCount = dp.getValue(field).asInt();
@@ -168,24 +177,28 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
                 readDailyTotal(googleApiClient, DataType.TYPE_CALORIES_EXPENDED).await(1, TimeUnit.MINUTES);
         dataSet = resultCalories.getTotal();
 
-        for(DataPoint dp: dataSet.getDataPoints()){
+        for (DataPoint dp : dataSet.getDataPoints()) {
             Log.i(TAG, "Data point:");
             Log.i(TAG, "\tType: " + dp.getDataType().getName());
             Log.i(TAG, "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
             Log.i(TAG, "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for(Field field: dp.getDataType().getFields()){
+            for (Field field : dp.getDataType().getFields()) {
                 Log.i(TAG, "\tField: " + field.getName() +
                         " Value: " + dp.getValue(field));
-                dailyCaloriesExpended = (int)dp.getValue(field).asFloat();
+                dailyCaloriesExpended = (int) dp.getValue(field).asFloat();
                 Log.i(TAG, " Calories Expended " + dailyCaloriesExpended);
 
             }
+
+
         }
+        return true;
     }
 
 
     /**
      * Invoked when connection is suspended
+     *
      * @param i
      */
     @Override
@@ -199,6 +212,7 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
 
     /**
      * Invoked when connection fails
+     *
      * @param connectionResult
      */
     @Override
@@ -210,18 +224,19 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
     /**
      * Converts raw data into graph data
      */
-    public float fetchFitData(int steps, int total){
+    public float fetchFitData(int steps, int total) {
         int stepCount = steps;
         int totalCount = total;
-        float angle = ((float)stepCount/(float)totalCount)*360;
+        float angle = ((float) stepCount / (float) totalCount) * 360;
         return angle;
     }
 
     /**
      * Display google fit data
+     *
      * @param angle
      */
-    public void displayChart(float angle){
+    public boolean displayChart(float angle) {
         PieView pieView = (PieView) findViewById(R.id.pieView);
         pieView.setInnerText(dailyTotalCount + "\n Steps");
         pieView.setPieAngle(angle);
@@ -233,27 +248,31 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         TextView caloriesExpended = (TextView) findViewById(R.id.caloriesExpended);
         caloriesExpended.setText("You have burnt " + dailyCaloriesExpended + " calories!");
         caloriesExpended.setAllCaps(true);
+
+        return true;
     }
 
 
     /**
      * Called when callback button in layout is clicked
+     *
      * @param v
      */
-    public void callback(View v){
+    public boolean callback(View v) {
         Intent localIntent = new Intent(HomepageActivity.this, CallbackActivity.class);
         Bundle localBundle = new Bundle();
-        localBundle.putString("email",email);
+        localBundle.putString("email", email);
         localIntent.putExtras(localBundle);
         startActivity(localIntent);
-
+        return true;
     }
 
     /**
      * Called when logout button is clicked
+     *
      * @param v
      */
-    public void logout(View v){
+    public boolean logout(View v) {
         PatientDataDAO d = new PatientDataDAO(this);
         d.deleteID(id);
 
@@ -263,15 +282,15 @@ public class HomepageActivity extends AppCompatActivity implements GoogleApiClie
         Intent localIntent = new Intent(HomepageActivity.this, MainActivity.class);
         startActivity(localIntent);
         finish();
-
+        return true;
 
     }
 
-    void cancelAlarms(){
+    boolean cancelAlarms() {
         stopService(new Intent(this, GoogleFitFetchService.class));
-       new PushNotificationAlarm().StopAlarm(getApplicationContext());
+        new PushNotificationAlarm().StopAlarm(getApplicationContext());
         new NotificationCountAlarm().StopAlarm(getApplicationContext());
-
+        return true;
 
 
     }

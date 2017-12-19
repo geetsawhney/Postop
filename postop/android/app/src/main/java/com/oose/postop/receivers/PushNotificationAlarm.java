@@ -32,7 +32,7 @@ public class PushNotificationAlarm extends BroadcastReceiver {
     ConnectionHelper connectionHelper = new ConnectionHelper();
 
 
-    public void setAlarm(Context context, int mins, boolean test) {
+    public boolean setAlarm(Context context, int mins, boolean test) {
        /* Setting the alarm here */
         Intent alarmIntent = new Intent(context, PushNotificationAlarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
@@ -41,7 +41,7 @@ public class PushNotificationAlarm extends BroadcastReceiver {
         int interval;
 
         if (test) {
-            interval = 1000*30;
+            interval = 1000 * 30;
             manager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
         } else {
             Calendar c = Calendar.getInstance();
@@ -50,10 +50,11 @@ public class PushNotificationAlarm extends BroadcastReceiver {
             c.set(Calendar.SECOND, 0);
             c.set(Calendar.MILLISECOND, 0);
             c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
-             interval = 1000 * 60 * mins;
+            interval = 1000 * 60 * mins;
             manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), interval, pendingIntent);
         }
 
+        return true;
 
 
     }
@@ -62,14 +63,13 @@ public class PushNotificationAlarm extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
 
-
         PatientDataDAO d = new PatientDataDAO(context);
         String id = d.retrieveID();
         volleyRequest(context, id);
 
     }
 
-    public void volleyRequest(final Context context, String id) {
+    public boolean volleyRequest(final Context context, String id) {
 
 
         // Instantiate the RequestQueue.
@@ -94,11 +94,12 @@ public class PushNotificationAlarm extends BroadcastReceiver {
                     }
                 });
         queue.add(jsObjRequest);
+        return  true;
 
 
     }
 
-    public static void StopAlarm(Context c) {
+    public static boolean StopAlarm(Context c) {
 
 
         Intent alarmIntent = new Intent(c, PushNotificationAlarm.class);
@@ -108,6 +109,8 @@ public class PushNotificationAlarm extends BroadcastReceiver {
 
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
+
+        return  true;
     }
 
 

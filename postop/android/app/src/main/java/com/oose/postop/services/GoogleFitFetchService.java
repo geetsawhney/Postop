@@ -57,14 +57,6 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
     public static float angle = 0;
     ConnectionHelper connectionHelper = new ConnectionHelper();
 
- /*if (savedInstanceState != null) {
-        authInProgress = savedInstanceState.getBoolean(AUTH_PENDING);
-    }*/
-
-
-    //  public void buildFitnessClient(Context c) {
-
-    // }
 
     /**
      * Invoked when service is started
@@ -139,7 +131,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
     /**
      * retrieves the raw fitness data
      */
-    public void getFitnessDataForToday() {
+    public boolean getFitnessDataForToday() {
         DailyTotalResult resultSteps = Fitness.HistoryApi.
                 readDailyTotal(googleApiClient, DataType.TYPE_STEP_COUNT_DELTA).await(1, TimeUnit.MINUTES);
         DataSet dataSet = resultSteps.getTotal();
@@ -177,6 +169,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
 
             }
         }
+        return true;
     }
 
     /**
@@ -209,14 +202,14 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      * Fetch google fit data
      */
 
-    public void fetchFitData(int steps, int total) {
+    public boolean fetchFitData(int steps, int total) {
         int stepCount = steps;
         int totalCount = total;
         angle = ((float) stepCount / (float) totalCount) * 360;
-        //return angle;
+        return true;
     }
 
-    public void buildRequest() throws ParseException {
+    public boolean buildRequest() throws ParseException {
         PatientDataDAO d = new PatientDataDAO(this);
          String id = d.retrieveID();
 
@@ -236,9 +229,11 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
             j.put("caloriesExpended", dailyCaloriesExpended);
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
 
         volleyRequest(j, this);
+        return true;
 
     }
 
@@ -249,7 +244,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      * @param jsonRequestObject
      * @param context
      */
-    public void volleyRequest(JSONObject jsonRequestObject, final Context context) {
+    public boolean volleyRequest(JSONObject jsonRequestObject, final Context context) {
 
 
         // Instantiate the RequestQueue.
@@ -284,6 +279,7 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
                     }
                 });
         queue.add(jsObjRequest);
+        return  true;
 
 
     }
@@ -294,13 +290,13 @@ public class GoogleFitFetchService extends Service implements GoogleApiClient.Co
      *
      * @param notificationCount
      */
-    public void calculateInterval(int notificationCount) {
+    public boolean calculateInterval(int notificationCount) {
         int interval = (int) Math.round((24 * 60) / notificationCount);
 
         //Restart push alarm
         PushNotificationAlarm a = new PushNotificationAlarm();
         a.StopAlarm(getApplicationContext());
         a.setAlarm(getApplicationContext(), interval, true);
-
+return  true;
     }
 }
