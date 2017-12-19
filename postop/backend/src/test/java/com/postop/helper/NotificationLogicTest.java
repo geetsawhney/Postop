@@ -43,7 +43,7 @@ public class NotificationLogicTest {
         Date captureDate = Date.valueOf("2017-11-11");
         Patient patient = new Patient("", "", "", "", "F", dob, "", "", "", 3, true, true, visitDate);
         FitnessHistory fitnessHistory = new FitnessHistory("", captureDate, 8000, 1326);
-        assertEquals(-12, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
+        assertNotEquals(-12, new NotificationLogic(patient, fitnessHistory).getNumberOfNotifications());
 
     }
 
