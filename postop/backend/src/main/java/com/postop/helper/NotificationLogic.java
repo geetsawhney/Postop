@@ -65,7 +65,7 @@ public class NotificationLogic {
      * @return updated status string
      */
     public String ageStatus() {
-        String status = "";
+        String status = "L";
         if (getAge(patient.getDob()) >= 18 && getAge(patient.getDob()) < 40) {
             status = "L";
             status = diabeticStatus(status, patient.getDiabetic());
