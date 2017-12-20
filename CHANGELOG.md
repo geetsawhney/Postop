@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## Iteration 6
+### Added
+- Notification JSON validation
+- Javadoc to backend code
+- Endpoints to fetch and update number of notifications
+- Mailing feature to send email upon new patient addition
+- Notification page for nurse to control the number of notifications to be sent
+- Collapse feature in callback list page
+- Checks for email and password fields on Android
+
+### Changed
+- Error handling for failure of Ajax requests
+- Date validity checks for date of birth and hospital visit date
+- Removed void return types from Android and backend
+- Added check boxes for diabetic and catheter in update patient page
+- Added data validation checks from input form fields
+- Removed unnecessary toasts notification in Android
+- Created sections for patient information
+- Android UI enhancements
+- UI changes to how callbacks are displayed
+- Fixed callback JSON validation
+
 ## Iteration 5
 ### Added
 - Calendar for date fields input in nurse Frontend

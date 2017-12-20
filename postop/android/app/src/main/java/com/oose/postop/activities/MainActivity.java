@@ -164,20 +164,20 @@ public class MainActivity extends AppCompatActivity {
      * Onclick listener for login button
      * @param v
      */
-    public void login(View v){
+    public boolean login(View v){
         if (TextUtils.isEmpty(emailField.getText())) {
             new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a email").setNeutralButton("Close", null).show();
-            return;
+            return false;
         }
         if (TextUtils.isEmpty(passwordField.getText())) {
             new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a password").setNeutralButton("Close", null).show();
-            return;
+            return false;
         }
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(emailField.getText()).matches()) {
          new AlertDialog.Builder(this).setTitle("Input Error").setMessage("You did not enter a valid email").setNeutralButton("Close", null).show();
 
 
-            return;
+            return false;
         }
         //turn on progress bar
         progress = (ProgressBar) findViewById(R.id.progressBar);
@@ -201,19 +201,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Send the credentials to the server for authentication
         volleyRequest(requestList);
+        return true;
     }
 
     /**
      * Volley send request
      */
-    public void volleyRequest(Map<String,String> h) {
+    public boolean volleyRequest(Map<String,String> h) {
         JSONObject jsonRequestObject = new JSONObject();
         try{
           for (Map.Entry<String,String> entry : h.entrySet() ){
               jsonRequestObject.put(entry.getKey(),entry.getValue());
+
           }
         }catch(JSONException ex){
-            return;
+            return false;
         }
 
         // Instantiate the RequestQueue.
@@ -247,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
                             finish();
                         }catch(JSONException ex){
                             Toast.makeText(getApplicationContext(), "BAD RESPONSE", Toast.LENGTH_LONG).show();
+
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -258,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
                             JSONObject obj = new JSONObject(new String(error.networkResponse.data));
                             Toast.makeText(getApplicationContext(),obj.getString("error"), Toast.LENGTH_LONG).show();
                             progress.setVisibility(View.INVISIBLE);
+
                         } catch (Exception e) {
                             progress.setVisibility(View.INVISIBLE);
                             Toast.makeText(getApplicationContext(),"That Didn't work!", Toast.LENGTH_LONG).show();
@@ -269,5 +273,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         queue.add(jsObjRequest);
+        return true;
     }
 }

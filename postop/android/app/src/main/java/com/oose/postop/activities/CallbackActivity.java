@@ -45,66 +45,67 @@ public class CallbackActivity extends Activity implements AdapterView.OnItemSele
     public String callbackDate;
     public String urineColor;
     Spinner s;
-    CheckBox fatigue, fever,nausea,pain;
+    CheckBox fatigue, fever, nausea, pain;
 
-ConnectionHelper connectionHelper = new ConnectionHelper();
+    ConnectionHelper connectionHelper = new ConnectionHelper();
 
 
     /**
      * initialize activity
+     *
      * @param savedInstanceState
      */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.callback_layout);
         TextView t = (TextView) findViewById(R.id.welcomeText);
-                t.setTextSize(20);
+        t.setTextSize(20);
 
         email = getIntent().getExtras().getString("email");
-         s  = (Spinner) findViewById(R.id.urineDropdown);
+        s = (Spinner) findViewById(R.id.urineDropdown);
         setUrineColorOptions(s);
         Calendar c = Calendar.getInstance();
 
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         callbackDate = df.format(c.getTime());
-        fatigue= (CheckBox) findViewById(R.id.hasFatigue);
+        fatigue = (CheckBox) findViewById(R.id.hasFatigue);
         fever = (CheckBox) findViewById(R.id.hasFever);
         pain = (CheckBox) findViewById(R.id.hasPain);
         nausea = (CheckBox) findViewById(R.id.hasNausea);
 
 
-
-
-
     }
 
     /**
-     *Sets the options for the urinecolor drop down menu
+     * Sets the options for the urinecolor drop down menu
+     *
      * @param s
      */
-    public void setUrineColorOptions(Spinner s){
+    public boolean setUrineColorOptions(Spinner s) {
 
-    List<String> list = new ArrayList<String>();
-    list.add("Dark");
-    list.add("Cloudy");
-    list.add("Normal");
-    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_spinner_item, list);
-    dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-    s.setAdapter(dataAdapter);
-    s.setOnItemSelectedListener(this);
-
-}
+        List<String> list = new ArrayList<String>();
+        list.add("Dark");
+        list.add("Cloudy");
+        list.add("Normal");
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, list);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        s.setAdapter(dataAdapter);
+        s.setOnItemSelectedListener(this);
+        return true;
+    }
 
     /**
-     *Called when submit button is clicked
+     * Called when submit button is clicked
+     *
      * @param v
      */
-    public void submit(View v){
-        hasFatigue =fatigue.isChecked();
-        hasFever =fever.isChecked();
-        hasNausea =nausea.isChecked();;
-        hasPain =pain.isChecked();
+    public boolean submit(View v) {
+        hasFatigue = fatigue.isChecked();
+        hasFever = fever.isChecked();
+        hasNausea = nausea.isChecked();
+        ;
+        hasPain = pain.isChecked();
         JSONObject j = new JSONObject();
         try {
             j.put("email", email);
@@ -118,19 +119,22 @@ ConnectionHelper connectionHelper = new ConnectionHelper();
             j.put("urineColor", urineColor);
         } catch (JSONException e) {
             e.printStackTrace();
+            return false;
         }
         volleyRequest(j, this);
         finish();
-       // System.exit(0);
+        return true;
+        // System.exit(0);
     }
 
 
     /**
-     *Sends Volley Request
+     * Sends Volley Request
+     *
      * @param jsonRequestObject
      * @param context
      */
-    public void volleyRequest(JSONObject jsonRequestObject, final Context context) {
+    public boolean volleyRequest(JSONObject jsonRequestObject, final Context context) {
 
 
         // Instantiate the RequestQueue.
@@ -146,6 +150,7 @@ ConnectionHelper connectionHelper = new ConnectionHelper();
                         try {
 
                             Toast.makeText(context, response.get("message").toString(), Toast.LENGTH_LONG).show();
+
                         } catch (Exception e) {
                             Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
@@ -161,15 +166,19 @@ ConnectionHelper connectionHelper = new ConnectionHelper();
                         error.printStackTrace();
 
 
+
                     }
                 });
+
         queue.add(jsObjRequest);
+        return true;
 
 
     }
 
     /**
-     *Called when an item in this view has been selected.
+     * Called when an item in this view has been selected.
+     *
      * @param parent
      * @param view
      * @param position
@@ -181,7 +190,8 @@ ConnectionHelper connectionHelper = new ConnectionHelper();
     }
 
     /**
-     *Called when nothing has been selected.
+     * Called when nothing has been selected.
+     *
      * @param parent
      */
     @Override

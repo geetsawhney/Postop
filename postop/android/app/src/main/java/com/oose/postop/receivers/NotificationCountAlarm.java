@@ -23,7 +23,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
      * Schedules the alarm for specified interval
      * @param context
      */
-    public void setAlarm(Context context, boolean test) {
+    public boolean setAlarm(Context context, boolean test) {
        /* Setting the alarm here */
         Intent alarmIntent = new Intent(context, NotificationCountAlarm.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, alarmIntent, 0);
@@ -43,6 +43,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
             c.setTimeZone(TimeZone.getTimeZone("America/New_York"));
             manager.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
         }
+        return true;
 
 
     }
@@ -62,7 +63,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
     }
 
 
-    public static void StopAlarm(Context c){
+    public static boolean StopAlarm(Context c){
 
         AlarmManager manager = (AlarmManager) c.getSystemService(Context.ALARM_SERVICE);
 
@@ -71,6 +72,7 @@ public class NotificationCountAlarm extends BroadcastReceiver{
         PendingIntent pendingIntent = PendingIntent.getBroadcast(c, 0, alarmIntent, 0);
 
         manager.cancel(pendingIntent);
+        return  true;
     }
 
 
