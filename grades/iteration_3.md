@@ -64,4 +64,8 @@
 - If you develop a module, ask someone else on the team to review your code for quality checks and testing.
 - Remember, you get get up to half the back points if you complete the Android application development and testing in iteration 4.
 
-**Grade: 80/100**
+### Grade update
+
+More endpoints created, core re-structuring, changes in Readme.  +10
+
+**Grade: 90/100**
