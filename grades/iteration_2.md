@@ -45,4 +45,10 @@
 - Prepare a two-week plan for focusing the development efforts on the key features.
 - Start prototyping the features which need third-party API or libraries.
 
-**Grade: 89/100**
+### Grade update
+
+Original 89
+
+UI sketch changes have been incorporated, Code has been cleaned and re-structured. +5
+
+**Grade: 94/100**
