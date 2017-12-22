@@ -52,5 +52,10 @@
 - Good work with the project!
 - Considering that your application is complete. Use Sonar (Code Quality Analysis Tool) to check your code for further improvements.
 
-**Grade: 90/100**
+### Grade update
+
+Nurse UI changes have been made, removal of void return type +5
+
+
+**Grade: 95/100**
 
