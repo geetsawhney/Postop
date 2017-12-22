@@ -64,4 +64,8 @@
 - When considering the above changes, try to reduce the cognitive load of the user by providing GUI based calendar date selector.
 - UI can be made more informative to assist the users.
 
+### Grade update
+
+Updated nurse UI and validations, coverage improved to 90%, more conditional cases covered in the tests.  +5
+
 **Grade: 90/100**
