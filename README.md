@@ -1,4 +1,4 @@
-# 2017-group-19
+# Postop
 ## Demo
 The app has been deployed on [Heroku](https://postop.herokuapp.com) 
 
